@@ -47,7 +47,7 @@ const LoginForm = ({ className, ...rest }) => {
     errors: {}
   });
 
-  alert(process.env.react_app_api_base_url)
+  alert(process.env.REACT_APP_API_BASE_URL)
 
   const handleChange = (event) => {
     event.persist();
