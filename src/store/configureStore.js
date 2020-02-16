@@ -9,7 +9,7 @@ import apiMiddleware from './apiMiddleware';
 
 // const loggerMiddleware = createLogger();
 const client = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   responseType: 'json'
 })
 

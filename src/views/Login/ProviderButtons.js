@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-const baseURL = 'http://localhost:3000/api/authentication/'
+const baseURL = `${process.env.REACT_APP_API_BASE_URL}/authentication/`
 
 const authenticateWithProvider = (provider) => {
   window.location = baseURL + provider + '/start'

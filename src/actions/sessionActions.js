@@ -10,7 +10,7 @@ export const login = (token) => async (dispatch) => {
   }
   console.log('Getting profile with token ' + bearerToken)
 
-  const user = await axios.get(`http://localhost:3000/api/users/profile`, config).then(user => user.data)
+  const user = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users/profile`, config).then(user => user.data)
 
   window.localStorage.setItem('bearerToken', bearerToken);
   window.localStorage.setItem('userProfile', JSON.stringify(user))
