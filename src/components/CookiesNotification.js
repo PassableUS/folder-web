@@ -66,18 +66,16 @@ function CookiesNotification() {
       </div>
       <div className={classes.content}>
         <Typography variant="body1">
-          We use Cookies to ensure that we give you the best experience on our
-          website. Read our
+          We make use of cookies to provide you with the best experience. This service is meant to be used in the United States for now. Read our
           {' '}
           <Link
             className={classes.link}
             component="a"
-            href="https://devias.io/privacy-policy"
+            href="https://everytask.us"
             target="_blank"
           >
             Privacy Policy
-          </Link>
-          .
+          </Link> for more information.
         </Typography>
       </div>
       <div className={classes.actions}>
