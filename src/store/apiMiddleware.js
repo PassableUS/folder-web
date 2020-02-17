@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API, accessDenied, apiError, apiStart, apiSuccess, apiEnd } from "src/actions/axiosActions";
+import { browserHistory } from 'react-router'
 
 const apiMiddleware = ({ dispatch, getState }) => next => action => { // Middleware setup
   next(action); // Pass action along
@@ -54,8 +55,9 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => { // Middlew
 
       if (error.response && error.response.status === 401) {
         // Dispatches ACCESS_DENIED action with URL as payload
-        alert('Unauthorized access token. Sign in again?')
+        alert('Unauthorized access token. You will now be redirected to sign in again.')
         dispatch(accessDenied(window.location.pathname));
+        browserHistory.push('login');
       }
     })
     .finally(() => {
