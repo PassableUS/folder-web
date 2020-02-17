@@ -17,7 +17,11 @@ export default [
       {
         path: '/',
         exact: true,
-        component: () => <AuthGuard roles={['USER']}> <OverviewView /> </AuthGuard>
+        component: () => (
+          <AuthGuard roles={['USER']}>
+            <OverviewView />
+          </AuthGuard>
+        )
       }
     ]
   },
