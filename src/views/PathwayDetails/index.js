@@ -59,7 +59,7 @@ function PathwayDetails({ match, history }) {
 
   useEffect(() => {
     // TODO: Improve the handler for failure
-    dispatch(fetchPathway(id, () => alert('There was an error fetching the pathway.'), data => data ? setPathway(data) : alert('Error fetching pathway. Please check your URL.')))
+    dispatch(fetchPathway(id, () => console.log('There was an error fetching the pathway.'), data => data ? setPathway(data) : alert('No data was returned from the request.')));
   }, [dispatch, id]);
 
   if (!tab) {

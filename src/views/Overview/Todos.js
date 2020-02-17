@@ -111,7 +111,7 @@ function Todos({ className, ...rest }) {
   };
 
   useEffect(() => {
-    dispatch(fetchTodos(() => alert('Something went wrong while trying to retrieve your todos.'), data => setTodos(data)))
+    dispatch(fetchTodos(() => console.log('Something went wrong while trying to retrieve your todos.'), data => setTodos(data)))
   }, [dispatch]);
 
   return (
