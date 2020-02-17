@@ -52,6 +52,16 @@ const useStyles = makeStyles((theme) => ({
 function PathwayCard({ pathway, className, ...rest }) {
   const classes = useStyles();
 
+  if (!pathway) {
+    console.error('PathwayCard cannot render without `pathway` passed to it.');
+    return null;
+  }
+
+  if (!pathway.author) {
+    console.error('PathwayCard missing author information, check to see if pathway is being passed to it. The author may have deleted its user.');
+    return null;
+  }
+
   return (
     <Card
       {...rest}

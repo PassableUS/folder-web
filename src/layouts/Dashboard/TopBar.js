@@ -101,11 +101,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const popularSearches = [
-  'Devias React Dashboard',
-  'Devias',
-  'Admin Pannel',
-  'Project',
-  'Pages'
+  'New courses',
+  'Web development'
 ];
 
 function TopBar({
