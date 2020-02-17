@@ -8,8 +8,7 @@ export const login = (token) => async (dispatch) => {
   const config = {
     headers: { Authorization: bearerToken },
   }
-  console.log('Getting profile with token ' + bearerToken)
-
+  
   const user = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users/profile`, config).then(user => user.data)
 
   window.localStorage.setItem('bearerToken', bearerToken);

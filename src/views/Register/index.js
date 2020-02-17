@@ -14,6 +14,8 @@ import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
 import gradients from 'src/utils/gradients';
 import Page from 'src/components/Page';
 import RegisterForm from './RegisterForm';
+import Lottie from 'react-lottie';
+import * as learningAnimation from './learningAnimation.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,6 +79,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const lottieOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: learningAnimation.default,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid meet'
+  }
+};
+
 function Register() {
   const classes = useStyles();
 
@@ -95,7 +106,7 @@ function Register() {
             Sign up
           </Typography>
           <Typography variant="subtitle2">
-            Sign up on the internal platform
+            Join Folder and start organizing your education.
           </Typography>
           <RegisterForm className={classes.registerForm} />
           <Divider className={classes.divider} />
@@ -112,36 +123,9 @@ function Register() {
         </CardContent>
         <CardMedia
           className={classes.media}
-          image="/images/auth.png"
           title="Cover"
         >
-          <Typography
-            color="inherit"
-            variant="subtitle1"
-          >
-            Hella narvwhal Cosby sweater McSweeney&apos;s, salvia kitsch before they sold out High Life.
-          </Typography>
-          <div className={classes.person}>
-            <Avatar
-              alt="Person"
-              className={classes.avatar}
-              src="/images/avatars/avatar_2.png"
-            />
-            <div>
-              <Typography
-                color="inherit"
-                variant="body1"
-              >
-                Ekaterina Tankova
-              </Typography>
-              <Typography
-                color="inherit"
-                variant="body2"
-              >
-                Manager at inVision
-              </Typography>
-            </div>
-          </div>
+          <Lottie options={lottieOptions} height={'100%'} width={'100%'} />
         </CardMedia>
       </Card>
     </Page>

@@ -18,6 +18,8 @@ import ProviderButtons from './ProviderButtons';
 import { login } from 'src/actions/sessionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import Lottie from 'react-lottie';
+import * as organizationAnimation from './organizationAnimation.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,23 +87,32 @@ function Login() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const session = useSelector(state => state.session)
+  const session = useSelector(state => state.session);
   // Grabs token from the URL parameters if there is one and authenticates
   useEffect(() => {
-    const params = (new URL(document.location)).searchParams
-    const token = params.get('token')
+    const params = (new URL(document.location)).searchParams;
+    const token = params.get('token');
     if (token) {
-      dispatch(login(token))
+      dispatch(login(token));
     }
 
     // Replaces parameters in URL to prevent token leakage
-    window.history.replaceState(null, null, window.location.pathname)
-  }, [dispatch])
+    window.history.replaceState(null, null, window.location.pathname);
+  }, [dispatch]);
 
   // Redirects user to overview if signed in
   if (session.loggedIn) {
-    history.push('/overview')
+    history.push('/overview');
   }
+
+  const lottieOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: organizationAnimation.default,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
 
   return (
     <Page
@@ -137,37 +148,9 @@ function Login() {
         </CardContent>
         <CardMedia
           className={classes.media}
-          image="/images/auth.png"
           title="Cover"
         >
-          <Typography
-            color="inherit"
-            variant="subtitle1"
-          >
-            Hella narvwhal Cosby sweater McSweeney&apos;s, salvia kitsch before they
-            sold out High Life.
-          </Typography>
-          <div className={classes.person}>
-            <Avatar
-              alt="Person"
-              className={classes.avatar}
-              src="/images/avatars/avatar_2.png"
-            />
-            <div>
-              <Typography
-                color="inherit"
-                variant="body1"
-              >
-                Ekaterina Tankova
-              </Typography>
-              <Typography
-                color="inherit"
-                variant="body2"
-              >
-                Manager at inVision
-              </Typography>
-            </div>
-          </div>
+          <Lottie options={lottieOptions} height={'100%'} width={'100%'} />
         </CardMedia>
       </Card>
     </Page>
