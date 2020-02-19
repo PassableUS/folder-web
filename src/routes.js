@@ -6,7 +6,7 @@ import AuthLayout from './layouts/Auth';
 import ErrorLayout from './layouts/Error';
 import DashboardLayout from './layouts/Dashboard';
 import OverviewView from './views/Overview';
-import AuthGuard from './components/AuthGuard'
+import AuthGuard from './components/AuthGuard';
 
 export default [
   {
@@ -90,7 +90,13 @@ export default [
       {
         path: '/overview',
         exact: true,
-        component: () => <AuthGuard roles={['USER']}> <OverviewView /> </AuthGuard>
+        component: () => (
+          <AuthGuard roles={['USER']}>
+            {' '}
+            <OverviewView />
+            {' '}
+          </AuthGuard>
+        )
       },
       {
         path: '/pathways/create',

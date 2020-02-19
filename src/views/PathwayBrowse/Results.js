@@ -81,11 +81,11 @@ function Projects({ className, ...rest }) {
     setMode(value);
   };
 
-  const onSuccess = (data) => setPathways(data)
-  const onFailure = () => alert('Unable to fetch pathways.')
+  const onSuccess = (data) => setPathways(data);
+  const onFailure = () => console.log('Unable to fetch pathways.');
 
   useEffect(() => {
-    dispatch(fetchPathways(onFailure, onSuccess))
+    dispatch(fetchPathways(onFailure, onSuccess));
   }, [dispatch]);
 
   return (
@@ -129,7 +129,7 @@ function Projects({ className, ...rest }) {
         container
         spacing={3}
       >
-        {pathways.map(pathway => (
+        {pathways.map((pathway) => (
           <Grid
             item
             key={pathway.id}

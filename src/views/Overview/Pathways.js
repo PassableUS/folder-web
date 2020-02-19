@@ -40,10 +40,10 @@ function Pathways({ className, ...rest }) {
   const dispatch = useDispatch();
 
   const onSuccess = (data) => setPathways(data);
-  const onFailure = () => alert('Unable to fetch pathways.')
+  const onFailure = () => console.log('Unable to fetch pathways.');
 
   useEffect(() => {
-    dispatch(fetchPathways(onFailure, onSuccess))
+    dispatch(fetchPathways(onFailure, onSuccess));
   }, [dispatch]);
 
   return (

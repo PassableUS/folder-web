@@ -37,6 +37,6 @@ const ModuleBrowse = () => {
       </Container>
     </Page>
   );
-}
+};
 
 export default ModuleBrowse;

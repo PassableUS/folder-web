@@ -75,7 +75,9 @@ function CookiesNotification() {
             target="_blank"
           >
             Privacy Policy
-          </Link> for more information.
+          </Link>
+          {' '}
+          for more information.
         </Typography>
       </div>
       <div className={classes.actions}>

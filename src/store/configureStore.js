@@ -11,7 +11,7 @@ import apiMiddleware from './apiMiddleware';
 const client = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   responseType: 'json'
-})
+});
 
 export default function configureStore(preloadedState = {}) {
   const middlewares = [thunkMiddleware, axiosMiddleware(client), apiMiddleware]; // loggerMiddleware

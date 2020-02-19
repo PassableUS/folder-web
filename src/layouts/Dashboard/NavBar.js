@@ -22,7 +22,7 @@ import {
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NavItem from 'src/components/NavItem';
 import navConfig from './navConfig';
-import styles from './NavBar.module.css'
+import styles from './NavBar.module.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {

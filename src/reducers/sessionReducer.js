@@ -1,23 +1,22 @@
 import * as actionTypes from 'src/actions/sessionActions';
 
 const initialState = {
-  loggedIn: window.localStorage.getItem('bearerToken') ? true : false,
+  loggedIn: !!window.localStorage.getItem('bearerToken'),
   bearerToken: window.localStorage.getItem('bearerToken'),
-  user: window.localStorage.getItem('userProfile') ? JSON.parse(window.localStorage.getItem('userProfile')) : 
-  {
-    firstName: 'Default',
-    lastName: 'Default',
-    email: 'default@default.com',
-    avatar: '/images/avatars/avatar_11.png',
-    bio: 'Beta tester for Folder',
-    role: 'GUEST' // ['GUEST', 'USER', 'ADMIN']
-  }
+  user: window.localStorage.getItem('userProfile') ? JSON.parse(window.localStorage.getItem('userProfile'))
+    : {
+      firstName: 'Default',
+      lastName: 'Default',
+      email: 'default@default.com',
+      avatar: '/images/avatars/avatar_11.png',
+      bio: 'Beta tester for Folder',
+      role: 'GUEST' // ['GUEST', 'USER', 'ADMIN']
+    }
 };
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SESSION_LOGIN: {
-      console.log("PAYLOAD: ", action.payload)
       return {
         ...state,
         loggedIn: true,

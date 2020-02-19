@@ -65,7 +65,7 @@ function AboutAuthor({ register, className, ...rest }) {
 
   return (
     <Card
-      register={''} // Register causes an issue when being passed to the card, so we replace it with an empty object. 
+      register="" // Register causes an issue when being passed to the card, so we replace it with an empty object.
       {...rest}
       className={clsx(classes.root, className)}
     >

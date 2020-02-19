@@ -10,9 +10,9 @@ import {
 } from 'draft-js';
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Divider, TextField } from '@material-ui/core';
+import { stateToMarkdown } from 'draft-js-export-markdown';
 import EditorToolbar from './EditorToolbar';
 import { blockRenderMap } from './block';
-import { stateToMarkdown } from "draft-js-export-markdown";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -83,7 +83,9 @@ const useStyles = makeStyles((theme) => ({
 
 const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
-function RichEditor({ register, placeholder, className, ...rest }) {
+function RichEditor({
+  register, placeholder, className, ...rest
+}) {
   const classes = useStyles();
   const editorRef = useRef(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());

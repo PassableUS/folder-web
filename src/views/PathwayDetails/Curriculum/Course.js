@@ -12,7 +12,7 @@ import {
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import gradients from 'src/utils/gradients';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -58,23 +58,27 @@ function Course({ course, className, ...rest }) {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      {avatars['contest_created']}
+      {avatars.contest_created}
       <Card className={classes.card} variant="outlined">
-        <CardHeader className={classes.name} title={course.name} titleTypographyProps={{
-          variant: "h4"
-        }} />
+        <CardHeader
+          className={classes.name}
+          title={course.name}
+          titleTypographyProps={{
+            variant: 'h4'
+          }}
+        />
         <CardContent
           className={classes.linkContainer}
         >
-        <Link
-          className={classes.link}
-          href={course.link}
-          variant="h5"
-        >
-          View Course
-        </Link>
+          <Link
+            className={classes.link}
+            href={course.link}
+            variant="h5"
+          >
+            View Course
+          </Link>
         </CardContent>
-        
+
       </Card>
     </div>
   );

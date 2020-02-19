@@ -9,9 +9,9 @@ function AuthGuard({ roles, children }) {
   const session = useSelector((state) => state.session);
   const history = useHistory();
 
-  console.log('LOGGED IN: ' + session.loggedIn)
-  console.log('USER: ', session.user)
-  console.log('PAGE ROLES: ', roles)
+  console.log(`LOGGED IN: ${session.loggedIn}`);
+  console.log('USER: ', session.user);
+  console.log('PAGE ROLES: ', roles);
 
   useEffect(() => {
     if (!session.loggedIn || !session.user) {

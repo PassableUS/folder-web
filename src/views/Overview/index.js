@@ -48,24 +48,24 @@ function Overview() {
           alignItems="flex-start"
           spacing={2}
         >
-        <Grid
-          className={classes.item}
-          item
-          md={6}
-          sm={6}
-          xs={12}
-        >
-          <Pathways className={classes.projects} />
-        </Grid>
-        <Grid
-          className={classes.item}
-          item
-          md={6}
-          sm={6}
-          xs={12}
-        >
-          <Todos className={classes.todos} />
-        </Grid>
+          <Grid
+            className={classes.item}
+            item
+            md={6}
+            sm={6}
+            xs={12}
+          >
+            <Pathways className={classes.projects} />
+          </Grid>
+          <Grid
+            className={classes.item}
+            item
+            md={6}
+            sm={6}
+            xs={12}
+          >
+            <Todos className={classes.todos} />
+          </Grid>
 
         </Grid>
       </Container>

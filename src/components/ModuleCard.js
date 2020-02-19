@@ -15,7 +15,7 @@ import {
   colors
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
-import removeMarkdown from 'remove-markdown'
+import removeMarkdown from 'remove-markdown';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -108,7 +108,7 @@ function ModuleCard({ module, className, ...rest }) {
           </Typography>
         </div>
         <div className={classes.courses}>
-          {module.courses.map(course => (
+          {module.courses.map((course) => (
             <Typography>
               {course.name}
             </Typography>

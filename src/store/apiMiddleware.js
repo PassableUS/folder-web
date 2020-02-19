@@ -1,8 +1,9 @@
-import axios from "axios";
-import { API, accessDenied, apiError, apiStart, apiSuccess, apiEnd } from "src/actions/axiosActions";
-import { browserHistory } from 'react-router'
+import axios from 'axios';
+import {
+  API, accessDenied, apiError, apiStart, apiSuccess, apiEnd
+} from 'src/actions/axiosActions';
 
-const apiMiddleware = ({ dispatch, getState }) => next => action => { // Middleware setup
+const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => { // Middleware setup
   next(action); // Pass action along
 
   if (action.type !== API) return; // Prevent any other actions other than API requests from triggering network requests
@@ -19,19 +20,19 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => { // Middlew
   } = action.payload;
 
   // Gets the appropriate key for the axios request dependent on method (see `data` above)
-  const dataOrParams = ["GET", "DELETE"].includes(method) ? "params" : "data";
+  const dataOrParams = ['GET', 'DELETE'].includes(method) ? 'params' : 'data';
 
   // axios default configs
   if (!process.env.REACT_APP_API_BASE_URL) {
-    console.log('Warning: BASE_URL not defined, please specify base API URL')
+    console.log('Warning: BASE_URL not defined, please specify base API URL');
   }
-  axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || "";
-  axios.defaults.headers.common["Content-Type"] = "application/json";
-  axios.defaults.headers.common["Authorization"] = bearerToken;
+  axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || '';
+  axios.defaults.headers.common['Content-Type'] = 'application/json';
+  axios.defaults.headers.common.Authorization = bearerToken;
 
   // Dispatches API_START action with label as payload to be received by a reducer
   if (label) {
-    dispatch(apiStart(label)); 
+    dispatch(apiStart(label));
   }
 
   axios
@@ -43,11 +44,11 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => { // Middlew
     })
     .then(({ data }) => {
       // Dispatches API_SUCCESS action with label as payload to be received by a reducer
-      dispatch(apiSuccess(label))
+      dispatch(apiSuccess(label));
       // Executes the success callback function with the label
       onSuccess(data);
     })
-    .catch(error => {
+    .catch((error) => {
       // Dispatches API_ERROR action with error as payload
       dispatch(apiError(error));
       // Executes the failure callback function with the error
@@ -55,9 +56,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => { // Middlew
 
       if (error.response && error.response.status === 401) {
         // Dispatches ACCESS_DENIED action with URL as payload
-        alert('Unauthorized access token. You will now be redirected to sign in again.')
-        dispatch(accessDenied(window.location.pathname));
-        browserHistory.push('login');
+        dispatch(accessDenied(error.message));
+        // prompt to sign out
       }
     })
     .finally(() => {

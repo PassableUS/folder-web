@@ -113,7 +113,7 @@ function Toolbar({
             </Typography>
           </Grid>
           <Grid item>
-            {viewOptions.map(viewOption => {
+            {viewOptions.map((viewOption) => {
               const Icon = viewOption.icon;
 
               return (

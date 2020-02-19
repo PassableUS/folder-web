@@ -75,12 +75,12 @@ const Alert = forwardRef((props, ref) => {
     <Paper
       {...rest}
       className={clsx(classes.root, classes[variant], className)}
-      component={'div'}
+      component="div"
       elevation={1}
       ref={ref}
     >
       <span className={classes.icon}>{icon || icons[variant]}</span>
-      
+
       <div className={classes.message}>
         <Typography className={clsx(classes[variant])}>
           {message}

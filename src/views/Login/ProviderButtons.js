@@ -2,11 +2,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-const baseURL = `${process.env.REACT_APP_API_BASE_URL}/authentication/`
+const baseURL = `${process.env.REACT_APP_API_BASE_URL}/authentication/`;
 
 const authenticateWithProvider = (provider) => {
-  window.location = baseURL + provider + '/start'
-}
+  window.location = `${baseURL + provider}/start`;
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -50,7 +50,7 @@ const ProviderButtons = () => {
         Sign in with Facebook
       </Button>
     </>
-  )
+  );
 };
 
 export default ProviderButtons;

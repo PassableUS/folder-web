@@ -64,7 +64,7 @@ function SearchBar({
         >
           <FilterListIcon className={classes.filterIcon} />
           {' '}
-Show filters
+          Show filters
         </Button>
       </Grid>
       <Filter

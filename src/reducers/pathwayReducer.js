@@ -19,19 +19,17 @@ const pathwayReducer = (state = initialState, action) => {
           ...state,
           isLoadingData: true
         };
-      } else {
-        return state;
       }
+      return state;
     }
     case API_END: {
       if (action.payload in pathwayTypes) { // Target all payload types
         return {
           ...state,
           isLoadingData: false
-        }
-      } else {
-        return state;
+        };
       }
+      return state;
     }
     default: {
       return state;

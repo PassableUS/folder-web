@@ -85,7 +85,9 @@ function Application({
             gutterBottom
             variant="h3"
           >
-            Create a module for "{pathway.name}"
+            Create a module for "
+            {pathway.name}
+            "
           </Typography>
           <Typography
             align="center"

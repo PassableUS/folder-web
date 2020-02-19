@@ -59,7 +59,9 @@ const initialValues = {
   endDate: moment().add(1, 'day')
 };
 
-function AboutPathway({ register, errors, className, ...rest }) {
+function AboutPathway({
+  register, errors, className, ...rest
+}) {
   const classes = useStyles();
   const [values, setValues] = useState({ ...initialValues });
   // const [calendarTrigger, setCalendarTrigger] = useState(null);
@@ -122,7 +124,7 @@ function AboutPathway({ register, errors, className, ...rest }) {
   return (
     <Card
       {...rest}
-      register={''} // Register causes an issue when being passed to the card, so we replace it with an empty object.
+      register="" // Register causes an issue when being passed to the card, so we replace it with an empty object.
       className={clsx(classes.root, className)}
     >
       <CardHeader title="About this pathway" />
@@ -134,12 +136,14 @@ function AboutPathway({ register, errors, className, ...rest }) {
           />
           <div className={classes.formGroup}>
             {/* Error message if form element is not filled */}
-            {errors.pathwayName &&
+            {errors.pathwayName
+              && (
               <Alert
                 variant="error"
                 className={classes.formAlert}
                 message="This field is required."
-              />}
+              />
+              )}
             <TextField
               fullWidth
               label="Pathway Name"
@@ -155,12 +159,14 @@ function AboutPathway({ register, errors, className, ...rest }) {
           </div>
           <div className={classes.formGroup}>
             {/* Error message if form element is not filled */}
-            {errors.tags &&
+            {errors.tags
+              && (
               <Alert
                 variant="error"
                 className={classes.formAlert}
                 message="This field is required."
-              />}
+              />
+              )}
             <div className={classes.fieldGroup}>
               <TextField
                 className={classes.flexGrow}

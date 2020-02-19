@@ -16,7 +16,7 @@ import {
 
 import getInitials from 'src/utils/getInitials';
 import Label from 'src/components/Label';
-import removeMarkdown from 'remove-markdown'
+import removeMarkdown from 'remove-markdown';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -120,7 +120,7 @@ function PathwayCard({ pathway, className, ...rest }) {
           {pathway.tags.map((tag) => (
             <Label
               key={tag}
-              color='green'
+              color="green"
             >
               {tag}
             </Label>

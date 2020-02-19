@@ -59,7 +59,9 @@ const initialValues = {
   courses: [] // TODO ADD CALL TO THE SERVICE TO GET THE LIST OF COURSES THAT THIS MODULE ALREADY HAS AND SETSTATE TO IT
 };
 
-function ModuleCourses({ register, errors, className, ...rest }) {
+function ModuleCourses({
+  register, errors, className, ...rest
+}) {
   const classes = useStyles();
   const [values, setValues] = useState({ ...initialValues });
 
@@ -85,18 +87,18 @@ function ModuleCourses({ register, errors, className, ...rest }) {
         newValues.name = '';
         newValues.link = '';
       } else {
-        alert('Please specify all values')
-      } 
+        alert('Please specify all values');
+      }
 
       return newValues;
     });
   };
 
-  const handleCourseDelete = name => {
-    setValues(prevValues => {
+  const handleCourseDelete = (name) => {
+    setValues((prevValues) => {
       const newValues = { ...prevValues };
 
-      newValues.courses = newValues.courses.filter(course => course.name !== name);
+      newValues.courses = newValues.courses.filter((course) => course.name !== name);
 
       return newValues;
     });
@@ -105,7 +107,7 @@ function ModuleCourses({ register, errors, className, ...rest }) {
   return (
     <Card
       {...rest}
-      register={''} // Register causes an issue when being passed to the card, so we replace it with an empty object.
+      register="" // Register causes an issue when being passed to the card, so we replace it with an empty object.
       className={clsx(classes.root, className)}
     >
       <CardHeader title="Add courses" />
@@ -117,12 +119,14 @@ function ModuleCourses({ register, errors, className, ...rest }) {
           />
           <div className={classes.formGroup}>
             {/* Error message if form element is not filled */}
-            {errors.pathwayName &&
+            {errors.pathwayName
+              && (
               <Alert
                 variant="error"
                 className={classes.formAlert}
                 message="This field is required."
-              />}
+              />
+              )}
             <TextField
               fullWidth
               label="Course Name"
@@ -135,12 +139,14 @@ function ModuleCourses({ register, errors, className, ...rest }) {
           </div>
           <div className={classes.formGroup}>
             {/* Error message if form element is not filled */}
-            {errors.courses &&
+            {errors.courses
+              && (
               <Alert
                 variant="error"
                 className={classes.formAlert}
                 message="This field is required."
-              />}
+              />
+              )}
             <div className={classes.fieldGroup}>
               <TextField
                 className={classes.flexGrow}
@@ -158,7 +164,7 @@ function ModuleCourses({ register, errors, className, ...rest }) {
                   required: true
                 })}
               />
-              
+
             </div>
             <Button
               className={classes.addButton}
@@ -182,29 +188,29 @@ function ModuleCourses({ register, errors, className, ...rest }) {
                 alignItems="center"
                 spacing={2}
               >
-              {values.courses.map(course => (
-                <Grid item>
-                  <Card className={classes.course} key={course.name}>
-                    <CardHeader
-                      title={course.name}
-                    />
-                    <CardContent>
-                      <Typography>
-                        {course.link}
-                      </Typography>
-                      <Button
-                        className={classes.addButton}
-                        onClick={() => handleCourseDelete(course.name)}
-                        size="medium"
-                        variant="outlined"
-                      >
-                        <DeleteIcon className={classes.deleteIcon} />
-                        Delete
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+                {values.courses.map((course) => (
+                  <Grid item>
+                    <Card className={classes.course} key={course.name}>
+                      <CardHeader
+                        title={course.name}
+                      />
+                      <CardContent>
+                        <Typography>
+                          {course.link}
+                        </Typography>
+                        <Button
+                          className={classes.addButton}
+                          onClick={() => handleCourseDelete(course.name)}
+                          size="medium"
+                          variant="outlined"
+                        >
+                          <DeleteIcon className={classes.deleteIcon} />
+                          Delete
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
             </div>
           </div>

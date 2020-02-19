@@ -81,11 +81,11 @@ function Results({ className, ...rest }) {
     setMode(value);
   };
 
-  const onSuccess = data => setModules(data)
-  const onFailure = () => alert('Unable to fetch modules.')
+  const onSuccess = (data) => setModules(data);
+  const onFailure = () => alert('Unable to fetch modules.');
 
   useEffect(() => {
-    dispatch(fetchModules(onFailure, onSuccess))
+    dispatch(fetchModules(onFailure, onSuccess));
   }, [dispatch]);
 
   return (
@@ -129,7 +129,7 @@ function Results({ className, ...rest }) {
         container
         spacing={3}
       >
-        {modules.map(module => (
+        {modules.map((module) => (
           <Grid
             item
             key={module.id}

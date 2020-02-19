@@ -127,7 +127,7 @@ const LoginForm = ({ className, ...rest }) => {
       </Button>
     </form>
   );
-}
+};
 
 LoginForm.propTypes = {
   className: PropTypes.string

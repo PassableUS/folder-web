@@ -59,7 +59,8 @@ function Header({ className, ...rest }) {
           >
             Hey
             {' '}
-            {session.user.firstName}!
+            {session.user.firstName}
+            !
           </Typography>
           <Typography
             gutterBottom

@@ -11,7 +11,7 @@ import axios from 'src/utils/axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: "linear-gradient(to right, #0984e3, #81ecec)"
+    background: 'linear-gradient(to right, #0984e3, #81ecec)'
   },
   content: {
     padding: 0

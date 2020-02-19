@@ -72,7 +72,7 @@ function Header({ pathway, className, ...rest }) {
             {pathway.name}
           </Typography>
           {pathway.tags.map(
-            tag => (
+            (tag) => (
               <Label
                 className={classes.label}
                 color={colors.green[600]}

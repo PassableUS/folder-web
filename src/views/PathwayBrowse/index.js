@@ -37,6 +37,6 @@ const PathwayBrowse = () => {
       </Container>
     </Page>
   );
-}
+};
 
 export default PathwayBrowse;

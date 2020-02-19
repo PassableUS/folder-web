@@ -6,7 +6,7 @@ import {
   Card,
   Typography,
 } from '@material-ui/core';
-import Course from './Course'
+import Course from './Course';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Module({ module, className, ...rest }) {
   const classes = useStyles();
-  console.log("MODULE", module)
+  console.log('MODULE', module);
 
   return (
     <div
@@ -52,7 +52,7 @@ function Module({ module, className, ...rest }) {
           {module.description}
         </Typography>
         <div className={classes.courses}>
-          {module.courses.map(course => (
+          {module.courses.map((course) => (
             <Course className={classes.course} key={course.name} course={course} />
           ))}
         </div>

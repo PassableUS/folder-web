@@ -89,11 +89,12 @@ function Todos({ className, ...rest }) {
           done: false
         },
         () => alert('There was an error creating your todo.'),
-        data => setTodos(data)
-      ));
-  }
+        (data) => setTodos(data)
+      )
+    );
+  };
 
-  const handleDialogChange = event => setDialogValue(event.target.value);
+  const handleDialogChange = (event) => setDialogValue(event.target.value);
 
   const handleRadioChange = (event, todo) => {
     event.persist();
@@ -111,7 +112,7 @@ function Todos({ className, ...rest }) {
   };
 
   useEffect(() => {
-    dispatch(fetchTodos(() => console.log('Something went wrong while trying to retrieve your todos.'), data => setTodos(data)))
+    dispatch(fetchTodos(() => console.log('Something went wrong while trying to retrieve your todos.'), (data) => setTodos(data)));
   }, [dispatch]);
 
   return (
@@ -167,7 +168,7 @@ function Todos({ className, ...rest }) {
         </List>
       </CardContent>
 
-    {/* Add todo dialog */}
+      {/* Add todo dialog */}
       <Dialog open={dialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Create</DialogTitle>
         <DialogContent>

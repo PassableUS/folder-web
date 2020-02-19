@@ -13,8 +13,8 @@ import {
 import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
 import gradients from 'src/utils/gradients';
 import Page from 'src/components/Page';
-import RegisterForm from './RegisterForm';
 import Lottie from 'react-lottie';
+import RegisterForm from './RegisterForm';
 import * as learningAnimation from './learningAnimation.json';
 
 const useStyles = makeStyles((theme) => ({
@@ -125,7 +125,7 @@ function Register() {
           className={classes.media}
           title="Cover"
         >
-          <Lottie options={lottieOptions} height={'100%'} width={'100%'} />
+          <Lottie options={lottieOptions} height="100%" width="100%" />
         </CardMedia>
       </Card>
     </Page>

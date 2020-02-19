@@ -11,11 +11,11 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Alert from 'src/components/Alert';
-import Header from './Header';
-import Overview from './Overview';
-import Curriculum from './Curriculum'
 import { fetchPathway } from 'src/actions/pathwayActions';
 import { useDispatch } from 'react-redux';
+import Header from './Header';
+import Overview from './Overview';
+import Curriculum from './Curriculum';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +59,7 @@ function PathwayDetails({ match, history }) {
 
   useEffect(() => {
     // TODO: Improve the handler for failure
-    dispatch(fetchPathway(id, () => console.log('There was an error fetching the pathway.'), data => data ? setPathway(data) : alert('No data was returned from the request.')));
+    dispatch(fetchPathway(id, () => console.log('There was an error fetching the pathway.'), (data) => setPathway(data)));
   }, [dispatch, id]);
 
   if (!tab) {
@@ -110,7 +110,7 @@ function PathwayDetails({ match, history }) {
         <div className={classes.content}>
           {tab === 'overview' && <Overview pathway={pathway} />}
           {tab === 'curriculum' && <Curriculum pathway={pathway} />}
-          {/*{tab === 'subscribers' && (
+          {/* {tab === 'subscribers' && (
             <Subscribers subscribers={project.subscribers} />
           )} */}
         </div>

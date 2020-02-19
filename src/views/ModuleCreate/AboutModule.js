@@ -37,7 +37,9 @@ const initialValues = {
   name: ''
 };
 
-const AboutModule = ({ register, errors, className, ...rest }) => {
+const AboutModule = ({
+  register, errors, className, ...rest
+}) => {
   const classes = useStyles();
   const [values, setValues] = useState({ ...initialValues });
 
@@ -52,7 +54,7 @@ const AboutModule = ({ register, errors, className, ...rest }) => {
   return (
     <Card
       {...rest}
-      register={''} // Register causes an issue when being passed to the card, so we replace it with an empty object.
+      register="" // Register causes an issue when being passed to the card, so we replace it with an empty object.
       className={clsx(classes.root, className)}
     >
       <CardHeader title="About this module" />
@@ -60,12 +62,14 @@ const AboutModule = ({ register, errors, className, ...rest }) => {
         <form>
           <div className={classes.formGroup}>
             {/* Error message if form element is not filled */}
-            {errors.moduleName &&
+            {errors.moduleName
+              && (
               <Alert
                 variant="error"
                 className={classes.formAlert}
                 message="This field is required."
-              />}
+              />
+              )}
             <TextField
               fullWidth
               label="Module Name"
@@ -83,7 +87,7 @@ const AboutModule = ({ register, errors, className, ...rest }) => {
       </CardContent>
     </Card>
   );
-}
+};
 
 AboutModule.propTypes = {
   className: PropTypes.string

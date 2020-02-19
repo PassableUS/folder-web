@@ -15,7 +15,7 @@ function PathwayDescription({ register, className, ...rest }) {
   return (
     <Card
       {...rest}
-      register={''} // Register causes an issue when being passed to the card, so we replace it with an empty object. 
+      register="" // Register causes an issue when being passed to the card, so we replace it with an empty object.
       className={clsx(classes.root, className)}
     >
 

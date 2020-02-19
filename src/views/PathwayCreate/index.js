@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Button, CircularProgress } from '@material-ui/core';
 import Page from 'src/components/Page';
+import { useForm } from 'react-hook-form';
+import Alert from 'src/components/Alert';
+import { createPathway } from 'src/actions/pathwayActions';
+import { useDispatch, useSelector } from 'react-redux';
+import SnackbarNotification from 'src/components/SnackbarNotification';
 import Header from './Header';
 import AboutAuthor from './AboutAuthor';
 import AboutPathway from './AboutPathway';
 import Preferences from './Preferences';
 import ProjectCover from './PathwayCover';
 import PathwayDescription from './PathwayDescription';
-import { useForm } from "react-hook-form";
-import Alert from 'src/components/Alert';
-import { createPathway } from 'src/actions/pathwayActions';
-import { useDispatch, useSelector } from 'react-redux';
-import SnackbarNotification from 'src/components/SnackbarNotification';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,23 +48,23 @@ const PathwayCreate = ({ history }) => {
   const dispatch = useDispatch();
   // const history = useHistory();
 
-  const pathwayCreateIsLoading = useSelector(state => state.pathway.isLoadingData)
+  const pathwayCreateIsLoading = useSelector((state) => state.pathway.isLoadingData);
 
   // Snackbar State
   const [snackbarState, setSnackbarState] = useState('');
   const showSnackbarWithNewState = (state) => {
     setSnackbarState(''); // Triggers rerender
     setSnackbarState(state);
-  }
+  };
 
   // Pathway creation logic
   const onSuccess = (data) => {
-    showSnackbarWithNewState('success')
-    history.push(data.id)
-  }
-  const onFailure = () => showSnackbarWithNewState('error')
+    showSnackbarWithNewState('success');
+    history.push(data.id);
+  };
+  const onFailure = () => showSnackbarWithNewState('error');
 
-  const onSubmit = data => dispatch(createPathway(data, onFailure, onSuccess));
+  const onSubmit = (data) => dispatch(createPathway(data, onFailure, onSuccess));
 
   return (
     <Page
@@ -79,7 +79,7 @@ const PathwayCreate = ({ history }) => {
         <PathwayDescription errors={errors} register={register} className={classes.pathwayDescription} />
         <Preferences errors={errors} register={register} className={classes.preferences} />
         {/* Error messages if form elements are not filled */}
-        {Object.keys(errors).map(error => (
+        {Object.keys(errors).map((error) => (
           <Alert
             key={error}
             variant="error"
@@ -93,21 +93,20 @@ const PathwayCreate = ({ history }) => {
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
-            {pathwayCreateIsLoading ?
-              <CircularProgress size={25} color="secondary" /> :
-              "Create pathway"
-            }
+            {pathwayCreateIsLoading
+              ? <CircularProgress size={25} color="secondary" />
+              : 'Create pathway'}
           </Button>
         </div>
       </Container>
 
       <SnackbarNotification
-        errorMessage={'Something went wrong while trying to create the pathway!'}
-        successMessage={'Successfully created pathway!'}
+        errorMessage="Something went wrong while trying to create the pathway!"
+        successMessage="Successfully created pathway!"
         snackbarState={snackbarState}
       />
     </Page>
   );
-}
+};
 
 export default PathwayCreate;

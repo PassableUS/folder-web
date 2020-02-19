@@ -13,12 +13,12 @@ import {
 import LockIcon from '@material-ui/icons/Lock';
 import Page from 'src/components/Page';
 import gradients from 'src/utils/gradients';
-import LoginForm from './LoginForm';
-import ProviderButtons from './ProviderButtons';
 import { login } from 'src/actions/sessionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Lottie from 'react-lottie';
+import ProviderButtons from './ProviderButtons';
+import LoginForm from './LoginForm';
 import * as organizationAnimation from './organizationAnimation.json';
 
 const useStyles = makeStyles((theme) => ({
@@ -87,7 +87,7 @@ function Login() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const session = useSelector(state => state.session);
+  const session = useSelector((state) => state.session);
   // Grabs token from the URL parameters if there is one and authenticates
   useEffect(() => {
     const params = (new URL(document.location)).searchParams;
@@ -150,7 +150,7 @@ function Login() {
           className={classes.media}
           title="Cover"
         >
-          <Lottie options={lottieOptions} height={'100%'} width={'100%'} />
+          <Lottie options={lottieOptions} height="100%" width="100%" />
         </CardMedia>
       </Card>
     </Page>
