@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useSelector, useDispatch } from 'react-redux';
 import { dismissWarning } from 'src/actions/axiosActions';
 import { useHistory } from 'react-router';
+import { logout } from 'src/actions/sessionActions';
 
 const SessionAlert = () => {
   const showWarning = useSelector((state) => state.axios.showWarning);
@@ -21,6 +22,7 @@ const SessionAlert = () => {
 
   const handleRedirect = () => {
     handleClose();
+    dispatch(logout());
     history.push('/auth/login');
   };
 
@@ -41,7 +43,7 @@ const SessionAlert = () => {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleClose} color="primary" autoFocus>
+        <Button onClick={handleRedirect} color="primary" autoFocus>
           Sign In
         </Button>
       </DialogActions>
