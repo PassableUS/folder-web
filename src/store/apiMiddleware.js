@@ -6,7 +6,7 @@ import {
 const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => { // Middleware setup
   next(action); // Pass action along
 
-  if (action.type !== API) return; // Prevent any other actions other than API requests from triggering network requests
+  if (action.type !== API) next(); // Prevent any other actions other than API requests from triggering network requests
 
   const {
     url, // Endpoint to make request to
