@@ -13,6 +13,8 @@ import {
   Typography,
   Link
 } from '@material-ui/core';
+import { register } from 'src/actions/sessionActions';
+import { useDispatch } from 'react-redux';
 
 const schema = {
   firstName: {
@@ -79,6 +81,7 @@ function RegisterForm({ className, ...rest }) {
     touched: {},
     errors: {}
   });
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     event.persist();
@@ -101,9 +104,10 @@ function RegisterForm({ className, ...rest }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    history.push('/');
-    if (!formState.isValid) {
+    // history.push('/');
+    if (formState.isValid) {
       // Send to server formState.values
+      dispatch(register(formState.values));
     } else {
       alert('Something went wrong. Please check your inputs and try again');
     }

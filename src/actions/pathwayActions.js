@@ -5,14 +5,16 @@ export const FETCH_PATHWAY = 'FETCH_PATHWAY';
 export const FETCH_PATHWAYS = 'FETCH_PATHWAYS';
 
 export const createPathway = (pathwayInformation, onFailure, onSuccess) => async (dispatch, getState) => {
-  dispatch(apiAction({
-    url: '/pathways',
-    method: 'POST',
-    data: pathwayInformation,
-    onSuccess, // Passed in
-    onFailure, // Passed in
-    label: CREATE_PATHWAY
-  }));
+  dispatch(
+    apiAction({
+      url: '/pathways',
+      method: 'POST',
+      data: pathwayInformation,
+      onSuccess, // Passed in
+      onFailure, // Passed in
+      label: CREATE_PATHWAY
+    })
+  );
 };
 
 export const fetchPathway = (pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
