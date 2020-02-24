@@ -102,6 +102,11 @@ function RegisterForm({ className, ...rest }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     history.push('/');
+    if (!formState.isValid) {
+      // Send to server formState.values
+    } else {
+      alert('Something went wrong. Please check your inputs and try again');
+    }
   };
 
   const hasError = (field) => !!(formState.touched[field] && formState.errors[field]);
