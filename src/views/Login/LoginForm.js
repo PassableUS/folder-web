@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
 import { login } from 'src/actions/sessionActions';
+import { localLogin } from 'src/actions/sessionActions';
 
 const schema = {
   email: {
@@ -66,9 +67,16 @@ const LoginForm = ({ className, ...rest }) => {
     }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(login());
+    // Dispatches login request. If we get the token after a successful request, we'll try to login
+    dispatch(
+      localLogin(
+        formState.values,
+        () => alert('There was an error signing in'),
+        (token) => dispatch(login(token))
+      )
+    );
     history.push('/');
   };
 
@@ -88,7 +96,7 @@ const LoginForm = ({ className, ...rest }) => {
     <form
       {...rest}
       className={clsx(classes.root, className)}
-      onSubmit={() => handleSubmit}
+      onSubmit={handleSubmit}
     >
       <div className={classes.fields}>
         <TextField

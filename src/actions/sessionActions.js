@@ -4,6 +4,7 @@ import { apiAction } from './axiosActions';
 export const SESSION_LOGIN = 'SESSION_LOGIN';
 export const SESSION_LOGOUT = 'SESSION_LOGOUT';
 export const SESSION_REGISTER = 'SESSION_REGISTER';
+export const SESSION_LOCAL_LOGIN = 'SESSION_LOCAL_LOGIN';
 
 export const register = (userInfo, onFailure, onSuccess) => async (dispatch) => {
   dispatch(
@@ -14,6 +15,20 @@ export const register = (userInfo, onFailure, onSuccess) => async (dispatch) => 
       onSuccess, // Passed in
       onFailure, // Passed in
       label: SESSION_REGISTER
+    })
+  );
+};
+
+export const localLogin = (userInfo, onFailure, onSuccess) => async (dispatch) => {
+  dispatch(
+    apiAction({
+      url: '/authentication/local/login',
+      method: 'POST',
+      data: userInfo,
+      onSuccess, // Passed in
+      onFailure, // Passed in
+      label: SESSION_LOCAL_LOGIN,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
   );
 };
