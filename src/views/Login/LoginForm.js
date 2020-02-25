@@ -77,7 +77,6 @@ const LoginForm = ({ className, ...rest }) => {
         (token) => dispatch(login(token))
       )
     );
-    history.push('/');
   };
 
   const hasError = (field) => (!!(formState.touched[field] && formState.errors[field]));
