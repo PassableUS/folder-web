@@ -52,8 +52,8 @@ export default [
         ]
       },
       {
-        title: 'Kanban Board',
-        href: '/kanban-board',
+        title: 'Bulletin Board',
+        href: '/bulletin-board',
         icon: ListAltIcon
       },
       {

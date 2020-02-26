@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function KanbanBoard() {
+function BulletinBoard() {
   const classes = useStyles();
   const [lists, setLists] = useState([]);
   const [openedTask, setOpenedTask] = useState(null);
@@ -109,7 +109,7 @@ function KanbanBoard() {
   return (
     <Page
       className={classes.root}
-      title="Kanban Board"
+      title="Bulletin Board"
     >
       <Header onListAdd={handleListAdd} />
       <div className={classes.container}>
@@ -158,4 +158,4 @@ function KanbanBoard() {
   );
 }
 
-export default KanbanBoard;
+export default BulletinBoard;

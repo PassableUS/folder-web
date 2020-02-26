@@ -36,7 +36,7 @@ function Header({ onListAdd, className, ...rest }) {
             component="h1"
             variant="h3"
           >
-            Kanban Board
+            Bulletin Board
           </Typography>
         </Grid>
         <Grid item>

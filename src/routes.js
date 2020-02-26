@@ -83,9 +83,9 @@ export default [
         component: lazy(() => import('src/views/Changelog'))
       },
       {
-        path: '/kanban-board',
+        path: '/bulletin-board',
         exact: true,
-        component: lazy(() => import('src/views/KanbanBoard'))
+        component: lazy(() => import('src/views/BulletinBoard'))
       },
       {
         path: '/overview',
