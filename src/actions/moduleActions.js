@@ -17,11 +17,26 @@ export const createModule = (moduleInformation, onFailure, onSuccess) => async (
 };
 
 export const fetchModule = (moduleId, onFailure, onSuccess) => async (dispatch, getState) => {
+  // Intercepts the data and performs operations on it before sending it to the handler
+  const derivedOnSuccess = (data) => {
+    const newData = data;
+
+    if (!data.author) {
+      newData.author = {
+        firstName: 'User',
+        lastName: 'Removed',
+        avatar: 'https://i.imgur.com/54Uw1Vi.png'
+      };
+    }
+
+    onSuccess(newData);
+  };
+
   dispatch(
     apiAction({
       url: `/modules/${moduleId}`,
       method: 'GET',
-      onSuccess, // Passed in
+      onSuccess: derivedOnSuccess, // Passed in
       onFailure, // Passed in
       label: FETCH_MODULE
     })
@@ -29,11 +44,30 @@ export const fetchModule = (moduleId, onFailure, onSuccess) => async (dispatch, 
 };
 
 export const fetchModules = (onFailure, onSuccess) => async (dispatch, getState) => {
+  // Intercepts the data and performs operations on it before sending it to the handler
+  const derivedOnSuccess = (data) => {
+    const modules = [];
+
+    data.forEach((module) => {
+      const newModule = module;
+      if (!module.author) {
+        newModule.author = {
+          firstName: 'User',
+          lastName: 'Removed',
+          avatar: 'https://i.imgur.com/54Uw1Vi.png'
+        };
+      }
+      modules.push(newModule);
+    });
+
+    onSuccess(modules);
+  };
+
   dispatch(
     apiAction({
       url: '/modules',
       method: 'GET',
-      onSuccess, // Passed in
+      onSuccess: derivedOnSuccess, // Passed in
       onFailure, // Passed in
       label: FETCH_MODULES
     })

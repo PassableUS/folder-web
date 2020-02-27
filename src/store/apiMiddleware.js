@@ -13,8 +13,8 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => { // Mid
     method, // HTTP method
     data, // Data (POST OR PUT) | query parameter (GET or DELETE)
     bearerToken = getState().session.bearerToken, // Authentication token override
-    onSuccess, // Action creator dispatched on success
-    onFailure, // Action creator dispatched on failure
+    onSuccess, // Callback function on success
+    onFailure, // Callback function on failure
     label, // String representation of request
     headers // Custom headers for request
   } = action.payload;
