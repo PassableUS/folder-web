@@ -30,6 +30,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
   // axios default configs
   if (!process.env.REACT_APP_API_BASE_URL) {
+    // eslint-disable-next-line
     console.log('Warning: BASE_URL not defined, please specify base API URL');
   }
   axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || '';
@@ -48,6 +49,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
       headers,
       [dataOrParams]: data
     })
+    // eslint-disable-next-line
     .then(({ data }) => {
       // Dispatches API_SUCCESS action with label as payload to be received by a reducer
       dispatch(apiSuccess(label));

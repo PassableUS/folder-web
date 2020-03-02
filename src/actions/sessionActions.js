@@ -45,7 +45,7 @@ export const login = token => async dispatch => {
 
   const user = await axios
     .get(`${process.env.REACT_APP_API_BASE_URL}/users/profile`, config)
-    .then(user => user.data);
+    .then(receivedUser => receivedUser.data);
 
   window.localStorage.setItem('bearerToken', bearerToken);
   window.localStorage.setItem('userProfile', JSON.stringify(user));

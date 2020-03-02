@@ -6,7 +6,6 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import ListAltIcon from '@material-ui/icons/ListAlt';
-import PersonIcon from '@material-ui/icons/PersonOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import ListIcon from '@material-ui/icons/List';
 import DirectionsIcon from '@material-ui/icons/Directions';

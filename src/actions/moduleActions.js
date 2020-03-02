@@ -4,10 +4,11 @@ export const CREATE_MODULE = 'CREATE_MODULE';
 export const FETCH_MODULE = 'FETCH_MODULE';
 export const FETCH_MODULES = 'FETCH_MODULES';
 
-export const createModule = (moduleInformation, onFailure, onSuccess) => async (
-  dispatch,
-  getState
-) => {
+export const createModule = (
+  moduleInformation,
+  onFailure,
+  onSuccess
+) => async dispatch => {
   dispatch(
     apiAction({
       url: '/modules',
@@ -20,10 +21,11 @@ export const createModule = (moduleInformation, onFailure, onSuccess) => async (
   );
 };
 
-export const fetchModule = (moduleId, onFailure, onSuccess) => async (
-  dispatch,
-  getState
-) => {
+export const fetchModule = (
+  moduleId,
+  onFailure,
+  onSuccess
+) => async dispatch => {
   // Intercepts the data and performs operations on it before sending it to the handler
   const derivedOnSuccess = data => {
     const newData = data;
@@ -51,8 +53,8 @@ export const fetchModule = (moduleId, onFailure, onSuccess) => async (
 };
 
 export const fetchModules = (onFailure, onSuccess) => async (
-  dispatch,
-  getState
+  // You can also grab getState here
+  dispatch
 ) => {
   // Intercepts the data and performs operations on it before sending it to the handler
   const derivedOnSuccess = data => {

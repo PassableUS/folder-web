@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
-import { login } from 'src/actions/sessionActions';
-import { localLogin } from 'src/actions/sessionActions';
+import { login, localLogin } from 'src/actions/sessionActions';
 
 const schema = {
   email: {
