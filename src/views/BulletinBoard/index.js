@@ -133,6 +133,8 @@ function BulletinBoard() {
                       key={task.id}
                     >
                       {' '}
+                      {/* TODO: FIX LINTING ERROR */}
+                      {/* eslint-disable-next-line */}
                       {(provided, snapshot) => (
                         <TaskListItem
                           onOpen={() => handleTaskOpen(task)}
