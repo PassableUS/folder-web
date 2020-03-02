@@ -110,14 +110,12 @@ function BulletinBoard() {
   };
 
   return (
-    <Page className={classes.root} title="Bulletin Board">
-      <Header onListAdd={handleListAdd} />{' '}
+    <Page className={classes.root} title="Kanban Board">
+      <Header onListAdd={handleListAdd} />
       <div className={classes.container}>
         <DragDropContext onDragEnd={handleDragEnd}>
-          {' '}
           {lists.map(list => (
             <Droppable droppableId={list.id} key={list.id}>
-              {' '}
               {(provided, snapshot) => (
                 <TaskList
                   provided={provided}
@@ -125,16 +123,12 @@ function BulletinBoard() {
                   title={list.title}
                   total={list.items.length}
                 >
-                  {' '}
                   {list.items.map((task, index) => (
                     <Draggable
                       draggableId={task.id}
                       index={index}
                       key={task.id}
                     >
-                      {' '}
-                      {/* TODO: FIX LINTING ERROR */}
-                      {/* eslint-disable-next-line */}
                       {(provided, snapshot) => (
                         <TaskListItem
                           onOpen={() => handleTaskOpen(task)}
@@ -142,21 +136,21 @@ function BulletinBoard() {
                           snapshot={snapshot}
                           task={task}
                         />
-                      )}{' '}
+                      )}
                     </Draggable>
-                  ))}{' '}
-                  {provided.placeholder}{' '}
+                  ))}
+                  {provided.placeholder}
                 </TaskList>
-              )}{' '}
+              )}
             </Droppable>
-          ))}{' '}
-        </DragDropContext>{' '}
-      </div>{' '}
+          ))}
+        </DragDropContext>
+      </div>
       <TaskDetails
         onClose={handleTaskClose}
         open={Boolean(openedTask)}
         task={openedTask}
-      />{' '}
+      />
     </Page>
   );
 }

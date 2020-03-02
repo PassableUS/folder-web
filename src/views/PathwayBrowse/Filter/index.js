@@ -14,7 +14,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import MultiSelect from './MultiSelect';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   keywords: {
     padding: theme.spacing(2),
@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inNetwork: {
     marginLeft: 'auto'
+  },
+  searchInput: {
+    width: '100%'
   }
 }));
 
@@ -57,11 +60,7 @@ const selects = [
   },
   {
     label: 'Language',
-    options: [
-      'English',
-      'Spanish',
-      'Chinese'
-    ]
+    options: ['English', 'Spanish', 'Chinese']
   },
   {
     label: 'Course Websites',
@@ -72,42 +71,38 @@ const selects = [
 function Filter({ className, ...rest }) {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState('');
-  const [chips, setChips] = useState([
-    'Pathway'
-  ]);
+  const [chips, setChips] = useState(['Pathway']);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = event => {
     event.persist();
     setInputValue(event.target.value);
   };
 
-  const handleInputKeyup = (event) => {
+  const handleInputKeyup = event => {
     event.persist();
 
     if (event.keyCode === 13 && inputValue) {
       if (!chips.includes(inputValue)) {
-        setChips((prevChips) => [...prevChips, inputValue]);
+        setChips(prevChips => [...prevChips, inputValue]);
         setInputValue('');
       }
     }
   };
 
-  const handleChipDelete = (chip) => {
-    setChips((prevChips) => prevChips.filter((prevChip) => chip !== prevChip));
+  const handleChipDelete = chip => {
+    setChips(prevChips => prevChips.filter(prevChip => chip !== prevChip));
   };
 
-  const handleMultiSelectChange = (value) => {
+  const handleMultiSelectChange = value => {
     setChips(value);
   };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <div className={classes.keywords}>
         <SearchIcon className={classes.searchIcon} />
         <Input
+          className={classes.searchInput}
           disableUnderline
           onChange={handleInputChange}
           onKeyUp={handleInputKeyup}
@@ -117,7 +112,7 @@ function Filter({ className, ...rest }) {
       </div>
       <Divider />
       <div className={classes.chips}>
-        {chips.map((chip) => (
+        {chips.map(chip => (
           <Chip
             className={classes.chip}
             key={chip}
@@ -128,7 +123,7 @@ function Filter({ className, ...rest }) {
       </div>
       <Divider />
       <div className={classes.selects}>
-        {selects.map((select) => (
+        {selects.map(select => (
           <MultiSelect
             key={select.label}
             label={select.label}
@@ -139,12 +134,12 @@ function Filter({ className, ...rest }) {
         ))}
         <FormControlLabel
           className={classes.inNetwork}
-          control={(
+          control={
             <Checkbox
               color="primary"
               defaultChecked //
             />
-          )}
+          }
           label="Show pending-approval pathways"
         />
       </div>
