@@ -129,6 +129,7 @@ function BulletinBoard() {
                       index={index}
                       key={task.id}
                     >
+                      {/* eslint-disable-next-line */}
                       {(provided, snapshot) => (
                         <TaskListItem
                           onOpen={() => handleTaskOpen(task)}
