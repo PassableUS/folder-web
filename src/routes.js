@@ -93,8 +93,7 @@ export default [
         component: () => (
           <AuthGuard roles={['USER']}>
             {' '}
-            <OverviewView />
-            {' '}
+            <OverviewView />{' '}
           </AuthGuard>
         )
       },

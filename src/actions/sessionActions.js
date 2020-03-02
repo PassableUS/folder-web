@@ -6,7 +6,7 @@ export const SESSION_LOGOUT = 'SESSION_LOGOUT';
 export const SESSION_REGISTER = 'SESSION_REGISTER';
 export const SESSION_LOCAL_LOGIN = 'SESSION_LOCAL_LOGIN';
 
-export const register = (userInfo, onFailure, onSuccess) => async (dispatch) => {
+export const register = (userInfo, onFailure, onSuccess) => async dispatch => {
   dispatch(
     apiAction({
       url: '/authentication/local/start',
@@ -19,7 +19,11 @@ export const register = (userInfo, onFailure, onSuccess) => async (dispatch) => 
   );
 };
 
-export const localLogin = (userInfo, onFailure, onSuccess) => async (dispatch) => {
+export const localLogin = (
+  userInfo,
+  onFailure,
+  onSuccess
+) => async dispatch => {
   dispatch(
     apiAction({
       url: '/authentication/local/login',
@@ -33,13 +37,15 @@ export const localLogin = (userInfo, onFailure, onSuccess) => async (dispatch) =
   );
 };
 
-export const login = (token) => async (dispatch) => {
+export const login = token => async dispatch => {
   const bearerToken = `bearer ${token}`;
   const config = {
-    headers: { Authorization: bearerToken },
+    headers: { Authorization: bearerToken }
   };
 
-  const user = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users/profile`, config).then((user) => user.data);
+  const user = await axios
+    .get(`${process.env.REACT_APP_API_BASE_URL}/users/profile`, config)
+    .then(user => user.data);
 
   window.localStorage.setItem('bearerToken', bearerToken);
   window.localStorage.setItem('userProfile', JSON.stringify(user));
@@ -54,7 +60,7 @@ export const login = (token) => async (dispatch) => {
   });
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => dispatch => {
   window.localStorage.removeItem('bearerToken');
   window.localStorage.removeItem('userProfile');
 

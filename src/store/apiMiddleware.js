@@ -1,9 +1,15 @@
 import axios from 'axios';
 import {
-  API, accessDenied, apiError, apiStart, apiSuccess, apiEnd
+  API,
+  accessDenied,
+  apiError,
+  apiStart,
+  apiSuccess,
+  apiEnd
 } from 'src/actions/axiosActions';
 
-const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => { // Middleware setup
+const apiMiddleware = ({ dispatch, getState }) => next => action => {
+  // Middleware setup
   next(action); // Pass action along
 
   if (action.type !== API) return; // Prevent any other actions other than API requests from triggering network requests
@@ -48,7 +54,7 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => (action) => { // Mid
       // Executes the success callback function with the label
       onSuccess(data);
     })
-    .catch((error) => {
+    .catch(error => {
       // Dispatches API_ERROR action with error as payload
       dispatch(apiError(error));
       // Executes the failure callback function with the error

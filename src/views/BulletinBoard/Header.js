@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Typography, Button } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3)
   }
@@ -14,37 +14,18 @@ function Header({ onListAdd, className, ...rest }) {
   const classes = useStyles();
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <Grid
-        alignItems="flex-end"
-        container
-        justify="space-between"
-        spacing={3}
-      >
+    <div {...rest} className={clsx(classes.root, className)}>
+      <Grid alignItems="flex-end" container justify="space-between" spacing={3}>
         <Grid item>
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
+          <Typography component="h2" gutterBottom variant="overline">
             Organization
           </Typography>
-          <Typography
-            component="h1"
-            variant="h3"
-          >
+          <Typography component="h1" variant="h3">
             Bulletin Board
           </Typography>
         </Grid>
         <Grid item>
-          <Button
-            color="primary"
-            onClick={onListAdd}
-            variant="contained"
-          >
+          <Button color="primary" onClick={onListAdd} variant="contained">
             Add list
           </Button>
         </Grid>
