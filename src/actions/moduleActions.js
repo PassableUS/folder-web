@@ -1,4 +1,6 @@
-import { apiAction } from './axiosActions';
+import {
+  apiAction
+} from './axiosActions';
 
 export const CREATE_MODULE = 'CREATE_MODULE';
 export const FETCH_MODULE = 'FETCH_MODULE';
@@ -13,7 +15,7 @@ export const createModule = (moduleInformation, onFailure, onSuccess) => async (
       onSuccess, // Passed in
       onFailure, // Passed in
       label: CREATE_MODULE
-  }));
+    }));
 };
 
 export const fetchModule = (moduleId, onFailure, onSuccess) => async (dispatch, getState) => {
@@ -42,6 +44,8 @@ export const fetchModule = (moduleId, onFailure, onSuccess) => async (dispatch, 
     })
   );
 };
+
+console.log('Hello')
 
 export const fetchModules = (onFailure, onSuccess) => async (dispatch, getState) => {
   // Intercepts the data and performs operations on it before sending it to the handler
