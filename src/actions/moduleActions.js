@@ -45,8 +45,6 @@ export const fetchModule = (moduleId, onFailure, onSuccess) => async (dispatch, 
   );
 };
 
-console.log('Hello')
-
 export const fetchModules = (onFailure, onSuccess) => async (dispatch, getState) => {
   // Intercepts the data and performs operations on it before sending it to the handler
   const derivedOnSuccess = (data) => {
