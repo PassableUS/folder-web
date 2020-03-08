@@ -10,7 +10,7 @@ import TaskList from './TaskList';
 import TaskListItem from './TaskListItem';
 import TaskDetails from './TaskDetails';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -34,18 +34,21 @@ function BulletinBoard() {
     let mounted = true;
 
     const fetchData = () => {
-      axios.get('/api/kanban').then((response) => {
+      axios.get('/api/kanban').then(response => {
         if (mounted) {
           const tempLists = [];
 
           // eslint-disable-next-line no-restricted-syntax
           for (const list of response.data.lists) {
-            tempLists.push({ ...list, items: [] });
+            tempLists.push({
+              ...list,
+              items: []
+            });
           }
 
           // eslint-disable-next-line no-restricted-syntax
           for (const task of response.data.tasks) {
-            tempLists.forEach((list) => {
+            tempLists.forEach(list => {
               if (list.id === task.list) {
                 list.items.push(task);
               }
@@ -64,7 +67,7 @@ function BulletinBoard() {
     };
   }, []);
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = event => {
     const { source, destination } = event;
 
     if (!destination) {
@@ -72,9 +75,9 @@ function BulletinBoard() {
     }
 
     const newLists = _.clone(lists);
-    const sourceList = newLists.find((list) => list.id === source.droppableId);
+    const sourceList = newLists.find(list => list.id === source.droppableId);
     const destinationList = newLists.find(
-      (list) => list.id === destination.droppableId
+      list => list.id === destination.droppableId
     );
     const [removedItem] = sourceList.items.splice(source.index, 1);
 
@@ -95,10 +98,10 @@ function BulletinBoard() {
       items: []
     };
 
-    setLists((prevLists) => [...prevLists, list]);
+    setLists(prevLists => [...prevLists, list]);
   };
 
-  const handleTaskOpen = (task) => {
+  const handleTaskOpen = task => {
     setOpenedTask(task);
   };
 
@@ -107,18 +110,12 @@ function BulletinBoard() {
   };
 
   return (
-    <Page
-      className={classes.root}
-      title="Bulletin Board"
-    >
+    <Page className={classes.root} title="Kanban Board">
       <Header onListAdd={handleListAdd} />
       <div className={classes.container}>
         <DragDropContext onDragEnd={handleDragEnd}>
-          {lists.map((list) => (
-            <Droppable
-              droppableId={list.id}
-              key={list.id}
-            >
+          {lists.map(list => (
+            <Droppable droppableId={list.id} key={list.id}>
               {(provided, snapshot) => (
                 <TaskList
                   provided={provided}
@@ -132,6 +129,7 @@ function BulletinBoard() {
                       index={index}
                       key={task.id}
                     >
+                      {/* eslint-disable-next-line */}
                       {(provided, snapshot) => (
                         <TaskListItem
                           onOpen={() => handleTaskOpen(task)}

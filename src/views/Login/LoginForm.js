@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
-import { login } from 'src/actions/sessionActions';
-import { localLogin } from 'src/actions/sessionActions';
+import { login, localLogin } from 'src/actions/sessionActions';
 
 const schema = {
   email: {
@@ -20,7 +19,7 @@ const schema = {
   }
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   fields: {
     margin: theme.spacing(-1),
@@ -48,10 +47,10 @@ const LoginForm = ({ className, ...rest }) => {
     errors: {}
   });
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     event.persist();
 
-    setFormState((prevFormState) => ({
+    setFormState(prevFormState => ({
       ...prevFormState,
       values: {
         ...prevFormState.values,
@@ -67,24 +66,25 @@ const LoginForm = ({ className, ...rest }) => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     // Dispatches login request. If we get the token after a successful request, we'll try to login
     dispatch(
       localLogin(
         formState.values,
         () => alert('There was an error signing in'),
-        (token) => dispatch(login(token))
+        token => dispatch(login(token))
       )
     );
   };
 
-  const hasError = (field) => (!!(formState.touched[field] && formState.errors[field]));
+  const hasError = field =>
+    !!(formState.touched[field] && formState.errors[field]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
 
-    setFormState((prevFormState) => ({
+    setFormState(prevFormState => ({
       ...prevFormState,
       isValid: !errors,
       errors: errors || {}

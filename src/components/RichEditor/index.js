@@ -14,7 +14,7 @@ import { stateToMarkdown } from 'draft-js-export-markdown';
 import EditorToolbar from './EditorToolbar';
 import { blockRenderMap } from './block';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   editorContainer: {
     padding: theme.spacing(2),
@@ -81,11 +81,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
-function RichEditor({
-  register, placeholder, className, ...rest
-}) {
+function RichEditor({ register, placeholder, className, ...rest }) {
   const classes = useStyles();
   const editorRef = useRef(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -119,7 +117,7 @@ function RichEditor({
     }
   };
 
-  const handleEditorChange = (newState) => {
+  const handleEditorChange = newState => {
     setEditorState(newState);
   };
 
@@ -134,7 +132,7 @@ function RichEditor({
     return false;
   };
 
-  const mapKeyToEditorCommand = (event) => {
+  const mapKeyToEditorCommand = event => {
     if (event.keyCode === 9) {
       const newEditorState = RichUtils.onTab(event, editorState, 4);
 
@@ -148,7 +146,7 @@ function RichEditor({
     return getDefaultKeyBinding(event);
   };
 
-  const blockStyleFn = (contentBlock) => {
+  const blockStyleFn = contentBlock => {
     const textAlign = contentBlock.getData().get('text-align');
 
     if (textAlign) {
@@ -159,14 +157,8 @@ function RichEditor({
   };
 
   return (
-    <Paper
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <EditorToolbar
-        editorState={editorState}
-        onToggle={handleToolbarToggle}
-      />
+    <Paper {...rest} className={clsx(classes.root, className)}>
+      <EditorToolbar editorState={editorState} onToggle={handleToolbarToggle} />
       <Divider />
       <div
         aria-label="Editor Container"
