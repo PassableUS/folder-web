@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
+import uuid from 'uuid/v1';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -89,7 +91,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Calendar() {
+function Calendar({
+  weekScheduler,
+  getSelectedDateTime
+}) {
   const classes = useStyles();
   const calendarRef = useRef(null);
   const theme = useTheme();
@@ -110,6 +115,26 @@ function Calendar() {
       event: selected
     });
   };
+
+  const handleDateSelect = (event) => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.unselect();
+
+    const selectedEvent = {
+      id: uuid(),
+      title: "Busy time",
+      allDay: false,
+      start: event.start,
+      end: event.end
+    };
+
+    setEvents((currentEvents) => [...currentEvents, selectedEvent]);
+    getSelectedDateTime(selectedEvent);
+    setEventModal({
+      open: false,
+      event: event
+    });
+  }
 
   const handleEventNew = () => {
     setEventModal({
@@ -158,7 +183,7 @@ function Calendar() {
 
   const handleViewChange = (newView) => {
     const calendarApi = calendarRef.current.getApi();
-
+    console.log('newView', newView)
     calendarApi.changeView(newView);
     setView(newView);
   };
@@ -184,7 +209,16 @@ function Calendar() {
       if (mounted) {
         axios
           .get('/api/calendar')
-          .then((response) => setEvents(response.data.events));
+          .then((response) => {
+            setEvents(response.data.events);
+            setEvents((currentEvents) => [...currentEvents, {
+              title: 'Event title',
+              desc: 'Event description',
+              allDay: false,
+              start: moment().toDate(),
+              end: moment().toDate()
+          }]);
+          });
       }
     };
 
@@ -197,27 +231,32 @@ function Calendar() {
 
   useEffect(() => {
     const calendarApi = calendarRef.current.getApi();
-    const newView = mobileDevice ? 'listWeek' : 'dayGridMonth';
+    const newView = weekScheduler ? 'timeGridWeek' : (mobileDevice ? 'listWeek' : 'dayGridMonth');
 
     calendarApi.changeView(newView);
     setView(newView);
   }, [mobileDevice]);
 
+
+  console.log('weekScheduler', weekScheduler)
   return (
     <Page
       className={classes.root}
       title="Calendar"
     >
       <Container maxWidth={false}>
-        <Toolbar
-          date={date}
-          onDateNext={handleDateNext}
-          onDatePrev={handleDatePrev}
-          onDateToday={handleDateToday}
-          onEventAdd={handleEventNew}
-          onViewChange={handleViewChange}
-          view={view}
-        />
+        {
+          !weekScheduler &&
+          <Toolbar
+            date={date}
+            onDateNext={handleDateNext}
+            onDatePrev={handleDatePrev}
+            onDateToday={handleDateToday}
+            onEventAdd={handleEventNew}
+            onViewChange={handleViewChange}
+            view={view}
+          />
+        }
         <Card className={classes.card}>
           <CardContent>
             <FullCalendar
@@ -241,6 +280,8 @@ function Calendar() {
               ref={calendarRef}
               rerenderDelay={10}
               selectable
+              selectMirror={true}
+              select={handleDateSelect}
               weekends
             />
           </CardContent>
@@ -261,5 +302,10 @@ function Calendar() {
     </Page>
   );
 }
+
+Calendar.propTypes = {
+  weekScheduler: PropTypes.bool,
+  getSelectedDateTime: PropTypes.func
+};
 
 export default Calendar;
