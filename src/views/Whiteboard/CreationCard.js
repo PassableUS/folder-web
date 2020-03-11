@@ -3,19 +3,32 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Button,
+  ButtonBase,
   Card,
   CardContent,
   Grid,
-  colors,
-  Paper
+  Paper,
+  Typography
 } from '@material-ui/core';
+import SubjectIcon from '@material-ui/icons/Subject';
+import GestureIcon from '@material-ui/icons/Gesture';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {},
   createButton: {
     height: 200,
-    width: 200
+    width: 200,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    '&:hover': {
+      background: '#f5f5f5'
+    }
+  },
+  actionText: {
+    marginTop: 15,
+    fontSize: 14
   }
 }));
 
@@ -34,10 +47,24 @@ const CreationCard = ({ className, ...rest }) => {
           spacing={3}
         >
           <Grid item>
-            <Paper variant="outlined" className={classes.createButton} />
+            <ButtonBase>
+              <Paper variant="outlined" className={classes.createButton}>
+                <SubjectIcon fontSize="large" />
+                <Typography className={classes.actionText}>
+                  Create a text note
+                </Typography>
+              </Paper>
+            </ButtonBase>
           </Grid>
           <Grid item>
-            <Paper variant="outlined" className={classes.createButton} />
+            <ButtonBase>
+              <Paper variant="outlined" className={classes.createButton}>
+                <GestureIcon fontSize="large" />
+                <Typography className={classes.actionText}>
+                  Create a drawing
+                </Typography>
+              </Paper>
+            </ButtonBase>
           </Grid>
         </Grid>
       </CardContent>
