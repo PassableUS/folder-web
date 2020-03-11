@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Container, Card, CardContent, Grid } from '@material-ui/core';
-import FilesDropzone from 'src/components/FilesDropzone';
+import { Container, Grid } from '@material-ui/core';
 import Page from 'src/components/Page';
 import NoteCard from './NoteCard';
 import Header from './Header';
+import CreationCard from './CreationCard';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,6 +47,7 @@ const Whiteboard = ({ className, ...rest }) => {
     >
       <Container maxWidth="lg">
         <Header className={classes.header} />
+        <CreationCard />
         <Grid className={classes.files} container spacing={3}>
           {notes.map(note => (
             <Grid item key={note.id} lg={4} md={4} sm={6} xs={12}>
