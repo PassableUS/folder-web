@@ -1,4 +1,6 @@
-import { apiAction } from './axiosActions';
+import {
+  apiAction
+} from './axiosActions';
 
 export const CREATE_MODULE = 'CREATE_MODULE';
 export const FETCH_MODULE = 'FETCH_MODULE';
