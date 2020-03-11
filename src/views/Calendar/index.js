@@ -121,6 +121,7 @@ function Calendar({
   };
 
   const handleDateSelect = (event) => {
+    if (!weekScheduler) return;
     const calendarApi = calendarRef.current.getApi();
     calendarApi.unselect();
 
