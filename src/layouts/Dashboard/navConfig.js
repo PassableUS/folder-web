@@ -9,7 +9,13 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import ListIcon from '@material-ui/icons/List';
 import DirectionsIcon from '@material-ui/icons/Directions';
+import Create from '@material-ui/icons/Create';
 import Label from 'src/components/Label';
+
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faChalkboard } from '@fortawesome/free-solid-svg-icons';
+
+// const WhiteboardIcon = <FontAwesomeIcon icon={faChalkboard} />;
 
 export default [
   {
@@ -49,6 +55,11 @@ export default [
             href: '/modules/create'
           }
         ]
+      },
+      {
+        title: 'Whiteboard',
+        href: '/whiteboard',
+        icon: Create
       },
       {
         title: 'Bulletin Board',

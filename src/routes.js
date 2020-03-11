@@ -78,6 +78,11 @@ export default [
         component: lazy(() => import('src/views/Calendar'))
       },
       {
+        path: '/whiteboard',
+        exact: true,
+        component: lazy(() => import('src/views/Whiteboard'))
+      },
+      {
         path: '/changelog',
         exact: true,
         component: lazy(() => import('src/views/Changelog'))

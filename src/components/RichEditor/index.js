@@ -121,6 +121,7 @@ function RichEditor({ register, placeholder, className, ...rest }) {
     setEditorState(newState);
   };
 
+  // eslint-disable-next-line
   const handleKeyCommand = (command, editorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
@@ -143,6 +144,7 @@ function RichEditor({ register, placeholder, className, ...rest }) {
       return;
     }
 
+    // eslint-disable-next-line
     return getDefaultKeyBinding(event);
   };
 
@@ -190,6 +192,7 @@ function RichEditor({ register, placeholder, className, ...rest }) {
 }
 
 RichEditor.propTypes = {
+  register: PropTypes.func,
   className: PropTypes.string,
   placeholder: PropTypes.string
 };
