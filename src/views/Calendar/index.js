@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { fetchCalendarEvents } from 'src/actions/calendarActions';
 import moment from 'moment';
 import uuid from 'uuid/v1';
 import FullCalendar from '@fullcalendar/react';
@@ -99,6 +101,7 @@ function Calendar({
   const classes = useStyles();
   const calendarRef = useRef(null);
   const theme = useTheme();
+  const dispatch = useDispatch();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
   const [date, setDate] = useState(moment('2019-07-30 08:00:00').toDate());
@@ -207,18 +210,20 @@ function Calendar({
 
     const fetchEvents = () => {
       if (mounted) {
-        axios
-          .get('/api/calendar')
-          .then((response) => {
-            setEvents(response.data.events);
-            setEvents((currentEvents) => [...currentEvents, {
-              title: 'Event title',
-              desc: 'Event description',
-              allDay: false,
-              start: moment().toDate(),
-              end: moment().toDate()
-          }]);
-          });
+        const onSuccess = (data) => {
+          console.log('data from backend', data);
+          setEvents(data);
+          setEvents((currentEvents) => [...currentEvents, {
+            title: 'Event title',
+            desc: 'Event description',
+            allDay: false,
+            start: moment().toDate(),
+            end: moment().toDate()
+        }]);
+        }
+
+        const onFailure = () => {};
+        dispatch(fetchCalendarEvents(onFailure, onSuccess));
       }
     };
 
@@ -233,6 +238,9 @@ function Calendar({
     const calendarApi = calendarRef.current.getApi();
     const newView = weekScheduler ? 'timeGridWeek' : (mobileDevice ? 'listWeek' : 'dayGridMonth');
 
+    if (weekScheduler) {
+      handleDateToday();
+    }
     calendarApi.changeView(newView);
     setView(newView);
   }, [mobileDevice]);

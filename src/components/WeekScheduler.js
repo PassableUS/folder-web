@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { createCalendarEvents } from 'src/actions/calendarActions';
 import { makeStyles } from '@material-ui/styles';
 import {
     Modal,
@@ -47,6 +49,7 @@ function WeekScheduler() {
     const lastWeekSchedulerSaved = localStorage.getItem("lastWeekSchedulerSaved") || '0';
     const dontShowModalAgain = !!localStorage.getItem("dontShowModalAgain");
     const classes = useStyles();
+    const dispatch = useDispatch();
     const nowTime = (new Date).getTime();
     const shownThisWeek = isSameWeek(nowTime, Number(lastWeekSchedulerSaved));
 
@@ -55,7 +58,6 @@ function WeekScheduler() {
     });
     const [events, setEvent] = useState([]);
     
-
 
     const handleModalClose = () => {
         setModal({
@@ -76,6 +78,10 @@ function WeekScheduler() {
 
     const handleSave = () => {
         localStorage.setItem("lastWeekSchedulerSaved", nowTime.toString());
+
+        const onFailure = () => {}
+        const onSuccess = () => {}
+        dispatch(createCalendarEvents(events, onFailure, onSuccess));
         setModal({
             open: false
         });
@@ -84,7 +90,7 @@ function WeekScheduler() {
     return (
         <>
         {
-            dontShowModalAgain != "true" && !shownThisWeek &&
+            // dontShowModalAgain != "true" && !shownThisWeek &&
 
             <Modal
                 onClose={handleModalClose}
