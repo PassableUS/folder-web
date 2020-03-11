@@ -11,7 +11,7 @@ import {
   Typography
 } from '@material-ui/core';
 import SubjectIcon from '@material-ui/icons/Subject';
-import GestureIcon from '@material-ui/icons/Gesture';
+import DrawingDialogue from './DrawingDialogue';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -57,14 +57,7 @@ const CreationCard = ({ className, ...rest }) => {
             </ButtonBase>
           </Grid>
           <Grid item>
-            <ButtonBase>
-              <Paper variant="outlined" className={classes.createButton}>
-                <GestureIcon fontSize="large" />
-                <Typography className={classes.actionText}>
-                  Create a drawing
-                </Typography>
-              </Paper>
-            </ButtonBase>
+            <DrawingDialogue />
           </Grid>
         </Grid>
       </CardContent>
