@@ -32,15 +32,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function WeekScheduler() {
-    //helpers to check if dates are from the same week
-    const startOfWeek = (_moment, _offset) => {
-        return _moment.add("days", _moment.weekday() * -1 + (_moment.weekday() >= 7 + _offset ? 7 + _offset : _offset));
-    }
-
+    //helper to check if dates are from the same week
     const isSameWeek = (firstDay, secondDay, offset) => {
         const firstMoment = moment(firstDay);
         const secondMoment = moment(secondDay);
-
+        
+        const startOfWeek = (_moment, _offset) => {
+            return _moment.add("days", _moment.weekday() * -1 + (_moment.weekday() >= 7 + _offset ? 7 + _offset : _offset));
+        }
         return startOfWeek(firstMoment, offset).isSame(startOfWeek(secondMoment, offset), "day");
     }
 
@@ -50,8 +49,6 @@ function WeekScheduler() {
     const classes = useStyles();
     const nowTime = (new Date).getTime();
     const shownThisWeek = isSameWeek(nowTime, Number(lastWeekSchedulerSaved));
-
-    console.log('shownThisWeek', shownThisWeek, nowTime, lastWeekSchedulerSaved)
 
     const [modal, setModal] = useState({
         open: true
@@ -78,7 +75,6 @@ function WeekScheduler() {
     }
 
     const handleSave = () => {
-        console.log('events', events)
         localStorage.setItem("lastWeekSchedulerSaved", nowTime.toString());
         setModal({
             open: false
@@ -88,7 +84,7 @@ function WeekScheduler() {
     return (
         <>
         {
-            !dontShowModalAgain && !shownThisWeek &&
+            dontShowModalAgain != "true" && !shownThisWeek &&
 
             <Modal
                 onClose={handleModalClose}

@@ -26,6 +26,7 @@ import axios from 'src/utils/axios';
 import Page from 'src/components/Page';
 import AddEditEvent from './AddEditEvent';
 import Toolbar from './Toolbar';
+import WeekScheduler from '../../components/WeekScheduler';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -183,7 +184,6 @@ function Calendar({
 
   const handleViewChange = (newView) => {
     const calendarApi = calendarRef.current.getApi();
-    console.log('newView', newView)
     calendarApi.changeView(newView);
     setView(newView);
   };
@@ -238,12 +238,15 @@ function Calendar({
   }, [mobileDevice]);
 
 
-  console.log('weekScheduler', weekScheduler)
   return (
     <Page
       className={classes.root}
       title="Calendar"
     >
+      {
+        !weekScheduler &&
+        <WeekScheduler></WeekScheduler>
+      }
       <Container maxWidth={false}>
         {
           !weekScheduler &&
