@@ -36,8 +36,8 @@ const useStyles = makeStyles(() => ({
   drawingContainer: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    height: '90%',
-    width: '90%',
+    height: '70vh',
+    width: '90vw',
     marginTop: 15
   }
 }));
@@ -49,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function DrawingDialogue() {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleOpen = () => {
     setOpen(true);
@@ -88,6 +88,7 @@ function DrawingDialogue() {
             Give your note a name and start drawing in the card below.
           </DialogContentText>
           <Divider />
+
           <Paper elevation="3" className={classes.drawingContainer}>
             <CanvasDraw
               lazyRadius={5}
