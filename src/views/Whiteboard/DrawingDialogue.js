@@ -49,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function DrawingDialogue() {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
