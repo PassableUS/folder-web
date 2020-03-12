@@ -13,8 +13,8 @@ import {
   makeStyles,
   Divider
 } from '@material-ui/core';
-import GestureIcon from '@material-ui/icons/Gesture';
-import CanvasDraw from 'react-canvas-draw';
+import SubjectIcon from '@material-ui/icons/Subject';
+import RichEditor from 'src/components/RichEditor';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -46,7 +46,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function DrawingDialogue() {
+function TextDialogue() {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -63,18 +63,20 @@ function DrawingDialogue() {
     <div>
       <ButtonBase onClick={handleOpen}>
         <Paper variant="outlined" className={classes.createButton}>
-          <GestureIcon fontSize="large" />
+          <SubjectIcon fontSize="large" />{' '}
           <Typography className={classes.actionText}>
-            Create a drawing
+            Create a text note
           </Typography>
         </Paper>
       </ButtonBase>
+
       <Dialog
         className={classes.dialogContainer}
-        fullScreen
         open={open}
         TransitionComponent={Transition}
         keepMounted
+        fullWidth
+        maxWidth="lg"
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
@@ -85,16 +87,11 @@ function DrawingDialogue() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Give your note a name and start drawing in the card below.
+            Give your note a title and start writing below.
           </DialogContentText>
           <Divider />
-          <Paper elevation="3" className={classes.drawingContainer}>
-            <CanvasDraw
-              lazyRadius={5}
-              hideGrid
-              canvasWidth="100%"
-              canvasHeight="100%"
-            />
+          <Paper elevation="2" className={classes.drawingContainer}>
+            <RichEditor placeholder="Start writing here..." />
           </Paper>
         </DialogContent>
         <DialogActions>
@@ -110,4 +107,4 @@ function DrawingDialogue() {
   );
 }
 
-export default DrawingDialogue;
+export default TextDialogue;

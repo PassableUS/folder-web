@@ -1,17 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import {
-  ButtonBase,
-  Card,
-  CardContent,
-  Grid,
-  Paper,
-  Typography
-} from '@material-ui/core';
-import SubjectIcon from '@material-ui/icons/Subject';
+import { ButtonBase, Card, CardContent, Grid } from '@material-ui/core';
 import DrawingDialogue from './DrawingDialogue';
+import TextDialogue from './TextDialogue';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -25,10 +18,6 @@ const useStyles = makeStyles(() => ({
     '&:hover': {
       background: '#f5f5f5'
     }
-  },
-  actionText: {
-    marginTop: 15,
-    fontSize: 14
   }
 }));
 
@@ -48,12 +37,7 @@ const CreationCard = ({ className, ...rest }) => {
         >
           <Grid item>
             <ButtonBase>
-              <Paper variant="outlined" className={classes.createButton}>
-                <SubjectIcon fontSize="large" />
-                <Typography className={classes.actionText}>
-                  Create a text note
-                </Typography>
-              </Paper>
+              <TextDialogue />
             </ButtonBase>
           </Grid>
           <Grid item>

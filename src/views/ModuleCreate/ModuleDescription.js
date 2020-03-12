@@ -18,18 +18,21 @@ function ModuleDescription({ register, className, ...rest }) {
       register="" // Register causes an issue when being passed to the card, so we replace it with an empty object.
       className={clsx(classes.root, className)}
     >
-
       {/* TODO: Implement validation for description */}
       <CardHeader title="Module description" />
       <CardContent>
-        <RichEditor register={register} placeholder="Enter a description for the module..." />
+        <RichEditor
+          register={register}
+          placeholder="Enter a description for the module..."
+        />
       </CardContent>
     </Card>
   );
 }
 
 ModuleDescription.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  register: PropTypes.func
 };
 
 export default ModuleDescription;
