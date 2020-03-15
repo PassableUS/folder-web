@@ -90,7 +90,7 @@ function WeekScheduler() {
     return (
         <>
         {
-            // dontShowModalAgain != "true" && !shownThisWeek &&
+            dontShowModalAgain != "true" && !shownThisWeek &&
 
             <Modal
                 onClose={handleModalClose}
