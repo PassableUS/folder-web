@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
+import WeekScheduler from '../../components/WeekScheduler'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,6 +40,7 @@ function Dashboard({ route }) {
         onMobileClose={() => setOpenNavBarMobile(false)}
         openMobile={openNavBarMobile}
       />
+      <WeekScheduler/>
       <div className={classes.container}>
         <div className={classes.content}>
           <Suspense fallback={<LinearProgress />}>
