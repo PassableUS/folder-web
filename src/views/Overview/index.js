@@ -6,6 +6,7 @@ import Header from './Header';
 import Statistics from './Statistics';
 import Pathways from './Pathways';
 import Todos from './Todos';
+import WeeklyGoals from './WeeklyGoals';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,7 @@ function Overview() {
     >
       <Container maxWidth="lg">
         <Header />
+        <WeeklyGoals />
         <Statistics className={classes.statistics} />
         {/* <Notifications className={classes.notifications} /> */}
         <Grid

@@ -214,13 +214,6 @@ function Calendar({
         const onSuccess = (data) => {
           console.log('data from backend', data);
           setEvents(data);
-          setEvents((currentEvents) => [...currentEvents, {
-            title: 'Event title',
-            desc: 'Event description',
-            allDay: false,
-            start: moment().toDate(),
-            end: moment().toDate()
-        }]);
         }
 
         const onFailure = () => {};

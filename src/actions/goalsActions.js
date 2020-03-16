@@ -17,7 +17,7 @@ export const createGoals = (goals, onFailure, onSuccess) => async (dispatch, get
   );
 };
 
-export const fetchCalendarEvent = (pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchGoal = (pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
       url: `/goals/${pathwayId}`,
@@ -29,10 +29,10 @@ export const fetchCalendarEvent = (pathwayId, onFailure, onSuccess) => async (di
   );
 };
 
-export const fetchGoals = (onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchGoals = (startDate, endDate, onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
-      url: '/goals',
+      url: `/goals/${startDate}/${endDate}`,
       method: 'GET',
       onSuccess, // Passed in
       onFailure, // Passed in

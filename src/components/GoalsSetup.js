@@ -97,8 +97,7 @@ function GoalsSetup() {
     }
 
     const handleRemoveInput = (i) => {
-        const values = [...goals];
-        console.log(values);
+        const values = [...goals];        
         values.splice(i, 1);
         setGoals(values);
     }
@@ -119,8 +118,8 @@ function GoalsSetup() {
     const convertGoalsForBackend = (goals) => {
         return goals.map(goal => ({
             goal, 
-            start: moment().weekday(0),
-            end: moment().weekday(6),
+            startDate: moment().startOf('week').startOf('day').toISOString(),
+            endDate: moment().endOf('week').startOf('day').toISOString(),
         }));
     }
 
@@ -176,7 +175,7 @@ function GoalsSetup() {
     return (
         <>
             {
-                // dontShowModalAgain != "true" && !shownThisWeek &&
+                dontShowModalAgain != "true" && !shownThisWeek &&
 
                 <Modal
                     className={classes.modal}
