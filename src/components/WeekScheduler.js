@@ -8,12 +8,9 @@ import {
     Card,
     CardHeader,
     CardActions,
+    CardContent,
     Button
 } from '@material-ui/core';
-import '@fullcalendar/core/main.css';
-import '@fullcalendar/daygrid/main.css';
-import '@fullcalendar/timegrid/main.css';
-import '@fullcalendar/list/main.css';
 
 import Calendar from '../views/Calendar';
 
@@ -25,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         width: "calc(100% - 80px)",
         margin: "40px"
     },
-    calendarCard: {
+    cardContent: {
         overflowY: "scroll",
     },
     actionButton: {
@@ -42,16 +39,17 @@ function WeekScheduler() {
         const startOfWeek = (_moment, _offset) => {
             return _moment.add("days", _moment.weekday() * -1 + (_moment.weekday() >= 7 + _offset ? 7 + _offset : _offset));
         }
+        console.log('startOfWeek', startOfWeek(firstMoment, offset), startOfWeek(secondMoment, offset), startOfWeek(firstMoment, offset).isSame(startOfWeek(secondMoment, offset), "day"))
         return startOfWeek(firstMoment, offset).isSame(startOfWeek(secondMoment, offset), "day");
     }
 
     //check if modal with dates was shown and then show if
     const lastWeekSchedulerSaved = localStorage.getItem("lastWeekSchedulerSaved") || '0';
-    const dontShowModalAgain = !!localStorage.getItem("dontShowModalAgain");
+    const dontShowModalAgain = !!localStorage.getItem("dontShowSchedulerModalAgain");
     const classes = useStyles();
     const dispatch = useDispatch();
     const nowTime = (new Date).getTime();
-    const shownThisWeek = isSameWeek(nowTime, Number(lastWeekSchedulerSaved));
+    const shownThisWeek = isSameWeek(nowTime, Number(lastWeekSchedulerSaved), 0);
 
     const [modal, setModal] = useState({
         open: true
@@ -70,17 +68,19 @@ function WeekScheduler() {
     }
 
     const handleDontShow = () => {
-        localStorage.setItem("dontShowModalAgain", "true");
+        localStorage.setItem("dontShowSchedulerModalAgain", "true");
         setModal({
             open: false
         });
     }
 
     const handleSave = () => {
-        localStorage.setItem("lastWeekSchedulerSaved", nowTime.toString());
-
-        const onFailure = () => {}
-        const onSuccess = () => {}
+        const onFailure = () => {
+            alert('There was an error while setting goals');
+        }
+        const onSuccess = () => {
+            localStorage.setItem("lastWeekSchedulerSaved", nowTime.toString());
+        }
         dispatch(createCalendarEvents(events, onFailure, onSuccess));
         setModal({
             open: false
@@ -99,9 +99,9 @@ function WeekScheduler() {
                 <Card className={classes.card}>
                     <CardHeader title="Please, select the time you are unavailable at:">
                     </CardHeader>
-                    <Card className={classes.calendarCard}>
+                    <CardContent className={classes.cardContent}>
                         <Calendar weekScheduler={true} getSelectedDateTime={handleDateTimeSelect}></Calendar>
-                    </Card>
+                    </CardContent>
                     <CardActions>
                         <Button onClick={handleDontShow} size="small" className={classes.actionButton}>
                             Don't show again

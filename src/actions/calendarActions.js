@@ -40,18 +40,3 @@ export const fetchCalendarEvents = (onFailure, onSuccess) => async (dispatch, ge
     })
   );
 };
-
-// export const addModuleToCalendarEvent = (moduleId, pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
-//   dispatch(
-//     apiAction({
-//       url: `/calendar/${pathwayId}`,
-//       method: 'PUT',
-//       data: {
-//         moduleId
-//       },
-//       onSuccess, // Passed in
-//       onFailure, // Passed in
-//       label: FETCH_CALENDAREVENTS
-//     })
-//   );
-// };
