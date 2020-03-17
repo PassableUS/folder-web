@@ -8,23 +8,7 @@ import {
 import { CheckCircleOutline } from '@material-ui/icons';
 import { fetchGoals } from '../../actions/goalsActions'
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  summaryButton: {
-    backgroundColor: theme.palette.common.white
-  },
-  barChartIcon: {
-    marginRight: theme.spacing(1)
-  },
-  image: {
-    width: '100%',
-    maxHeight: 400
-  }
-}));
-
 function WeeklyGoals() {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [goals, setGoals] = useState([]);
 
@@ -73,7 +57,6 @@ function WeeklyGoals() {
           Goals for this week:
         </ListSubheader>
       }
-      className={classes.root}
     >
       {spawnGoalsListItems()}
     </List>

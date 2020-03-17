@@ -31,9 +31,11 @@ import Toolbar from './Toolbar';
 import WeekScheduler from '../../components/WeekScheduler';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  rootNonModal: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
+  },
+  root: {
     '& .fc-unthemed td': {
       borderColor: theme.palette.divider
     },
@@ -242,7 +244,7 @@ function Calendar({
 
   return (
     <Page
-      className={classes.root}
+      className={[classes.root, !weekScheduler ? classes.rootNonModal : '' ].join(' ')}
       title="Calendar"
     >
       {

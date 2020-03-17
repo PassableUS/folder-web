@@ -4,12 +4,16 @@ export const CREATE_CALENDAREVENTS = 'CREATE_CALENDAREVENTS';
 export const FETCH_CALENDAREVENT = 'FETCH_CALENDAREVENT';
 export const FETCH_CALENDAREVENTS = 'FETCH_CALENDAREVENTS';
 
-export const createCalendarEvents = (calendarEvents, onFailure, onSuccess) => async (dispatch, getState) => {
+export const createCalendarEvents = (calendarEvents, daysToWork, minutesToWork, onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
       url: '/calendar',
       method: 'POST',
-      data: calendarEvents,
+      data: { 
+        calendarEvents,
+        daysToWork,
+        minutesToWork 
+      },
       onSuccess, // Passed in
       onFailure, // Passed in
       label: CREATE_CALENDAREVENTS
