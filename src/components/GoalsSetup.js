@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { createGoals } from 'src/actions/goalsActions';
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function GoalsSetup() {
+function GoalsSetup({ show, mode, pathwayData, courseData }) {
     //helper to check if dates are from the same week
     const startOfWeek = (_moment, _offset) => {
         return _moment.add("days", _moment.weekday() * -1 + (_moment.weekday() >= 7 + _offset ? 7 + _offset : _offset));
@@ -97,7 +98,7 @@ function GoalsSetup() {
     }
 
     const handleRemoveInput = (i) => {
-        const values = [...goals];        
+        const values = [...goals];
         values.splice(i, 1);
         setGoals(values);
     }
@@ -116,18 +117,26 @@ function GoalsSetup() {
     }
 
     const convertGoalsForBackend = (goals) => {
-        return goals.map(goal => ({
-            goal, 
-            startDate: moment().startOf('week').startOf('day').toISOString(),
-            endDate: moment().endOf('week').startOf('day').toISOString(),
-        }));
+        const goalAdditions = {};
+
+        if (mode == 'week') {
+            goalAdditions.startDate = moment().startOf('week').startOf('day').toISOString();
+            goalAdditions.endDate = moment().endOf('week').startOf('day').toISOString();
+        } else if (mode == 'course') {
+            goalAdditions.moduleId = courseData.moduleId;
+            goalAdditions.courseURL = courseData.courseURL.split('/');
+        } else if (mode == 'pathway') {
+            goalAdditions.pathwayId = pathwayData.id;
+        }
+
+        return goals.map(goal =>  ({...goalAdditions, goal}));
     }
 
     const handleSave = () => {
         const onFailure = () => {
             alert('There was an error while setting goals')
         }
-        const onSuccess = () => { 
+        const onSuccess = (data) => {
             localStorage.setItem("lastWeekGoalSaved", nowTime.toString());
         }
 
@@ -156,26 +165,37 @@ function GoalsSetup() {
                         onChange={(e) => handleChangeInput(i, e)}
                         endAdornment={
                             goals.length > 3 ?
-                            <InputAdornment position="end">
-                                <IconButton
-                                    className={classes.removeButton}
-                                    aria-label="Remove goal"
-                                    onClick={() => handleRemoveInput(i)}
-                                >
-                                    <HighlightOff />
-                                </IconButton>
-                            </InputAdornment>
-                            : ''
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        className={classes.removeButton}
+                                        aria-label="Remove goal"
+                                        onClick={() => handleRemoveInput(i)}
+                                    >
+                                        <HighlightOff />
+                                    </IconButton>
+                                </InputAdornment>
+                                : ''
                         }
                     />
                 }
             />)
         )
     }
+
+    const getModalTitle = () => {
+        const titles = {
+            'week': 'Please, enter your weekly goals:',
+            'course': 'Please, enter your goals for this course:',
+            'pathway': 'Please, enter your goals for this pathway:'
+        };
+
+        return titles[mode];
+    }
+
     return (
         <>
             {
-                dontShowModalAgain != "true" && !shownThisWeek &&
+                ((dontShowModalAgain != "true" && !shownThisWeek) || show) &&
 
                 <Modal
                     className={classes.modal}
@@ -183,7 +203,7 @@ function GoalsSetup() {
                     open={modal.open}
                 >
                     <Card className={classes.card}>
-                        <CardHeader title="Please, enter your weekly goals:">
+                        <CardHeader title={getModalTitle()}>
                         </CardHeader>
                         <CardContent>
                             <FormGroup>
@@ -191,7 +211,7 @@ function GoalsSetup() {
                                     spawnTextFields()
                                 }
                                 {
-                                    goals.length < 5 && 
+                                    goals.length < 5 &&
                                     <IconButton
                                         className={classes.addButton}
                                         size="medium"
@@ -220,5 +240,11 @@ function GoalsSetup() {
     );
 }
 
+GoalsSetup.propTypes = {
+    show: PropTypes.bool,
+    mode: PropTypes.oneOf(['course', 'pathway', 'week']),
+    pathwayData: PropTypes.shape({ id: PropTypes.string }),
+    courseData: PropTypes.shape({ moduleId: PropTypes.string, courseURL: PropTypes.string })
+};
 
 export default GoalsSetup;

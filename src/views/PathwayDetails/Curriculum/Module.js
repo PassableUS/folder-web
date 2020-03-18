@@ -53,7 +53,7 @@ function Module({ module, className, ...rest }) {
         </Typography>
         <div className={classes.courses}>
           {module.courses.map((course) => (
-            <Course className={classes.course} key={course.name} course={course} />
+            <Course className={classes.course} key={course.name} course={course} moduleId={module.id}/>
           ))}
         </div>
       </Card>

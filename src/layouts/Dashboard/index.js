@@ -42,7 +42,7 @@ function Dashboard({ route }) {
         openMobile={openNavBarMobile}
       />
       <WeekScheduler/>
-      <GoalsSetup/>
+      <GoalsSetup mode="week"/>
       <div className={classes.container}>
         <div className={classes.content}>
           <Suspense fallback={<LinearProgress />}>
