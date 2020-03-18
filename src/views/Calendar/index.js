@@ -29,7 +29,6 @@ import Page from 'src/components/Page';
 import AddEditEvent from './AddEditEvent';
 import Toolbar from './Toolbar';
 import { getStudyTimes } from './getStudyTimes';
-
 import WeekScheduler from '../../components/WeekScheduler';
 
 const useStyles = makeStyles((theme) => ({

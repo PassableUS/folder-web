@@ -21,7 +21,7 @@ import ProviderButtons from './ProviderButtons';
 import LoginForm from './LoginForm';
 import * as organizationAnimation from './organizationAnimation.json';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -87,10 +87,10 @@ function Login() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const session = useSelector((state) => state.session);
+  const session = useSelector(state => state.session);
   // Grabs token from the URL parameters if there is one and authenticates
   useEffect(() => {
-    const params = (new URL(document.location)).searchParams;
+    const params = new URL(document.location).searchParams;
     const token = params.get('token');
     if (token) {
       dispatch(login(token));
@@ -115,22 +115,14 @@ function Login() {
   };
 
   return (
-    <Page
-      className={classes.root}
-      title="Login"
-    >
+    <Page className={classes.root} title="Login">
       <Card className={classes.card}>
         <CardContent className={classes.content}>
           <LockIcon className={classes.icon} />
-          <Typography
-            gutterBottom
-            variant="h3"
-          >
+          <Typography gutterBottom variant="h3">
             Sign in
           </Typography>
-          <Typography variant="subtitle2">
-            Sign in to Folder
-          </Typography>
+          <Typography variant="subtitle2">Sign in to Folder</Typography>
           <LoginForm className={classes.loginForm} />
           <Divider className={classes.divider} />
           <ProviderButtons />
@@ -146,10 +138,7 @@ function Login() {
             Don&apos;t have an account?
           </Link>
         </CardContent>
-        <CardMedia
-          className={classes.media}
-          title="Cover"
-        >
+        <CardMedia className={classes.media} title="Cover">
           <Lottie options={lottieOptions} height="100%" width="100%" />
         </CardMedia>
       </Card>

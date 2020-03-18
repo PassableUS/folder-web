@@ -1,6 +1,4 @@
-import {
-  apiAction
-} from './axiosActions';
+import { apiAction } from './axiosActions';
 
 export const CREATE_MODULE = 'CREATE_MODULE';
 export const FETCH_MODULE = 'FETCH_MODULE';
@@ -13,7 +11,7 @@ export const createModule = (
 ) => async dispatch => {
   dispatch(
     apiAction({
-      url: '/modules',
+      url: '/notes',
       method: 'POST',
       data: moduleInformation,
       onSuccess, // Passed in

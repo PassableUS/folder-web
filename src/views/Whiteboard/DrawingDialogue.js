@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import { useDispatch } from 'react-redux';
 import {
   Paper,
   ButtonBase,
@@ -48,6 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function DrawingDialogue() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
 

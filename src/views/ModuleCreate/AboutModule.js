@@ -2,15 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  TextField
-} from '@material-ui/core';
+import { Card, CardHeader, CardContent, TextField } from '@material-ui/core';
 import Alert from 'src/components/Alert';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   alert: {
     marginBottom: theme.spacing(3)
@@ -37,15 +32,13 @@ const initialValues = {
   name: ''
 };
 
-const AboutModule = ({
-  register, errors, className, ...rest
-}) => {
+const AboutModule = ({ register, errors, className, ...rest }) => {
   const classes = useStyles();
   const [values, setValues] = useState({ ...initialValues });
 
   const handleFieldChange = (event, field, value) => {
     event.persist();
-    setValues((prevValues) => ({
+    setValues(prevValues => ({
       ...prevValues,
       [field]: value
     }));
@@ -62,19 +55,20 @@ const AboutModule = ({
         <form>
           <div className={classes.formGroup}>
             {/* Error message if form element is not filled */}
-            {errors.moduleName
-              && (
+            {errors.moduleName && (
               <Alert
                 variant="error"
                 className={classes.formAlert}
                 message="This field is required."
               />
-              )}
+            )}
             <TextField
               fullWidth
               label="Module Name"
               name="moduleName"
-              onChange={(event) => handleFieldChange(event, 'name', event.target.value)}
+              onChange={event =>
+                handleFieldChange(event, 'name', event.target.value)
+              }
               value={values.name}
               inputRef={register({
                 required: true
@@ -90,7 +84,9 @@ const AboutModule = ({
 };
 
 AboutModule.propTypes = {
-  className: PropTypes.string
+  register: PropTypes.func,
+  className: PropTypes.string,
+  errors: PropTypes.object
 };
 
 export default AboutModule;

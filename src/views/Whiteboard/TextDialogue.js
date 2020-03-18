@@ -15,8 +15,13 @@ import {
 } from '@material-ui/core';
 import SubjectIcon from '@material-ui/icons/Subject';
 import RichEditor from 'src/components/RichEditor';
+import TextField from '@material-ui/core/TextField';
+import Alert from 'src/components/Alert';
+import { useForm } from 'react-hook-form';
+import { createTextNote, fetchNotes } from 'src/actions/notesActions';
+import { useDispatch } from 'react-redux';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   createButton: {
     height: 200,
@@ -29,16 +34,15 @@ const useStyles = makeStyles(() => ({
       background: '#f5f5f5'
     }
   },
+  formAlert: {
+    marginBottom: theme.spacing(2)
+  },
   actionText: {
     marginTop: 15,
     fontSize: 14
   },
-  drawingContainer: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    height: '90%',
-    width: '90%',
-    marginTop: 15
+  titleInput: {
+    marginBottom: 10
   }
 }));
 
@@ -48,7 +52,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function TextDialogue() {
   const classes = useStyles();
-
+  const { register, errors, handleSubmit } = useForm();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -57,6 +62,22 @@ function TextDialogue() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  // Function that receives the form data
+  const onSubmit = data => {
+    const newData = {
+      noteType: 'text',
+      ...data
+    };
+
+    dispatch(
+      createTextNote(
+        newData,
+        () => alert('Something went wrong'),
+        () => dispatch(fetchNotes()) // Update notes after
+      )
+    );
   };
 
   return (
@@ -89,16 +110,43 @@ function TextDialogue() {
           <DialogContentText id="alert-dialog-slide-description">
             Give your note a title and start writing below.
           </DialogContentText>
+
           <Divider />
-          <Paper elevation="2" className={classes.drawingContainer}>
-            <RichEditor placeholder="Start writing here..." />
-          </Paper>
+          <TextField
+            inputRef={register({
+              required: true
+            })}
+            name="noteTitle"
+            label="Enter a title here..."
+            variant="outlined"
+            fullWidth
+            className={classes.titleInput}
+          />
+          <RichEditor
+            formName="content"
+            register={register}
+            placeholder="Start writing here..."
+          />
+
+          {/* Form errors */}
+          {Object.keys(errors).map(error => (
+            <Alert
+              key={error}
+              variant="error"
+              className={classes.formAlert}
+              message={`${error} is required`}
+            />
+          ))}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Discard
           </Button>
-          <Button onClick={handleClose} variant="contained" color="primary">
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            variant="contained"
+            color="primary"
+          >
             Save
           </Button>
         </DialogActions>

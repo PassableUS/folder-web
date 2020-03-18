@@ -107,12 +107,12 @@ function WeekScheduler() {
         localStorage.setItem("daysToWork", daysToWork.toString());
         localStorage.setItem("minutesToWork", minutesToWork.toString());
 
+
         dispatch(createCalendarEvents(events, onFailure, onSuccess));
         setModal({
             open: false
         });
     }
-
 
     return (
         <>
