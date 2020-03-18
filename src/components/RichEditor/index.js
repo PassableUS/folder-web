@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
-function RichEditor({ register, placeholder, className, ...rest }) {
+function RichEditor({ register, placeholder, className, formName, ...rest }) {
   const classes = useStyles();
   const editorRef = useRef(null);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -184,7 +184,7 @@ function RichEditor({ register, placeholder, className, ...rest }) {
       <TextField // Hidden input so that we can send the form data from the array instead of the input element
         type="hidden"
         value={stateToMarkdown(editorState.getCurrentContent())}
-        name="description"
+        name={formName || 'description'}
         inputRef={register}
       />
     </Paper>
