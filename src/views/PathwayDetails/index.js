@@ -48,7 +48,6 @@ function PathwayDetails({ match, history }) {
     // { value: 'activity', label: 'Activity' },
     // { value: 'subscribers', label: 'Subscribers' }
   ];
-
   const handleAlertClose = () => {
     setOpenAlert(false);
   };

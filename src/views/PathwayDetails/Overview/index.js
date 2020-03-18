@@ -34,7 +34,7 @@ function Overview({ pathway, className, ...rest }) {
         xl={9}
         xs={12}
       >
-        <Description description={pathway.description} />
+        <Description description={pathway.description} id={pathway.id} />
         {/* <Deliverables className={classes.deliverables} /> */}
       </Grid>
       <Grid

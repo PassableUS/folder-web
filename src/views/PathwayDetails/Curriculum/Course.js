@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -8,9 +8,13 @@ import {
   Link,
   CardHeader,
   CardContent,
+  CardActions,
+  Button
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import gradients from 'src/utils/gradients';
+import GoalsSetup from 'src/components/GoalsSetup';
+import GoalsList from 'src/components/GoalsList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,8 +45,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Course({ course, className, ...rest }) {
+function Course({ course, className, moduleId, ...rest }) {
   const classes = useStyles();
+  const [showGoalsModal, setGoalsModal] = useState(false);
 
   const avatars = {
     contest_created: (
@@ -52,6 +57,9 @@ function Course({ course, className, ...rest }) {
     )
   };
 
+  const takeCourse = () => {
+    setGoalsModal(true);
+  }
 
   return (
     <div
@@ -70,6 +78,7 @@ function Course({ course, className, ...rest }) {
         <CardContent
           className={classes.linkContainer}
         >
+          <GoalsList mode="course" courseData={{moduleId, courseURL: course.link}}></GoalsList>
           <Link
             className={classes.link}
             href={course.link}
@@ -78,7 +87,15 @@ function Course({ course, className, ...rest }) {
             View Course
           </Link>
         </CardContent>
-
+        <CardActions>
+          <Button 
+          onClick={takeCourse}
+          color="primary"
+          size="small">
+            Take course
+          </Button>
+          <GoalsSetup mode="course" show={showGoalsModal} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
+        </CardActions>
       </Card>
     </div>
   );
@@ -86,7 +103,8 @@ function Course({ course, className, ...rest }) {
 
 Course.propTypes = {
   course: PropTypes.object.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  moduleId: PropTypes.string
 };
 
 export default Course;

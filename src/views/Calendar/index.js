@@ -24,16 +24,19 @@ import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import '@fullcalendar/list/main.css';
-import axios from 'src/utils/axios';
+
 import Page from 'src/components/Page';
 import AddEditEvent from './AddEditEvent';
 import Toolbar from './Toolbar';
+import { getStudyTimes } from './getStudyTimes';
 import WeekScheduler from '../../components/WeekScheduler';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  rootNonModal: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
+  },
+  root: {
     '& .fc-unthemed td': {
       borderColor: theme.palette.divider
     },
@@ -206,21 +209,26 @@ function Calendar({
     setDate(calendarApi.getDate());
   };
 
+  const getStudyEvents = (events) => {
+    const daysToWork = localStorage.getItem("daysToWork");
+    const minutesToWork = localStorage.getItem("minutesToWork");
+
+    const studyTimes = getStudyTimes(events, daysToWork, minutesToWork);
+
+    return studyTimes.map(time => {
+      time.rendering = 'background';
+      return time;
+    })
+  }
+
   useEffect(() => {
     let mounted = true;
 
     const fetchEvents = () => {
       if (mounted) {
         const onSuccess = (data) => {
-          console.log('data from backend', data);
-          setEvents(data);
-          setEvents((currentEvents) => [...currentEvents, {
-            title: 'Event title',
-            desc: 'Event description',
-            allDay: false,
-            start: moment().toDate(),
-            end: moment().toDate()
-        }]);
+          const studyEvents = getStudyEvents(data);
+          setEvents([...data, ...studyEvents]);
         }
 
         const onFailure = () => {};
@@ -249,7 +257,7 @@ function Calendar({
 
   return (
     <Page
-      className={classes.root}
+      className={[classes.root, !weekScheduler ? classes.rootNonModal : '' ].join(' ')}
       title="Calendar"
     >
       {

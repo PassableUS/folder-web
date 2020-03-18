@@ -6,6 +6,7 @@ import Header from './Header';
 import Statistics from './Statistics';
 import Pathways from './Pathways';
 import Todos from './Todos';
+import GoalsList from '../../components/GoalsList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
   todos: {
     marginTop: theme.spacing(6)
   },
-  // item: {
-  //   padding: theme.spacing(1)
-  // }
 }));
 
 function Overview() {
@@ -39,6 +37,7 @@ function Overview() {
     >
       <Container maxWidth="lg">
         <Header />
+        <GoalsList mode="week"/>
         <Statistics className={classes.statistics} />
         {/* <Notifications className={classes.notifications} /> */}
         <Grid
