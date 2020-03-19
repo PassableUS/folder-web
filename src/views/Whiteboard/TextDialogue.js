@@ -18,7 +18,7 @@ import RichEditor from 'src/components/RichEditor';
 import TextField from '@material-ui/core/TextField';
 import Alert from 'src/components/Alert';
 import { useForm } from 'react-hook-form';
-import { createTextNote, fetchNotes } from 'src/actions/notesActions';
+import { createTextNote, fetchNotes } from 'src/actions/noteActions';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
@@ -75,9 +75,18 @@ function TextDialogue() {
       createTextNote(
         newData,
         () => alert('Something went wrong'),
-        () => dispatch(fetchNotes()) // Update notes after
+        () =>
+          dispatch(
+            // Update notes after
+            fetchNotes(
+              () => {},
+              error => alert(error)
+            )
+          )
       )
     );
+
+    setOpen(false);
   };
 
   return (
@@ -103,9 +112,7 @@ function TextDialogue() {
         aria-describedby="alert-dialog-slide-description"
         disableBackdropClick
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          Create a drawing
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">Write a note</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Give your note a title and start writing below.
