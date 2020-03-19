@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function GoalsSetup({ show, mode, pathwayData, courseData }) {
+function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
     const user = JSON.parse(localStorage.getItem('userProfile'));
     const lastWeekGoalSaved = user.weeklyGoalsLastAsked || '0';
     const dontShowModalAgain =
@@ -200,7 +200,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData }) {
     return (
         <>
             {
-                ((!dontShowModalAgain && (mode != 'week' || !shownThisWeek)) || show) &&
+                ((!dontShowModalAgain && (mode != 'week' || !shownThisWeek)) && (show || !activateBybutton)) &&
 
                 <Modal
                     className={classes.modal}
@@ -247,6 +247,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData }) {
 
 GoalsSetup.propTypes = {
     show: PropTypes.bool,
+    activateBybutton: PropTypes.bool,
     mode: PropTypes.oneOf(['course', 'pathway', 'week']),
     pathwayData: PropTypes.shape({ id: PropTypes.string }),
     courseData: PropTypes.shape({ moduleId: PropTypes.string, courseURL: PropTypes.string })
