@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { createGoals } from 'src/actions/goalsActions';
+import { updateUserModals } from 'src/actions/userActions';
 import { makeStyles } from '@material-ui/styles';
 import {
     Modal,
@@ -55,25 +56,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function GoalsSetup({ show, mode, pathwayData, courseData }) {
-    //helper to check if dates are from the same week
-    const startOfWeek = (_moment, _offset) => {
-        return _moment.add("days", _moment.weekday() * -1 + (_moment.weekday() >= 7 + _offset ? 7 + _offset : _offset));
-    }
-
-    const isSameWeek = (firstDay, secondDay, offset) => {
-        const firstMoment = moment(firstDay);
-        const secondMoment = moment(secondDay);
-
-        return startOfWeek(firstMoment, offset).isSame(startOfWeek(secondMoment, offset), "day");
-    }
-
-    //check if modal with dates was shown and then show if
-    const lastWeekGoalSaved = localStorage.getItem("lastWeekGoalSaved") || '0';
-    const dontShowModalAgain = !!localStorage.getItem("dontShowGoalModalAgain");
+    const user = JSON.parse(localStorage.getItem('userProfile'));
+    const lastWeekGoalSaved = user.weeklyGoalsLastAsked || '0';
+    const dontShowModalAgain =
+        mode == 'week' ?
+            user.neverAskWeeklyGoals :
+            (mode == 'course' ? user.neverAskCourseGoals : user.neverAskPathwayGoals);
     const classes = useStyles();
     const dispatch = useDispatch();
     const nowTime = (new Date).getTime();
-    const shownThisWeek = isSameWeek(nowTime, Number(lastWeekGoalSaved), 0);
+    const shownThisWeek = moment(nowTime).startOf('week').isSame(moment(Number(lastWeekGoalSaved)).startOf('week'), 'day');
     const [modal, setModal] = useState({
         open: true
     });
@@ -110,7 +102,15 @@ function GoalsSetup({ show, mode, pathwayData, courseData }) {
     };
 
     const handleDontShow = () => {
-        localStorage.setItem("dontShowGoalModalAgain", "true");
+        const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+        const onFailure = () => { alert('There was an error while sending asking again') };
+        if (mode == 'week') {
+            dispatch(updateUserModals(user.id, { neverAskWeeklyGoals: true }, onSuccess, onFailure));
+        } else if (mode == 'course') {
+            dispatch(updateUserModals(user.id, { neverAskCourseGoals: true }, onSuccess, onFailure));
+        } else if (mode == 'pathway') {
+            dispatch(updateUserModals(user.id, { neverAskPathwayGoals: true }, onSuccess, onFailure));
+        }
         setModal({
             open: false
         });
@@ -129,7 +129,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData }) {
             goalAdditions.pathwayId = pathwayData.id;
         }
 
-        return goals.map(goal =>  ({...goalAdditions, goal}));
+        return goals.map(goal => ({ ...goalAdditions, goal, user: user.id }));
     }
 
     const handleSave = () => {
@@ -137,7 +137,12 @@ function GoalsSetup({ show, mode, pathwayData, courseData }) {
             alert('There was an error while setting goals')
         }
         const onSuccess = (data) => {
-            localStorage.setItem("lastWeekGoalSaved", nowTime.toString());
+            if (mode == 'week') {
+                const updateObject = { weeklyGoalsLastAsked: nowTime };
+                const onUserUpdateSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+                const onUserUpdateFailure = () => { alert('There was an error while sending user last asked'); }
+                dispatch(updateUserModals(user.id, updateObject, onUserUpdateSuccess, onUserUpdateFailure));
+            }
         }
 
         const data = convertGoalsForBackend(goals);
@@ -195,7 +200,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData }) {
     return (
         <>
             {
-                ((dontShowModalAgain != "true" && !shownThisWeek) || show) &&
+                ((!dontShowModalAgain && (mode != 'week' || !shownThisWeek)) || show) &&
 
                 <Modal
                     className={classes.modal}

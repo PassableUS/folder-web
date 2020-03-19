@@ -9,6 +9,7 @@ import { CheckCircleOutline } from '@material-ui/icons';
 import { fetchGoalsByWeek, fetchGoalsByPathway, fetchGoalsByCourse } from '../actions/goalsActions'
 
 function GoalsList({ mode, pathwayData, courseData }) {
+  const user = JSON.parse(localStorage.getItem('userProfile'));
   const dispatch = useDispatch();
   const [goals, setGoals] = useState([]);
 
@@ -27,17 +28,20 @@ function GoalsList({ mode, pathwayData, courseData }) {
           dispatch(fetchGoalsByWeek(
             moment().startOf('week').startOf('day').toISOString(),
             moment().endOf('week').startOf('day').toISOString(),
+            user.id,
             onFailure,
             onSuccess));
         } else if (mode == 'course') { 
           dispatch(fetchGoalsByCourse(
             courseData.moduleId,
             courseData.courseURL.split('/'),
+            user.id,
             onFailure,
             onSuccess));
         } else if (mode == 'pathway') {
           dispatch(fetchGoalsByPathway(
             pathwayData.id,
+            user.id,
             onFailure,
             onSuccess));
         }

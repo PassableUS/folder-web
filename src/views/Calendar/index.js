@@ -100,6 +100,7 @@ function Calendar({
   weekScheduler,
   getSelectedDateTime
 }) {
+  const user = JSON.parse(localStorage.getItem('userProfile'));
   const classes = useStyles();
   const calendarRef = useRef(null);
   const theme = useTheme();
@@ -209,8 +210,8 @@ function Calendar({
   };
 
   const getStudyEvents = (events) => {
-    const daysToWork = localStorage.getItem("daysToWork");
-    const minutesToWork = localStorage.getItem("minutesToWork");
+    const daysToWork = user.studyDaysPerWeek;
+    const minutesToWork = user.studyMinutesPerDay;
 
     const studyTimes = getStudyTimes(events, daysToWork, minutesToWork);
 
@@ -240,7 +241,7 @@ function Calendar({
         }
 
         const onFailure = () => {};
-        dispatch(fetchCalendarEvents(onFailure, onSuccess));
+        dispatch(fetchCalendarEvents(user.id, onFailure, onSuccess));
       }
     };
 
