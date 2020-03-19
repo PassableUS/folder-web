@@ -39,7 +39,7 @@ function Description({ description, id, className, ...rest }) {
           size="small">
             Take course
           </Button>
-          <GoalsSetup mode="pathway" show={showGoalsModal} pathwayData={{id}} ></GoalsSetup>
+          <GoalsSetup mode="pathway" show={showGoalsModal} activateBybutton={true} pathwayData={{id}} ></GoalsSetup>
         </CardActions>
       </CardContent>
     </Card>

@@ -1,5 +1,7 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
+import { getUserData } from 'src/actions/userActions';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
@@ -32,7 +34,28 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard({ route }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchUserData = () => {
+      if (mounted) {
+        const oldData = JSON.parse(localStorage.getItem('userProfile'));
+        const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+        const onFailure = () => {alert('There was an error while getting user data')};
+        
+        dispatch(getUserData(oldData.id, onSuccess, onFailure));
+      }
+    };
+
+    fetchUserData();
+
+    return () => {
+      mounted = false;
+    };
+  }, [])
 
   return (
     <>

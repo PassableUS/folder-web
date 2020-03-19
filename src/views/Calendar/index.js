@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: colors.blueGrey[50]
     },
     '& .fc-event': {
-      backgroundColor: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,
       borderWidth: 2,
       opacity: 0.9,
@@ -101,6 +100,7 @@ function Calendar({
   weekScheduler,
   getSelectedDateTime
 }) {
+  const user = JSON.parse(localStorage.getItem('userProfile'));
   const classes = useStyles();
   const calendarRef = useRef(null);
   const theme = useTheme();
@@ -210,14 +210,22 @@ function Calendar({
   };
 
   const getStudyEvents = (events) => {
-    const daysToWork = localStorage.getItem("daysToWork");
-    const minutesToWork = localStorage.getItem("minutesToWork");
+    const daysToWork = user.studyDaysPerWeek;
+    const minutesToWork = user.studyMinutesPerDay;
 
     const studyTimes = getStudyTimes(events, daysToWork, minutesToWork);
 
     return studyTimes.map(time => {
-      time.rendering = 'background';
+      time.title = "Suggested study time";
+      time.color = theme.palette.secondary.main;
       return time;
+    })
+  }
+
+  const prepareOtherEvents = (events) => {
+    return events.map(event => {
+      event.color = theme.palette.primary.main;
+      return event;
     })
   }
 
@@ -228,11 +236,12 @@ function Calendar({
       if (mounted) {
         const onSuccess = (data) => {
           const studyEvents = getStudyEvents(data);
-          setEvents([...data, ...studyEvents]);
+          const otherEvents = prepareOtherEvents(data);
+          setEvents([...otherEvents, ...studyEvents]);
         }
 
         const onFailure = () => {};
-        dispatch(fetchCalendarEvents(onFailure, onSuccess));
+        dispatch(fetchCalendarEvents(user.id, onFailure, onSuccess));
       }
     };
 

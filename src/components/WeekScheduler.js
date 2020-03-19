@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { createCalendarEvents } from 'src/actions/calendarActions';
+import { updateUserModals } from 'src/actions/userActions';
 import { makeStyles } from '@material-ui/styles';
 import {
     Modal,
@@ -44,24 +45,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function WeekScheduler() {
-    //helper to check if dates are from the same week
-    const isSameWeek = (firstDay, secondDay, offset) => {
-        const firstMoment = moment(firstDay);
-        const secondMoment = moment(secondDay);
-
-        const startOfWeek = (_moment, _offset) => {
-            return _moment.add("days", _moment.weekday() * -1 + (_moment.weekday() >= 7 + _offset ? 7 + _offset : _offset));
-        }
-        return startOfWeek(firstMoment, offset).isSame(startOfWeek(secondMoment, offset), "day");
-    }
-
-    //check if modal with dates was shown and then show if
-    const lastWeekSchedulerSaved = localStorage.getItem("lastWeekSchedulerSaved") || '0';
-    const dontShowModalAgain = !!localStorage.getItem("dontShowSchedulerModalAgain");
+    const user = JSON.parse(localStorage.getItem('userProfile'));
+    const lastWeekSchedulerSaved = user.busyTimesLastAsked || 0;
+    const dontShowModalAgain = user.neverAskBusyTimes;
     const classes = useStyles();
     const dispatch = useDispatch();
     const nowTime = (new Date).getTime();
-    const shownThisWeek = isSameWeek(nowTime, Number(lastWeekSchedulerSaved), 0);
+    const shownThisWeek = moment(nowTime).startOf('week').isSame(moment(lastWeekSchedulerSaved).startOf('week'), 'day');
 
     const [modal, setModal] = useState({
         open: true
@@ -77,7 +67,9 @@ function WeekScheduler() {
     };
 
     const handleDontShow = () => {
-        localStorage.setItem("dontShowSchedulerModalAgain", "true");
+        const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+        const onFailure = () => {alert("There was an error updating ask again")}
+        dispatch(updateUserModals(user.id, {neverAskBusyTimes: true}, onSuccess, onFailure));
         setModal({
             open: false
         });
@@ -95,20 +87,29 @@ function WeekScheduler() {
         setMinutesToWork(event.target.value)
     }
 
+    const addUserIds = (events) => {
+        return events.map(event => {
+            return {...event, user: user.id};
+        })
+    }
 
     const handleSave = () => {
         const onFailure = () => {
             alert('There was an error while sending times');
         }
         const onSuccess = () => {
-            localStorage.setItem("lastWeekSchedulerSaved", nowTime.toString());
+            const updateObject = {
+                busyTimesLastAsked: nowTime,
+                studyDaysPerWeek: daysToWork,
+                studyMinutesPerDay: minutesToWork
+            }
+            const onUserUpdateSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+            const onUserUpdateFailure = () => {alert('There was an error while sending schedule')};
+            dispatch(updateUserModals(user.id, updateObject, onUserUpdateSuccess, onUserUpdateFailure))
         }
 
-        localStorage.setItem("daysToWork", daysToWork.toString());
-        localStorage.setItem("minutesToWork", minutesToWork.toString());
-
-
-        dispatch(createCalendarEvents(events, onFailure, onSuccess));
+        const eventsForBackend = addUserIds(events);
+        dispatch(createCalendarEvents(eventsForBackend, onFailure, onSuccess));
         setModal({
             open: false
         });
@@ -117,7 +118,7 @@ function WeekScheduler() {
     return (
         <>
             {
-                dontShowModalAgain != "true" && !shownThisWeek &&
+                !dontShowModalAgain && !shownThisWeek &&
 
                 <Modal
                     onClose={handleModalClose}
