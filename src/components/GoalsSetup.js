@@ -105,11 +105,11 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
         const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
         const onFailure = () => { alert('There was an error while sending asking again') };
         if (mode == 'week') {
-            dispatch(updateUserModals(user.id, { neverAskWeeklyGoals: true }, onSuccess, onFailure));
+            dispatch(updateUserModals({ neverAskWeeklyGoals: true }, onSuccess, onFailure));
         } else if (mode == 'course') {
-            dispatch(updateUserModals(user.id, { neverAskCourseGoals: true }, onSuccess, onFailure));
+            dispatch(updateUserModals({ neverAskCourseGoals: true }, onSuccess, onFailure));
         } else if (mode == 'pathway') {
-            dispatch(updateUserModals(user.id, { neverAskPathwayGoals: true }, onSuccess, onFailure));
+            dispatch(updateUserModals({ neverAskPathwayGoals: true }, onSuccess, onFailure));
         }
         setModal({
             open: false
@@ -141,7 +141,7 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
                 const updateObject = { weeklyGoalsLastAsked: nowTime };
                 const onUserUpdateSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
                 const onUserUpdateFailure = () => { alert('There was an error while sending user last asked'); }
-                dispatch(updateUserModals(user.id, updateObject, onUserUpdateSuccess, onUserUpdateFailure));
+                dispatch(updateUserModals(updateObject, onUserUpdateSuccess, onUserUpdateFailure));
             }
         }
 

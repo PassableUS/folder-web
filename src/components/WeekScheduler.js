@@ -69,7 +69,7 @@ function WeekScheduler() {
     const handleDontShow = () => {
         const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
         const onFailure = () => {alert("There was an error updating ask again")}
-        dispatch(updateUserModals(user.id, {neverAskBusyTimes: true}, onSuccess, onFailure));
+        dispatch(updateUserModals({neverAskBusyTimes: true}, onSuccess, onFailure));
         setModal({
             open: false
         });
@@ -105,7 +105,7 @@ function WeekScheduler() {
             }
             const onUserUpdateSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
             const onUserUpdateFailure = () => {alert('There was an error while sending schedule')};
-            dispatch(updateUserModals(user.id, updateObject, onUserUpdateSuccess, onUserUpdateFailure))
+            dispatch(updateUserModals(updateObject, onUserUpdateSuccess, onUserUpdateFailure))
         }
 
         const eventsForBackend = addUserIds(events);

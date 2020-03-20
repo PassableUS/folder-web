@@ -258,7 +258,7 @@ function Calendar({
         }
 
         const onFailure = () => {};
-        dispatch(fetchCalendarEvents(user.id, onFailure, onSuccess));
+        dispatch(fetchCalendarEvents(onFailure, onSuccess));
       }
     };
 
