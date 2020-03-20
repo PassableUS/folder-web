@@ -18,7 +18,8 @@ import {
   CardContent,
   colors,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Divider
 } from '@material-ui/core';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
@@ -29,7 +30,8 @@ import Page from 'src/components/Page';
 import AddEditEvent from './AddEditEvent';
 import Toolbar from './Toolbar';
 import { getStudyTimes } from './getStudyTimes';
-import WeekScheduler from '../../components/WeekScheduler';
+import WeekScheduler from 'src/components/WeekScheduler';
+import Alert from 'src/components/Alert';
 
 const useStyles = makeStyles((theme) => ({
   rootNonModal: {
@@ -93,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     marginTop: theme.spacing(3)
+  },
+  divider: {
+    marginBottom: theme.spacing(3)
   }
 }));
 
@@ -109,14 +114,20 @@ function Calendar({
   const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
   const [date, setDate] = useState(moment('2019-07-30 08:00:00').toDate());
   const [events, setEvents] = useState([]);
+  const [studyAlert, setStudyAlert] = useState(false);
   const [eventModal, setEventModal] = useState({
     open: false,
     event: null
   });
 
   const handleEventClick = (info) => {
-    const selected = events.find((event) => event.id === info.event.id);
-
+    let selected = events.find((event) => event.id === info.event.id);
+    
+    if (info.event.title == 'Suggested study time') {
+      selected = events.find((event) => 
+        moment(event.start).isSame(moment(info.event.start)) 
+        && moment(event.end).isSame(moment(info.event.end)));
+    }
     setEventModal({
       open: true,
       event: selected
@@ -124,17 +135,18 @@ function Calendar({
   };
 
   const handleDateSelect = (event) => {
-    if (!weekScheduler) return;
+    // if (!weekScheduler) return;
     const calendarApi = calendarRef.current.getApi();
     calendarApi.unselect();
 
     const selectedEvent = {
       id: uuid(),
       title: "Busy time",
-      allDay: false,
+      allDay: event.allDay,
       start: event.start,
       end: event.end
     };
+    console.log('event select', event)
 
     setEvents((currentEvents) => [...currentEvents, selectedEvent]);
     getSelectedDateTime(selectedEvent);
@@ -229,6 +241,10 @@ function Calendar({
     })
   }
 
+  const handleCloseStudyAlert = () => {
+    setStudyAlert(false);
+  }
+
   useEffect(() => {
     let mounted = true;
 
@@ -238,6 +254,7 @@ function Calendar({
           const studyEvents = getStudyEvents(data);
           const otherEvents = prepareOtherEvents(data);
           setEvents([...otherEvents, ...studyEvents]);
+          setStudyAlert(studyEvents.length < user.studyDaysPerWeek);
         }
 
         const onFailure = () => {};
@@ -273,6 +290,17 @@ function Calendar({
         !weekScheduler &&
         <WeekScheduler></WeekScheduler>
       }
+      {
+         studyAlert && 
+         <>
+          <Alert
+            className={classes.alert}
+            message="You don't have enough time to study your planned amount of days per week."
+            onClose={handleCloseStudyAlert}
+          />
+          <Divider className={classes.divider} />
+          </>
+        }
       <Container maxWidth={false}>
         {
           !weekScheduler &&
