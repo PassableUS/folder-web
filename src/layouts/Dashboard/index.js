@@ -42,11 +42,10 @@ function Dashboard({ route }) {
 
     const fetchUserData = () => {
       if (mounted) {
-        const oldData = JSON.parse(localStorage.getItem('userProfile'));
         const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
         const onFailure = () => {alert('There was an error while getting user data')};
         
-        dispatch(getUserData(oldData.id, onSuccess, onFailure));
+        dispatch(getUserData(onSuccess, onFailure));
       }
     };
 
