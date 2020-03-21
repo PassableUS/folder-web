@@ -18,10 +18,10 @@ export const createGoals = (goals, onFailure, onSuccess) => async (dispatch, get
   );
 };
 
-export const fetchGoalsByPathway = (pathwayId, userId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchGoalsByPathway = (pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
-      url: `/goals/pathway/${pathwayId}/${userId}`,
+      url: `/goals/pathway/${pathwayId}`,
       method: 'GET',
       onSuccess, // Passed in
       onFailure, // Passed in
@@ -30,10 +30,10 @@ export const fetchGoalsByPathway = (pathwayId, userId, onFailure, onSuccess) => 
   );
 };
 
-export const fetchGoalsByCourse = (moduleId, courseURL, userId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchGoalsByCourse = (moduleId, courseURL, onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
-      url: `/goals/course/${moduleId}/${courseURL}/${userId}`,
+      url: `/goals/course/${moduleId}/${courseURL}`,
       method: 'GET',
       onSuccess, // Passed in
       onFailure, // Passed in
@@ -42,10 +42,10 @@ export const fetchGoalsByCourse = (moduleId, courseURL, userId, onFailure, onSuc
   );
 };
 
-export const fetchGoalsByWeek = (startDate, endDate, userId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchGoalsByWeek = (startDate, endDate, onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
-      url: `/goals/week/${startDate}/${endDate}/${userId}`,
+      url: `/goals/week/${startDate}/${endDate}`,
       method: 'GET',
       onSuccess, // Passed in
       onFailure, // Passed in

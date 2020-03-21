@@ -18,10 +18,10 @@ export const createCalendarEvents = (calendarEvents, onFailure, onSuccess) => as
   );
 };
 
-export const fetchCalendarEvents = (userId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchCalendarEvents = (onFailure, onSuccess) => async (dispatch, getState) => {
   dispatch(
     apiAction({
-      url: `/calendar/${userId}`,
+      url: `/calendar`,
       method: 'GET',
       onSuccess, // Passed in
       onFailure, // Passed in
