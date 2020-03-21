@@ -11,7 +11,7 @@ export const createModule = (
 ) => async dispatch => {
   dispatch(
     apiAction({
-      url: '/notes',
+      url: '/modules',
       method: 'POST',
       data: moduleInformation,
       onSuccess, // Passed in
