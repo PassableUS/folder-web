@@ -11,12 +11,16 @@ export const getUserData = (onSuccess, onFailure) => async dispatch => {
       method: 'GET',
       onSuccess, // Passed in
       onFailure, // Passed in
-      label: FETCH_USER,
+      label: FETCH_USER
     })
   );
 };
 
-export const updateUserModals = (updateObject, onSuccess, onFailure) => async dispatch => {
+export const updateUserModals = (
+  updateObject,
+  onSuccess,
+  onFailure
+) => async dispatch => {
   dispatch(
     apiAction({
       url: '/users/modalssetup',
@@ -24,7 +28,7 @@ export const updateUserModals = (updateObject, onSuccess, onFailure) => async di
       data: updateObject,
       onSuccess, // Passed in
       onFailure, // Passed in
-      label: UPDATE_USER_MODAL,
+      label: UPDATE_USER_MODAL
     })
   );
 };
