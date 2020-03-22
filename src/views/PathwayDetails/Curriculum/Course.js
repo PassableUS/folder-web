@@ -105,7 +105,11 @@ function Course({ course, className, moduleId, ...rest }) {
             <GoalsSetup mode="course" show={showGoalsModal} activateBybutton={true} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
           </CardActions>
         </div>
-        <GoalsList mode="course" courseData={{moduleId, courseURL: course.link}}></GoalsList>
+        <Card>
+          <CardContent>
+            <GoalsList mode="course" courseData={{moduleId, courseURL: course.link}}></GoalsList>
+          </CardContent>
+        </Card>
       </Card>
     </div>
   );
