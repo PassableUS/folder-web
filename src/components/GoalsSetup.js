@@ -129,7 +129,10 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
             goalAdditions.pathwayId = pathwayData.id;
         }
 
-        return goals.map(goal => ({ ...goalAdditions, goal, user: user.id }));
+        return goals.reduce((acc, cur) => {
+            if (cur.length == 0) return acc;
+            return acc.concat({ ...goalAdditions, goal: cur, user: user.id });
+        }, []);
     }
 
     const handleSave = () => {
