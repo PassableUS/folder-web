@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { apiAction } from './axiosActions';
 
 export const UPDATE_USER_MODAL = 'UPDATE_USER_MODAL';
