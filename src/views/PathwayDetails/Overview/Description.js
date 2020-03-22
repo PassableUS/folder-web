@@ -30,17 +30,21 @@ function Description({ description, id, className, ...rest }) {
       className={clsx(classes.root, className)}
     >
       <CardContent>
-        <GoalsList mode="pathway" pathwayData={{id}}></GoalsList>
         <Markdown source={description} />
-        <CardActions>
-          <Button 
-          onClick={takePathway}
-          color="primary"
-          size="small">
-            Take course
-          </Button>
-          <GoalsSetup mode="pathway" show={showGoalsModal} activateBybutton={true} pathwayData={{id}} ></GoalsSetup>
-        </CardActions>
+        <Card>
+          <CardContent>
+            <GoalsList mode="pathway" pathwayData={{id}}></GoalsList>
+          </CardContent>
+          <CardActions>
+            <Button 
+            onClick={takePathway}
+            color="primary"
+            size="small">
+              Take pathway
+            </Button>
+            <GoalsSetup mode="pathway" show={showGoalsModal} activateBybutton={true} pathwayData={{id}} ></GoalsSetup>
+          </CardActions>
+        </Card>
       </CardContent>
     </Card>
   );

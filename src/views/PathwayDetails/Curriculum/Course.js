@@ -27,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
   card: {
     marginLeft: theme.spacing(2),
     flex: 1,
+    display: 'flex',
+    flexDirection: "row",
+    flexWrap: "wrap"
+    // '@media only screen and (min-width : 1025px)': {
+    // }
+  },
+  courseInfo: {
+    marginRight: "auto"
   },
   linkContainer: {
     paddingTop: theme.spacing(1)
@@ -42,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatarIndigo: {
     backgroundImage: gradients.indigo
-  }
+  },
 }));
 
 function Course({ course, className, moduleId, ...rest }) {
@@ -68,34 +76,36 @@ function Course({ course, className, moduleId, ...rest }) {
     >
       {avatars.contest_created}
       <Card className={classes.card} variant="outlined">
-        <CardHeader
-          className={classes.name}
-          title={course.name}
-          titleTypographyProps={{
-            variant: 'h4'
-          }}
-        />
-        <CardContent
-          className={classes.linkContainer}
-        >
-          <GoalsList mode="course" courseData={{moduleId, courseURL: course.link}}></GoalsList>
-          <Link
-            className={classes.link}
-            href={course.link}
-            variant="h5"
+        <div className={classes.courseInfo}>
+          <CardHeader
+            className={classes.name}
+            title={course.name}
+            titleTypographyProps={{
+              variant: 'h4'
+            }}
+          />
+          <CardContent
+            className={classes.linkContainer}
           >
-            View Course
-          </Link>
-        </CardContent>
-        <CardActions>
-          <Button 
-          onClick={takeCourse}
-          color="primary"
-          size="small">
-            Take course
-          </Button>
-          <GoalsSetup mode="course" show={showGoalsModal} activateBybutton={true} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
-        </CardActions>
+              <Link
+                className={classes.link}
+                href={course.link}
+                variant="h5"
+              >
+                View Course
+              </Link>
+          </CardContent>
+          <CardActions>
+            <Button 
+            onClick={takeCourse}
+            color="primary"
+            size="small">
+              Take course
+            </Button>
+            <GoalsSetup mode="course" show={showGoalsModal} activateBybutton={true} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
+          </CardActions>
+        </div>
+        <GoalsList mode="course" courseData={{moduleId, courseURL: course.link}}></GoalsList>
       </Card>
     </div>
   );
