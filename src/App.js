@@ -15,6 +15,7 @@ import CookiesNotification from './components/CookiesNotification';
 import ScrollReset from './components/ScrollReset';
 import StylesProvider from './components/StylesProvider';
 import SessionAlert from './components/SessionAlert';
+import SetupUtility from './components/SetupUtility';
 // import DirectionToggle from './components/DirectionToggle';
 import './mixins/chartjs';
 import './mixins/moment';
@@ -44,6 +45,7 @@ function App() {
               <ScrollReset />
               <GoogleAnalytics />
               <CookiesNotification />
+              <SetupUtility />
               <SessionAlert />
               {/* <DirectionToggle
                 direction={direction}
