@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Grid } from '@material-ui/core';
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button
+} from '@material-ui/core';
+import GoalsSetup from 'src/components/GoalsSetup';
+import GoalsList from 'src/components/GoalsList';
 import Description from './Description';
 // import Deliverables from './Deliverables';
 // import Holder from './Holder';
 // import Members from './Members';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   deliverables: {
     marginTop: theme.spacing(3)
@@ -20,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Overview({ pathway, className, ...rest }) {
   const classes = useStyles();
+  const [showGoalsModal, setGoalsModal] = useState(false);
+  const takePathway = () => {
+    setGoalsModal(true);
+  };
 
   return (
     <Grid
@@ -28,21 +40,27 @@ function Overview({ pathway, className, ...rest }) {
       container
       spacing={3}
     >
-      <Grid
-        item
-        lg={8}
-        xl={9}
-        xs={12}
-      >
-        <Description description={pathway.description} id={pathway.id} />
+      <Grid item lg={8} xl={9} xs={12}>
+        <Description description={pathway.description} />
         {/* <Deliverables className={classes.deliverables} /> */}
       </Grid>
-      <Grid
-        item
-        lg={4}
-        xl={3}
-        xs={12}
-      >
+      <Grid item lg={4} xl={3} xs={12}>
+        <Card>
+          <CardContent>
+            <GoalsList mode="pathway" pathwayData={{ id: pathway.id }} />
+          </CardContent>
+          <CardActions>
+            <Button onClick={takePathway} color="primary" size="small">
+              Take pathway
+            </Button>
+            <GoalsSetup
+              mode="pathway"
+              show={showGoalsModal}
+              activateBybutton
+              pathwayData={{ id: pathway.id }}
+            />
+          </CardActions>
+        </Card>
         {/* <Holder project={project} />
         <Members
           className={classes.members}

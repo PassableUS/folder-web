@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { useHistory } from 'react-router';
 // import { logout } from 'src/actions/sessionActions';
 
-const SessionAlert = () => {
+const SetupUtility = () => {
   const registrationStatus = useSelector(
     state => state.session.user.registrationStatus
   );
@@ -18,7 +18,7 @@ const SessionAlert = () => {
   const dialogOpen = !(
     registrationStatus === 'finished' || !registrationStatus
   );
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   return (
     <Dialog
@@ -38,4 +38,4 @@ const SessionAlert = () => {
   );
 };
 
-export default SessionAlert;
+export default SetupUtility;

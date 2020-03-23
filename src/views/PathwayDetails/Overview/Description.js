@@ -1,50 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { 
-  Card,
-  CardContent,
-  CardActions,
-  Button
-} from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
 import Markdown from 'src/components/Markdown';
-import GoalsSetup from 'src/components/GoalsSetup';
-import GoalsList from 'src/components/GoalsList';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-function Description({ description, id, className, ...rest }) {
+function Description({ description, className, ...rest }) {
   const classes = useStyles();
-  const [ showGoalsModal, setGoalsModal ] = useState(false);
-  
-  const takePathway = () => {
-    setGoalsModal(true);
-  }
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
         <Markdown source={description} />
-        <Card>
-          <CardContent>
-            <GoalsList mode="pathway" pathwayData={{id}}></GoalsList>
-          </CardContent>
-          <CardActions>
-            <Button 
-            onClick={takePathway}
-            color="primary"
-            size="small">
-              Take pathway
-            </Button>
-            <GoalsSetup mode="pathway" show={showGoalsModal} activateBybutton={true} pathwayData={{id}} ></GoalsSetup>
-          </CardActions>
-        </Card>
       </CardContent>
     </Card>
   );
