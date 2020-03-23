@@ -3,8 +3,13 @@ import { apiAction } from './axiosActions';
 export const CREATE_PATHWAY = 'CREATE_PATHWAY';
 export const FETCH_PATHWAY = 'FETCH_PATHWAY';
 export const FETCH_PATHWAYS = 'FETCH_PATHWAYS';
+export const JOIN_PATHWAY = 'JOIN_PATHWAY';
 
-export const createPathway = (pathwayInformation, onFailure, onSuccess) => async (dispatch, getState) => {
+export const createPathway = (
+  pathwayInformation,
+  onFailure,
+  onSuccess
+) => async (dispatch, getState) => {
   dispatch(
     apiAction({
       url: '/pathways',
@@ -17,7 +22,10 @@ export const createPathway = (pathwayInformation, onFailure, onSuccess) => async
   );
 };
 
-export const fetchPathway = (pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchPathway = (pathwayId, onFailure, onSuccess) => async (
+  dispatch,
+  getState
+) => {
   dispatch(
     apiAction({
       url: `/pathways/${pathwayId}`,
@@ -29,7 +37,10 @@ export const fetchPathway = (pathwayId, onFailure, onSuccess) => async (dispatch
   );
 };
 
-export const fetchPathways = (onFailure, onSuccess) => async (dispatch, getState) => {
+export const fetchPathways = (onFailure, onSuccess) => async (
+  dispatch,
+  getState
+) => {
   dispatch(
     apiAction({
       url: '/pathways',
@@ -41,7 +52,12 @@ export const fetchPathways = (onFailure, onSuccess) => async (dispatch, getState
   );
 };
 
-export const addModuleToPathway = (moduleId, pathwayId, onFailure, onSuccess) => async (dispatch, getState) => {
+export const addModuleToPathway = (
+  moduleId,
+  pathwayId,
+  onFailure,
+  onSuccess
+) => async (dispatch, getState) => {
   dispatch(
     apiAction({
       url: `/pathways/${pathwayId}`,
@@ -56,6 +72,23 @@ export const addModuleToPathway = (moduleId, pathwayId, onFailure, onSuccess) =>
   );
 };
 
+export const joinPathway = (pathwayId, onFailure, onSuccess) => async (
+  dispatch,
+  getState
+) => {
+  dispatch(
+    apiAction({
+      url: `/pathways/join`,
+      method: 'POST',
+      data: {
+        pathwayId
+      },
+      onSuccess, // Passed in
+      onFailure, // Passed in
+      label: JOIN_PATHWAY
+    })
+  );
+};
 
 // const bearerToken = getState().session.bearerToken
 // alert(bearerToken)

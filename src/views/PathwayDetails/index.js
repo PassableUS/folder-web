@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Container,
-  Tabs,
-  Tab,
-  Divider,
-  colors
-} from '@material-ui/core';
+import { Container, Tabs, Tab, Divider, colors } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Alert from 'src/components/Alert';
 import { fetchPathway } from 'src/actions/pathwayActions';
@@ -17,7 +11,7 @@ import Header from './Header';
 import Overview from './Overview';
 import Curriculum from './Curriculum';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3)
@@ -44,7 +38,7 @@ function PathwayDetails({ match, history }) {
   const [pathway, setPathway] = useState(null);
   const tabs = [
     { value: 'overview', label: 'Overview' },
-    { value: 'curriculum', label: 'Curriculum' },
+    { value: 'curriculum', label: 'Curriculum' }
     // { value: 'activity', label: 'Activity' },
     // { value: 'subscribers', label: 'Subscribers' }
   ];
@@ -58,7 +52,13 @@ function PathwayDetails({ match, history }) {
 
   useEffect(() => {
     // TODO: Improve the handler for failure
-    dispatch(fetchPathway(id, () => console.log('There was an error fetching the pathway.'), (data) => setPathway(data)));
+    dispatch(
+      fetchPathway(
+        id,
+        () => console.log('There was an error fetching the pathway.'),
+        data => setPathway(data)
+      )
+    );
   }, [dispatch, id]);
 
   if (!tab) {
@@ -66,7 +66,7 @@ function PathwayDetails({ match, history }) {
   }
 
   // Redirects to 404 if the user tries to access a tab that does not exist
-  if (!tabs.find((t) => t.value === tab)) {
+  if (!tabs.find(t => t.value === tab)) {
     return <Redirect to="/errors/error-404" />;
   }
 
@@ -75,12 +75,8 @@ function PathwayDetails({ match, history }) {
     return null;
   }
 
-
   return (
-    <Page
-      className={classes.root}
-      title="Pathway Details"
-    >
+    <Page className={classes.root} title="Pathway Details">
       <Container maxWidth="lg">
         <Header pathway={pathway} />
         <Tabs
@@ -90,12 +86,8 @@ function PathwayDetails({ match, history }) {
           value={tab}
           variant="scrollable"
         >
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.value}
-              label={tab.label}
-              value={tab.value}
-            />
+          {tabs.map(tab => (
+            <Tab key={tab.value} label={tab.label} value={tab.value} />
           ))}
         </Tabs>
         <Divider className={classes.divider} />
