@@ -102,7 +102,7 @@ function Course({ course, className, moduleId, ...rest }) {
             size="small">
               Take course
             </Button>
-            <GoalsSetup mode="course" show={showGoalsModal} activateBybutton={true} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
+            <GoalsSetup mode="course" show={showGoalsModal} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
           </CardActions>
         </div>
         <Card>
