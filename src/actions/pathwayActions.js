@@ -3,6 +3,7 @@ import { apiAction } from './axiosActions';
 export const CREATE_PATHWAY = 'CREATE_PATHWAY';
 export const FETCH_PATHWAY = 'FETCH_PATHWAY';
 export const FETCH_PATHWAYS = 'FETCH_PATHWAYS';
+export const FETCH_ENROLLED_PATHWAYS = 'FETCH_ENROLLED_PATHWAYS';
 export const JOIN_PATHWAY = 'JOIN_PATHWAY';
 
 export const createPathway = (
@@ -48,6 +49,21 @@ export const fetchPathways = (onFailure, onSuccess) => async (
       onSuccess, // Passed in
       onFailure, // Passed in
       label: FETCH_PATHWAYS
+    })
+  );
+};
+
+export const fetchEnrolledPathways = (onFailure, onSuccess) => async (
+  dispatch,
+  getState
+) => {
+  dispatch(
+    apiAction({
+      url: '/pathways/user/enrolled',
+      method: 'GET',
+      onSuccess, // Passed in
+      onFailure, // Passed in
+      label: FETCH_ENROLLED_PATHWAYS
     })
   );
 };

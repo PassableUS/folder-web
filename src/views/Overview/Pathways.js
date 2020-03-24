@@ -7,9 +7,9 @@ import { Typography, Button } from '@material-ui/core';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import PathwayCard from 'src/components/PathwayCard';
 import { useDispatch } from 'react-redux';
-import { fetchPathways } from 'src/actions/pathwayActions';
+import { fetchEnrolledPathways } from 'src/actions/pathwayActions';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   header: {
     display: 'flex',
@@ -39,38 +39,26 @@ function Pathways({ className, ...rest }) {
   const [pathways, setPathways] = useState([]);
   const dispatch = useDispatch();
 
-  const onSuccess = (data) => setPathways(data);
+  const onSuccess = data => setPathways(data);
   const onFailure = () => console.log('Unable to fetch pathways.');
 
   useEffect(() => {
-    dispatch(fetchPathways(onFailure, onSuccess));
+    dispatch(fetchEnrolledPathways(onFailure, onSuccess));
   }, [dispatch]);
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.header}>
-        <Typography
-          className={classes.title}
-          variant="h5"
-        >
-          Active Pathways
+        <Typography className={classes.title} variant="h5">
+          Your Pathways
         </Typography>
-        <Button
-          component={RouterLink}
-          to="/pathways"
-        >
+        <Button component={RouterLink} to="/pathways">
           See all
           <KeyboardArrowRightIcon className={classes.arrowIcon} />
         </Button>
       </div>
-      {pathways.map((pathway) => (
-        <PathwayCard
-          key={pathway.id}
-          pathway={pathway}
-        />
+      {pathways.map(pathway => (
+        <PathwayCard key={pathway.id} pathway={pathway} />
       ))}
     </div>
   );
