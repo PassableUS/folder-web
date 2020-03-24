@@ -88,19 +88,16 @@ function GoalsList({ mode, pathwayData, courseData }) {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            {goals.length &&
+            {
+              goals.length > 0 &&
               getGoalsTitle()
             }
             {
               goals.length == 0 &&
               <>
-                <Typography
-                  // className={classes.subHeader}
-                  component="h5"
-                  variant="h5"
-                >
-                  You have 0 goals setuped
-                </Typography>
+                <div>
+                  You have 0 goals set
+                </div>
                 <Button
                   onClick={callGoalsSetup}
                   color="primary"
