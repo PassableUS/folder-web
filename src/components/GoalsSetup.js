@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
+function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     const user = JSON.parse(localStorage.getItem('userProfile'));
     const lastWeekGoalSaved = user.weeklyGoalsLastAsked || '0';
     const dontShowModalAgain =
@@ -99,9 +99,16 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
         setModal({
             open: false
         });
+        
+        if (onModalClose) {
+            onModalClose();
+        }
     };
 
     const handleDontShow = () => {
+        if (onModalClose) {
+            onModalClose();
+        }
         const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
         const onFailure = () => { alert('There was an error while sending asking again') };
         if (mode == 'week') {
@@ -116,6 +123,7 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
         });
     }
 
+    
     const convertGoalsForBackend = (goals) => {
         const goalAdditions = {};
 
@@ -128,14 +136,17 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
         } else if (mode == 'pathway') {
             goalAdditions.pathwayId = pathwayData.id;
         }
-
+        
         return goals.reduce((acc, cur) => {
             if (cur.length == 0) return acc;
             return acc.concat({ ...goalAdditions, goal: cur, user: user.id });
         }, []);
     }
-
+    
     const handleSave = () => {
+        if (onModalClose) {
+            onModalClose();
+        }
         const onFailure = () => {
             alert('There was an error while setting goals')
         }
@@ -147,13 +158,19 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
                 dispatch(updateUserModals(updateObject, onUserUpdateSuccess, onUserUpdateFailure));
             }
         }
-
+        
         const data = convertGoalsForBackend(goals);
         dispatch(createGoals(data, onFailure, onSuccess));
         setModal({
             open: false
         });
     }
+
+    useEffect(() => {
+        if ([true, false].includes(show)) {
+            setModal({open: show});        
+        }
+        }, [show]);
 
     useEffect(() => {
         handleAddInput(numberOfInitialFields);
@@ -203,7 +220,7 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
     return (
         <>
             {
-                ((!dontShowModalAgain && (mode != 'week' || !shownThisWeek)) && (show || !activateBybutton)) &&
+                (!dontShowModalAgain || show) && (mode != 'week' || !shownThisWeek) &&
 
                 <Modal
                     className={classes.modal}
@@ -250,10 +267,10 @@ function GoalsSetup({ show, activateBybutton, mode, pathwayData, courseData }) {
 
 GoalsSetup.propTypes = {
     show: PropTypes.bool,
-    activateBybutton: PropTypes.bool,
     mode: PropTypes.oneOf(['course', 'pathway', 'week']),
     pathwayData: PropTypes.shape({ id: PropTypes.string }),
-    courseData: PropTypes.shape({ moduleId: PropTypes.string, courseURL: PropTypes.string })
+    courseData: PropTypes.shape({ moduleId: PropTypes.string, courseURL: PropTypes.string }),
+    onModalClose: PropTypes.func
 };
 
 export default GoalsSetup;

@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import {
-  List, ListSubheader, ListItem, ListItemIcon, ListItemText
+  List, ListSubheader, ListItem, ListItemIcon, ListItemText, Button, Typography
 } from '@material-ui/core';
 import { CheckCircleOutline } from '@material-ui/icons';
 import { fetchGoalsByWeek, fetchGoalsByPathway, fetchGoalsByCourse } from '../actions/goalsActions'
+import GoalsSetup from './GoalsSetup';
 
 function GoalsList({ mode, pathwayData, courseData }) {
-  const user = JSON.parse(localStorage.getItem('userProfile'));
   const dispatch = useDispatch();
   const [goals, setGoals] = useState([]);
+  const [showGoalsSetup, setShowGoalsSetup] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -30,7 +31,7 @@ function GoalsList({ mode, pathwayData, courseData }) {
             moment().endOf('week').startOf('day').toISOString(),
             onFailure,
             onSuccess));
-        } else if (mode == 'course') { 
+        } else if (mode == 'course') {
           dispatch(fetchGoalsByCourse(
             courseData.moduleId,
             courseData.courseURL.split('/'),
@@ -61,6 +62,14 @@ function GoalsList({ mode, pathwayData, courseData }) {
     return titles[mode];
   }
 
+  const callGoalsSetup = () => {
+    setShowGoalsSetup(true);
+  }
+
+  const handleCloseModal = () => {
+    setShowGoalsSetup(false);
+  }
+
   const spawnGoalsListItems = () => {
     return goals.map((goal, i) => (
       <ListItem key={i.toString()}>
@@ -73,19 +82,43 @@ function GoalsList({ mode, pathwayData, courseData }) {
   }
 
   return (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          { goals.length &&
-            getGoalsTitle()
-          }
-        </ListSubheader>
+    <>
+      <List
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            {goals.length &&
+              getGoalsTitle()
+            }
+            {
+              goals.length == 0 &&
+              <>
+                <Typography
+                  // className={classes.subHeader}
+                  component="h5"
+                  variant="h5"
+                >
+                  You have 0 goals setuped
+                </Typography>
+                <Button
+                  onClick={callGoalsSetup}
+                  color="primary"
+                  size="small">
+                  Set Goals
+                </Button>
+              </>
+            }
+          </ListSubheader>
+        }
+      >
+        {spawnGoalsListItems()}
+      </List>
+      {
+        showGoalsSetup &&
+        <GoalsSetup mode={mode} show={showGoalsSetup} pathwayData={pathwayData} courseData={courseData} onModalClose={handleCloseModal}></GoalsSetup>
       }
-    >
-      {spawnGoalsListItems()}
-    </List>
+    </>
   );
 }
 
