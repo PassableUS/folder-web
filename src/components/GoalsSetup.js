@@ -22,11 +22,6 @@ import {
 import { HighlightOff, AddCircle } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     card: {
         display: "flex",
         flexDirection: "column",
@@ -66,9 +61,6 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     const dispatch = useDispatch();
     const nowTime = (new Date).getTime();
     const shownThisWeek = moment(nowTime).startOf('week').isSame(moment(Number(lastWeekGoalSaved)).startOf('week'), 'day');
-    const [modal, setModal] = useState({
-        open: true
-    });
     const [goals, setGoals] = useState([]);
 
     const numberOfInitialFields = 3;
@@ -95,21 +87,11 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
         setGoals(values);
     }
 
-    const handleModalClose = () => {
-        setModal({
-            open: false
-        });
-        
-        if (onModalClose) {
-            onModalClose();
-        }
-    };
-
     const handleDontShow = () => {
         if (onModalClose) {
             onModalClose();
         }
-        const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+        const onSuccess = (data) => { localStorage.setItem('userProfile', JSON.stringify(data)) };
         const onFailure = () => { alert('There was an error while sending asking again') };
         if (mode == 'week') {
             dispatch(updateUserModals({ neverAskWeeklyGoals: true }, onSuccess, onFailure));
@@ -118,12 +100,9 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
         } else if (mode == 'pathway') {
             dispatch(updateUserModals({ neverAskPathwayGoals: true }, onSuccess, onFailure));
         }
-        setModal({
-            open: false
-        });
     }
 
-    
+
     const convertGoalsForBackend = (goals) => {
         const goalAdditions = {};
 
@@ -136,13 +115,13 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
         } else if (mode == 'pathway') {
             goalAdditions.pathwayId = pathwayData.id;
         }
-        
+
         return goals.reduce((acc, cur) => {
             if (cur.length == 0) return acc;
             return acc.concat({ ...goalAdditions, goal: cur, user: user.id });
         }, []);
     }
-    
+
     const handleSave = () => {
         if (onModalClose) {
             onModalClose();
@@ -153,24 +132,15 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
         const onSuccess = (data) => {
             if (mode == 'week') {
                 const updateObject = { weeklyGoalsLastAsked: nowTime };
-                const onUserUpdateSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
+                const onUserUpdateSuccess = (data) => { localStorage.setItem('userProfile', JSON.stringify(data)) };
                 const onUserUpdateFailure = () => { alert('There was an error while sending user last asked'); }
                 dispatch(updateUserModals(updateObject, onUserUpdateSuccess, onUserUpdateFailure));
             }
         }
-        
+
         const data = convertGoalsForBackend(goals);
         dispatch(createGoals(data, onFailure, onSuccess));
-        setModal({
-            open: false
-        });
     }
-
-    useEffect(() => {
-        if ([true, false].includes(show)) {
-            setModal({open: show});        
-        }
-        }, [show]);
 
     useEffect(() => {
         handleAddInput(numberOfInitialFields);
@@ -220,46 +190,39 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     return (
         <>
             {
-                (!dontShowModalAgain || show) && (mode != 'week' || !shownThisWeek) &&
-
-                <Modal
-                    className={classes.modal}
-                    onClose={handleModalClose}
-                    open={modal.open}
-                >
-                    <Card className={classes.card}>
-                        <CardHeader title={getModalTitle()}>
-                        </CardHeader>
-                        <CardContent>
-                            <FormGroup>
-                                {
-                                    spawnTextFields()
-                                }
-                                {
-                                    goals.length < 5 &&
-                                    <IconButton
-                                        className={classes.addButton}
-                                        size="medium"
-                                        edge="end"
-                                        color="primary"
-                                        aria-label="Add goal"
-                                        onClick={() => handleAddInput(1)}
-                                    >
-                                        <AddCircle />
-                                    </IconButton>
-                                }
-                            </FormGroup>
-                        </CardContent>
-                        <CardActions>
-                            <Button onClick={handleDontShow} size="small" className={classes.actionButton}>
-                                Don't show again
+                ((!dontShowModalAgain && user.registrationStatus == "finished") || show) && (mode != 'week' || !shownThisWeek) &&
+                <Card className={classes.card}>
+                    <CardHeader title={getModalTitle()}>
+                    </CardHeader>
+                    <CardContent>
+                        <FormGroup>
+                            {
+                                spawnTextFields()
+                            }
+                            {
+                                goals.length < 5 &&
+                                <IconButton
+                                    className={classes.addButton}
+                                    size="medium"
+                                    edge="end"
+                                    color="primary"
+                                    aria-label="Add goal"
+                                    onClick={() => handleAddInput(1)}
+                                >
+                                    <AddCircle />
+                                </IconButton>
+                            }
+                        </FormGroup>
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick={handleDontShow} size="small" className={classes.actionButton}>
+                            Don't show again
                         </Button>
-                            <Button onClick={handleSave} size="small" color="primary" className={classes.actionButton}>
-                                Save
+                        <Button onClick={handleSave} size="small" color="primary" className={classes.actionButton}>
+                            Save
                         </Button>
-                        </CardActions>
-                    </Card>
-                </Modal>
+                    </CardActions>
+                </Card>
             }
         </>
     );

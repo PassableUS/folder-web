@@ -9,7 +9,7 @@ import {
   CardActions,
   Button
 } from '@material-ui/core';
-import GoalsSetup from 'src/components/GoalsSetup';
+import GoalsSetupModal from 'src/components/GoalsSetupModal';
 import GoalsList from 'src/components/GoalsList';
 import Description from './Description';
 // import Deliverables from './Deliverables';
@@ -53,7 +53,7 @@ function Overview({ pathway, className, ...rest }) {
             <Button onClick={takePathway} color="primary" size="small">
               Take pathway
             </Button>
-            <GoalsSetup
+            <GoalsSetupModal
               mode="pathway"
               show={showGoalsModal}
               activateBybutton

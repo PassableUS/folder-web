@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import { CheckCircleOutline } from '@material-ui/icons';
 import { fetchGoalsByWeek, fetchGoalsByPathway, fetchGoalsByCourse } from '../actions/goalsActions'
-import GoalsSetup from './GoalsSetup';
+import GoalsSetupModal from './GoalsSetupModal';
 
 function GoalsList({ mode, pathwayData, courseData }) {
   const dispatch = useDispatch();
@@ -113,7 +113,7 @@ function GoalsList({ mode, pathwayData, courseData }) {
       </List>
       {
         showGoalsSetup &&
-        <GoalsSetup mode={mode} show={showGoalsSetup} pathwayData={pathwayData} courseData={courseData} onModalClose={handleCloseModal}></GoalsSetup>
+        <GoalsSetupModal mode={mode} show={showGoalsSetup} pathwayData={pathwayData} courseData={courseData} onModalClose={handleCloseModal}></GoalsSetupModal>
       }
     </>
   );
