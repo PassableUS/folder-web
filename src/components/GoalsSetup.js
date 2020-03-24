@@ -220,7 +220,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     return (
         <>
             {
-                (!dontShowModalAgain || show) && (mode != 'week' || !shownThisWeek) &&
+                ((!dontShowModalAgain && user.registrationStatus == "finished") || show) && (mode != 'week' || !shownThisWeek) &&
 
                 <Modal
                     className={classes.modal}

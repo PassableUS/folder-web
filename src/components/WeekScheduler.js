@@ -118,7 +118,7 @@ function WeekScheduler() {
     return (
         <>
             {
-                !dontShowModalAgain && !shownThisWeek &&
+                (!dontShowModalAgain && !shownThisWeek && user.registrationStatus == "finished") &&
 
                 <Modal
                     onClose={handleModalClose}
