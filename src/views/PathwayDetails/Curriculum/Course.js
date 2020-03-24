@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import gradients from 'src/utils/gradients';
-import GoalsSetup from 'src/components/GoalsSetup';
+import GoalsSetupModal from 'src/components/GoalsSetupModal';
 import GoalsList from 'src/components/GoalsList';
 
 const useStyles = makeStyles((theme) => ({
@@ -102,7 +102,7 @@ function Course({ course, className, moduleId, ...rest }) {
             size="small">
               Take course
             </Button>
-            <GoalsSetup mode="course" show={showGoalsModal} courseData={{moduleId, courseURL: course.link}}></GoalsSetup>
+            <GoalsSetupModal mode="course" show={showGoalsModal} courseData={{moduleId, courseURL: course.link}}></GoalsSetupModal>
           </CardActions>
         </div>
         <Card>

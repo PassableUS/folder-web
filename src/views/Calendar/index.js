@@ -30,7 +30,7 @@ import Page from 'src/components/Page';
 import AddEditEvent from './AddEditEvent';
 import Toolbar from './Toolbar';
 import { getStudyTimes } from './getStudyTimes';
-import WeekScheduler from 'src/components/WeekScheduler';
+import WeekSchedulerModal from 'src/components/WeekSchedulerModal';
 import Alert from 'src/components/Alert';
 
 const useStyles = makeStyles((theme) => ({
@@ -288,7 +288,7 @@ function Calendar({
     >
       {
         !weekScheduler &&
-        <WeekScheduler></WeekScheduler>
+        <WeekSchedulerModal></WeekSchedulerModal>
       }
       {
          studyAlert && 

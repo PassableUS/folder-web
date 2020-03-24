@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { createCalendarEvents } from 'src/actions/calendarActions';
 import { updateUserModals } from 'src/actions/userActions';
 import { makeStyles } from '@material-ui/styles';
 import {
-    Modal,
     Card,
     Typography,
     CardActions,
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function WeekScheduler() {
+function WeekScheduler({handleModalClose}) {
     const user = JSON.parse(localStorage.getItem('userProfile'));
     const lastWeekSchedulerSaved = user.busyTimesLastAsked || 0;
     const dontShowModalAgain = user.neverAskBusyTimes;
@@ -53,26 +53,15 @@ function WeekScheduler() {
     const nowTime = (new Date).getTime();
     const shownThisWeek = moment(nowTime).startOf('week').isSame(moment(lastWeekSchedulerSaved).startOf('week'), 'day');
 
-    const [modal, setModal] = useState({
-        open: true
-    });
     const [events, setEvent] = useState([]);
     const [daysToWork, setDaysToWork] = useState(1);
     const [minutesToWork, setMinutesToWork] = useState(45);
 
-    const handleModalClose = () => {
-        setModal({
-            open: false
-        });
-    };
-
     const handleDontShow = () => {
-        const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
-        const onFailure = () => {alert("There was an error updating ask again")}
-        dispatch(updateUserModals({neverAskBusyTimes: true}, onSuccess, onFailure));
-        setModal({
-            open: false
-        });
+        const onSuccess = (data) => { localStorage.setItem('userProfile', JSON.stringify(data)) };
+        const onFailure = () => { alert("There was an error updating ask again") }
+        dispatch(updateUserModals({ neverAskBusyTimes: true }, onSuccess, onFailure));
+        handleModalClose({open: false});
     }
 
     const handleDateTimeSelect = (event) => {
@@ -89,7 +78,7 @@ function WeekScheduler() {
 
     const addUserIds = (events) => {
         return events.map(event => {
-            return {...event, user: user.id};
+            return { ...event, user: user.id };
         })
     }
 
@@ -103,94 +92,90 @@ function WeekScheduler() {
                 studyDaysPerWeek: daysToWork,
                 studyMinutesPerDay: minutesToWork
             }
-            const onUserUpdateSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
-            const onUserUpdateFailure = () => {alert('There was an error while sending schedule')};
+            const onUserUpdateSuccess = (data) => { localStorage.setItem('userProfile', JSON.stringify(data)) };
+            const onUserUpdateFailure = () => { alert('There was an error while sending schedule') };
             dispatch(updateUserModals(updateObject, onUserUpdateSuccess, onUserUpdateFailure))
         }
 
         const eventsForBackend = addUserIds(events);
         dispatch(createCalendarEvents(eventsForBackend, onFailure, onSuccess));
-        setModal({
-            open: false
-        });
+        handleModalClose({open: false});
     }
 
     return (
         <>
             {
                 (!dontShowModalAgain && !shownThisWeek && user.registrationStatus == "finished") &&
-
-                <Modal
-                    onClose={handleModalClose}
-                    open={modal.open}
-                >
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                            <div className={classes.header}>
-                                <Typography
-                                    className={classes.subHeader}
-                                    component="h5"
-                                    variant="h5"
-                                >
-                                    Please, select the amound of days a week you'd like to study:
+                <Card className={classes.card}>
+                    <CardContent className={classes.cardContent}>
+                        <div className={classes.header}>
+                            <Typography
+                                className={classes.subHeader}
+                                component="h5"
+                                variant="h5"
+                            >
+                                Please, select the amound of days a week you'd like to study:
                                 </Typography>
-                                <Select
-                                    className={classes.selectUnit}
-                                    value={daysToWork}
-                                    onChange={handleDaysSelectChange}
-                                >
-                                    <MenuItem value={1}>One</MenuItem>
-                                    <MenuItem value={2}>Two</MenuItem>
-                                    <MenuItem value={3}>Three</MenuItem>
-                                    <MenuItem value={4}>Four</MenuItem>
-                                    <MenuItem value={5}>Five</MenuItem>
-                                    <MenuItem value={6}>Six</MenuItem>
-                                    <MenuItem value={7}>Seven</MenuItem>
-                                </Select>
-                                <Typography
-                                    className={classes.subHeader}
-                                    component="h5"
-                                    variant="h5"
-                                >
-                                    Please, select the lenth of one lesson:
+                            <Select
+                                className={classes.selectUnit}
+                                value={daysToWork}
+                                onChange={handleDaysSelectChange}
+                            >
+                                <MenuItem value={1}>One</MenuItem>
+                                <MenuItem value={2}>Two</MenuItem>
+                                <MenuItem value={3}>Three</MenuItem>
+                                <MenuItem value={4}>Four</MenuItem>
+                                <MenuItem value={5}>Five</MenuItem>
+                                <MenuItem value={6}>Six</MenuItem>
+                                <MenuItem value={7}>Seven</MenuItem>
+                            </Select>
+                            <Typography
+                                className={classes.subHeader}
+                                component="h5"
+                                variant="h5"
+                            >
+                                Please, select the lenth of one lesson:
                                 </Typography>
-                                <Select
-                                    className={classes.selectUnit}
-                                    value={minutesToWork}
-                                    onChange={handleMinutesSelectChange}
-                                >
-                                    <MenuItem value={15}>15 min</MenuItem>
-                                    <MenuItem value={30}>30 min</MenuItem>
-                                    <MenuItem value={45}>45 min</MenuItem>
-                                    <MenuItem value={60}>60 min</MenuItem>
-                                    <MenuItem value={75}>75 min</MenuItem>
-                                    <MenuItem value={90}>90 min</MenuItem>
-                                    <MenuItem value={105}>105 min</MenuItem>
-                                    <MenuItem value={120}>120 min</MenuItem>
-                                </Select>
-                                <Typography
-                                    className={classes.subHeader}
-                                    component="h5"
-                                    variant="h5"
-                                >
-                                    Please, select the time you are unavailable at:
+                            <Select
+                                className={classes.selectUnit}
+                                value={minutesToWork}
+                                onChange={handleMinutesSelectChange}
+                            >
+                                <MenuItem value={15}>15 min</MenuItem>
+                                <MenuItem value={30}>30 min</MenuItem>
+                                <MenuItem value={45}>45 min</MenuItem>
+                                <MenuItem value={60}>60 min</MenuItem>
+                                <MenuItem value={75}>75 min</MenuItem>
+                                <MenuItem value={90}>90 min</MenuItem>
+                                <MenuItem value={105}>105 min</MenuItem>
+                                <MenuItem value={120}>120 min</MenuItem>
+                            </Select>
+                            <Typography
+                                className={classes.subHeader}
+                                component="h5"
+                                variant="h5"
+                            >
+                                Please, select the time you are unavailable at:
                                 </Typography>
-                            </div>
-                            <Calendar weekScheduler={true} getSelectedDateTime={handleDateTimeSelect}></Calendar>
-                        </CardContent>
-                        <CardActions>
-                            <Button onClick={handleDontShow} size="small" className={classes.actionButton}>
-                                Don't show again
+                        </div>
+                        <Calendar weekScheduler={true} getSelectedDateTime={handleDateTimeSelect}></Calendar>
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick={handleDontShow} size="small" className={classes.actionButton}>
+                            Don't show again
                         </Button>
-                            <Button onClick={handleSave} size="small" color="primary" className={classes.actionButton}>
-                                Save
+                        <Button onClick={handleSave} size="small" color="primary" className={classes.actionButton}>
+                            Save
                         </Button>
-                        </CardActions>
-                    </Card>
-                </Modal>
+                    </CardActions>
+                </Card>
             }
         </>
     );
+}
+
+WeekScheduler.propTypes = {
+    handleModalClose: PropTypes.func
 }
 
 
