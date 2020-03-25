@@ -7,10 +7,12 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { useDispatch } from 'react-redux';
 
 import SelectionStep from './SelectionStep';
 import ScheduleStep from './ScheduleStep';
 import GoalStep from './GoalStep';
+import { updateUserRegistrationStatus } from 'src/actions/userActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,15 +42,29 @@ const SetupStepper = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
+  const dispatch = useDispatch();
 
   const handleNext = () => {
     if (activeStep === 0) {
-      alert('finished first step');
+      dispatch(
+        updateUserRegistrationStatus('calendar', () =>
+          alert('There was an error updating your information.')
+        )
+      );
     } else if (activeStep === 1) {
-      alert('finished secondstep');
+      dispatch(
+        updateUserRegistrationStatus('goals', () =>
+          alert('There was an error updating your information.')
+        )
+      );
     } else if (activeStep === 2) {
-      alert('finished third step');
+      dispatch(
+        updateUserRegistrationStatus('finished', () =>
+          alert('There was an error updating your information.')
+        )
+      );
     }
+
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
