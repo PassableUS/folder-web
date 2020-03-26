@@ -54,9 +54,9 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     const user = JSON.parse(localStorage.getItem('userProfile'));
     const lastWeekGoalSaved = user.weeklyGoalsLastAsked || '0';
     const dontShowModalAgain =
-        mode == 'week' ?
+        mode === 'week' ?
             user.neverAskWeeklyGoals :
-            (mode == 'course' ? user.neverAskCourseGoals : user.neverAskPathwayGoals);
+            (mode === 'course' ? user.neverAskCourseGoals : user.neverAskPathwayGoals);
     const classes = useStyles();
     const dispatch = useDispatch();
     const nowTime = (new Date).getTime();
@@ -93,11 +93,11 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
         }
         const onSuccess = (data) => { localStorage.setItem('userProfile', JSON.stringify(data)) };
         const onFailure = () => { alert('There was an error while sending asking again') };
-        if (mode == 'week') {
+        if (mode === 'week') {
             dispatch(updateUserModals({ neverAskWeeklyGoals: true }, onSuccess, onFailure));
-        } else if (mode == 'course') {
+        } else if (mode === 'course') {
             dispatch(updateUserModals({ neverAskCourseGoals: true }, onSuccess, onFailure));
-        } else if (mode == 'pathway') {
+        } else if (mode === 'pathway') {
             dispatch(updateUserModals({ neverAskPathwayGoals: true }, onSuccess, onFailure));
         }
     }
@@ -106,18 +106,18 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     const convertGoalsForBackend = (goals) => {
         const goalAdditions = {};
 
-        if (mode == 'week') {
+        if (mode === 'week') {
             goalAdditions.startDate = moment().startOf('week').startOf('day').toISOString();
             goalAdditions.endDate = moment().endOf('week').startOf('day').toISOString();
-        } else if (mode == 'course') {
+        } else if (mode === 'course') {
             goalAdditions.moduleId = courseData.moduleId;
             goalAdditions.courseURL = courseData.courseURL.split('/');
-        } else if (mode == 'pathway') {
+        } else if (mode === 'pathway') {
             goalAdditions.pathwayId = pathwayData.id;
         }
 
         return goals.reduce((acc, cur) => {
-            if (cur.length == 0) return acc;
+            if (cur.length === 0) return acc;
             return acc.concat({ ...goalAdditions, goal: cur, user: user.id });
         }, []);
     }
@@ -130,7 +130,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
             alert('There was an error while setting goals')
         }
         const onSuccess = (data) => {
-            if (mode == 'week') {
+            if (mode === 'week') {
                 const updateObject = { weeklyGoalsLastAsked: nowTime };
                 const onUserUpdateSuccess = (data) => { localStorage.setItem('userProfile', JSON.stringify(data)) };
                 const onUserUpdateFailure = () => { alert('There was an error while sending user last asked'); }
@@ -190,7 +190,7 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     return (
         <>
             {
-                ((!dontShowModalAgain && user.registrationStatus == "finished") || show) && (mode != 'week' || !shownThisWeek) &&
+                ((!dontShowModalAgain && user.registrationStatus === "finished") && (mode != 'week' || !shownThisWeek) || show) &&
                 <Card className={classes.card}>
                     <CardHeader title={getModalTitle()}>
                     </CardHeader>
@@ -228,6 +228,19 @@ function GoalsSetup({ show, mode, pathwayData, courseData, onModalClose }) {
     );
 }
 
+/*
+    **show**
+    force setup to be visible overwriting other checks
+    **mode**
+    course, pathway or week - depending on that different headers displayed and  different data goes to backend
+    **pathwayData**
+    place for pathway id so when goal created it may be fetched for this user and this pathway specifically
+    **courseData**
+    same as pathwayDaya - module id and course url for identification
+    **onModalClose**
+    if visibility controlled with show - notify parent about closing so it updates their state.
+    Useful in case you open and close multiple times - only updated props cause rerender
+*/
 GoalsSetup.propTypes = {
     show: PropTypes.bool,
     mode: PropTypes.oneOf(['course', 'pathway', 'week']),

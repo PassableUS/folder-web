@@ -25,19 +25,19 @@ function GoalsList({ mode, pathwayData, courseData }) {
 
         const onFailure = () => { };
 
-        if (mode == 'week') {
+        if (mode === 'week') {
           dispatch(fetchGoalsByWeek(
             moment().startOf('week').startOf('day').toISOString(),
             moment().endOf('week').startOf('day').toISOString(),
             onFailure,
             onSuccess));
-        } else if (mode == 'course') {
+        } else if (mode === 'course') {
           dispatch(fetchGoalsByCourse(
             courseData.moduleId,
             courseData.courseURL.split('/'),
             onFailure,
             onSuccess));
-        } else if (mode == 'pathway') {
+        } else if (mode === 'pathway') {
           dispatch(fetchGoalsByPathway(
             pathwayData.id,
             onFailure,
@@ -93,7 +93,7 @@ function GoalsList({ mode, pathwayData, courseData }) {
               getGoalsTitle()
             }
             {
-              goals.length == 0 &&
+              goals.length === 0 &&
               <>
                 <div>
                   You have 0 goals set
@@ -119,6 +119,18 @@ function GoalsList({ mode, pathwayData, courseData }) {
   );
 }
 
+
+
+/*
+    **mode**
+    course, pathway or week - depending on that different headers displayed and  different data goes to backend
+
+    those two are used if 'set goals button called':
+    **pathwayData**
+    place for pathway id so when goal created it may be fetched for this user and this pathway specifically
+    **courseData**
+    same as pathwayDaya - module id and course url for identification
+*/
 GoalsList.propTypes = {
   mode: PropTypes.oneOf(['course', 'pathway', 'week']),
   pathwayData: PropTypes.shape({ id: PropTypes.string }),

@@ -53,6 +53,7 @@ function Toolbar({
   onViewChange,
   onDateToday,
   className,
+  onBusyEventAdd,
   ...rest
 }) {
   const classes = useStyles();
@@ -84,6 +85,13 @@ function Toolbar({
           </Typography>
         </Grid>
         <Grid item>
+          <Button
+            color="primary"
+            onClick={onBusyEventAdd}
+            variant="contained"
+          >
+            Add busy event
+          </Button>
           <Button
             color="primary"
             onClick={onEventAdd}

@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function WeekScheduler({handleModalClose}) {
+function WeekScheduler({handleModalClose, show}) {
     const user = JSON.parse(localStorage.getItem('userProfile'));
     const lastWeekSchedulerSaved = user.busyTimesLastAsked || 0;
     const dontShowModalAgain = user.neverAskBusyTimes;
@@ -105,7 +105,7 @@ function WeekScheduler({handleModalClose}) {
     return (
         <>
             {
-                (!dontShowModalAgain && !shownThisWeek && user.registrationStatus == "finished") &&
+                ((!dontShowModalAgain && !shownThisWeek && user.registrationStatus === "finished") || show) &&
                 <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
                         <div className={classes.header}>
@@ -174,8 +174,18 @@ function WeekScheduler({handleModalClose}) {
     );
 }
 
+
+/*
+    **show**
+    force setup to be visible overwriting other checks
+    **handleModalClose**
+    if visibility controlled with show - notify parent about closing so it updates their state.
+    Useful in case you open and close multiple times - only updated props cause rerender
+*/
+
 WeekScheduler.propTypes = {
-    handleModalClose: PropTypes.func
+    handleModalClose: PropTypes.func,
+    show: PropTypes.bool
 }
 
 

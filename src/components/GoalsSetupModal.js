@@ -19,9 +19,9 @@ function GoalsSetupModal({ show, mode, pathwayData, courseData, onModalClose }) 
     const user = JSON.parse(localStorage.getItem('userProfile'));
     const lastWeekGoalSaved = user.weeklyGoalsLastAsked || '0';
     const dontShowModalAgain =
-        mode == 'week' ?
+        mode === 'week' ?
             user.neverAskWeeklyGoals :
-            (mode == 'course' ? user.neverAskCourseGoals : user.neverAskPathwayGoals);
+            (mode === 'course' ? user.neverAskCourseGoals : user.neverAskPathwayGoals);
     const classes = useStyles();
     const nowTime = (new Date).getTime();
     const shownThisWeek = moment(nowTime).startOf('week').isSame(moment(Number(lastWeekGoalSaved)).startOf('week'), 'day');
@@ -49,7 +49,7 @@ function GoalsSetupModal({ show, mode, pathwayData, courseData, onModalClose }) 
     return (
         <>
             {
-                ((!dontShowModalAgain && user.registrationStatus == "finished") || show) && (mode != 'week' || !shownThisWeek) &&
+                ((!dontShowModalAgain && user.registrationStatus === "finished") && (mode != 'week' || !shownThisWeek) || show) &&
 
                 <Modal
                     className={classes.modal}
