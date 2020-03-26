@@ -13,6 +13,7 @@ import SelectionStep from './SelectionStep';
 import ScheduleStep from './ScheduleStep';
 import GoalStep from './GoalStep';
 import { updateUserRegistrationStatus } from 'src/actions/userActions';
+import { updateUserInformation } from 'src/actions/sessionActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,20 +48,26 @@ const SetupStepper = () => {
   const handleNext = () => {
     if (activeStep === 0) {
       dispatch(
-        updateUserRegistrationStatus('calendar', () =>
-          alert('There was an error updating your information.')
+        updateUserRegistrationStatus(
+          'calendar',
+          () => alert('There was an error updating your information.'),
+          data => dispatch(updateUserInformation(data))
         )
       );
     } else if (activeStep === 1) {
       dispatch(
-        updateUserRegistrationStatus('goals', () =>
-          alert('There was an error updating your information.')
+        updateUserRegistrationStatus(
+          'goals',
+          () => alert('There was an error updating your information.'),
+          data => dispatch(updateUserInformation(data))
         )
       );
     } else if (activeStep === 2) {
       dispatch(
-        updateUserRegistrationStatus('finished', () =>
-          alert('There was an error updating your information.')
+        updateUserRegistrationStatus(
+          'finished',
+          () => alert('There was an error updating your information.'),
+          data => dispatch(updateUserInformation(data))
         )
       );
     }

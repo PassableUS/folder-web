@@ -3,6 +3,7 @@ import { apiAction } from './axiosActions';
 
 export const SESSION_LOGIN = 'SESSION_LOGIN';
 export const SESSION_LOGOUT = 'SESSION_LOGOUT';
+export const SESSION_UPDATE = 'SESSION_UPDATE';
 export const SESSION_REGISTER = 'SESSION_REGISTER';
 export const SESSION_LOCAL_LOGIN = 'SESSION_LOCAL_LOGIN';
 
@@ -56,6 +57,25 @@ export const login = token => async dispatch => {
     payload: {
       bearerToken,
       user
+    }
+  });
+};
+
+export const updateUserInformation = userInformation => async (
+  dispatch,
+  getState
+) => {
+  window.localStorage.setItem('userProfile', JSON.stringify(userInformation));
+
+  const { session } = getState();
+  const { bearerToken } = session;
+
+  // Dispatches user information + token to store
+  dispatch({
+    type: SESSION_UPDATE,
+    payload: {
+      bearerToken,
+      user: userInformation
     }
   });
 };
