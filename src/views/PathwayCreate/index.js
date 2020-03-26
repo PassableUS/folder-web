@@ -14,7 +14,7 @@ import Preferences from './Preferences';
 import ProjectCover from './PathwayCover';
 import PathwayDescription from './PathwayDescription';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3)
@@ -42,44 +42,70 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const PathwayCreate = ({ history }) => {
+const PathwayCreate = ({ userFlowMode = false, goToModuleStep, history }) => {
   const classes = useStyles();
   const { register, errors, handleSubmit } = useForm();
   const dispatch = useDispatch();
   // const history = useHistory();
 
-  const pathwayCreateIsLoading = useSelector((state) => state.pathway.isLoadingData);
+  const pathwayCreateIsLoading = useSelector(
+    state => state.pathway.isLoadingData
+  );
 
   // Snackbar State
   const [snackbarState, setSnackbarState] = useState('');
-  const showSnackbarWithNewState = (state) => {
+  const showSnackbarWithNewState = state => {
     setSnackbarState(''); // Triggers rerender
     setSnackbarState(state);
   };
 
   // Pathway creation logic
-  const onSuccess = (data) => {
+  const onSuccess = data => {
     showSnackbarWithNewState('success');
-    history.push(data.id);
+    if (userFlowMode) {
+      goToModuleStep(data.id);
+    } else {
+      history.push(data.id);
+    }
   };
-  const onFailure = () => showSnackbarWithNewState('error');
+  const onFailure = error => {
+    showSnackbarWithNewState('error');
+    alert(error);
+  };
 
-  const onSubmit = (data) => dispatch(createPathway(data, onFailure, onSuccess));
+  const onSubmit = data => dispatch(createPathway(data, onFailure, onSuccess));
 
   return (
-    <Page
-      className={classes.root}
-      title="Create a Pathway"
-    >
+    <Page className={classes.root} title="Create a Pathway">
       <Container maxWidth="lg">
         <Header />
-        <AboutAuthor errors={errors} register={register} className={classes.aboutAuthor} />
-        <AboutPathway errors={errors} register={register} className={classes.aboutPathway} />
-        <ProjectCover errors={errors} register={register} className={classes.projectCover} />
-        <PathwayDescription errors={errors} register={register} className={classes.pathwayDescription} />
-        <Preferences errors={errors} register={register} className={classes.preferences} />
+        <AboutAuthor
+          errors={errors}
+          register={register}
+          className={classes.aboutAuthor}
+        />
+        <AboutPathway
+          errors={errors}
+          register={register}
+          className={classes.aboutPathway}
+        />
+        <ProjectCover
+          errors={errors}
+          register={register}
+          className={classes.projectCover}
+        />
+        <PathwayDescription
+          errors={errors}
+          register={register}
+          className={classes.pathwayDescription}
+        />
+        <Preferences
+          errors={errors}
+          register={register}
+          className={classes.preferences}
+        />
         {/* Error messages if form elements are not filled */}
-        {Object.keys(errors).map((error) => (
+        {Object.keys(errors).map(error => (
           <Alert
             key={error}
             variant="error"
@@ -93,9 +119,11 @@ const PathwayCreate = ({ history }) => {
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
-            {pathwayCreateIsLoading
-              ? <CircularProgress size={25} color="secondary" />
-              : 'Create pathway'}
+            {pathwayCreateIsLoading ? (
+              <CircularProgress size={25} color="secondary" />
+            ) : (
+              'Create pathway'
+            )}
           </Button>
         </div>
       </Container>

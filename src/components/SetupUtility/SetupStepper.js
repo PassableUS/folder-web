@@ -9,11 +9,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
 
+import { updateUserRegistrationStatus } from 'src/actions/userActions';
+import { updateUserInformation } from 'src/actions/sessionActions';
 import SelectionStep from './SelectionStep';
 import ScheduleStep from './ScheduleStep';
 import GoalStep from './GoalStep';
-import { updateUserRegistrationStatus } from 'src/actions/userActions';
-import { updateUserInformation } from 'src/actions/sessionActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
