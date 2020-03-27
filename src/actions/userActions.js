@@ -3,6 +3,7 @@ import { apiAction } from './axiosActions';
 export const UPDATE_USER_MODAL = 'UPDATE_USER_MODAL';
 export const FETCH_USER = 'FETCH_USER';
 
+// FLIPPED
 export const getUserData = (onSuccess, onFailure) => async dispatch => {
   dispatch(
     apiAction({
@@ -17,7 +18,7 @@ export const getUserData = (onSuccess, onFailure) => async dispatch => {
 
 export const updateUserModals = (
   updateObject,
-  onSuccess,
+  onSuccess, // FLIPPED
   onFailure
 ) => async dispatch => {
   dispatch(
@@ -25,6 +26,23 @@ export const updateUserModals = (
       url: '/users/modalssetup',
       method: 'PUT',
       data: updateObject,
+      onSuccess, // Passed in
+      onFailure, // Passed in
+      label: UPDATE_USER_MODAL
+    })
+  );
+};
+
+export const updateUserRegistrationStatus = (
+  step,
+  onFailure,
+  onSuccess
+) => async dispatch => {
+  dispatch(
+    apiAction({
+      url: '/users/registrationStatus',
+      method: 'PUT',
+      data: { step },
       onSuccess, // Passed in
       onFailure, // Passed in
       label: UPDATE_USER_MODAL

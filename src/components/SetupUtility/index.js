@@ -1,11 +1,11 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 // import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import SetupStepper from './SetupStepper';
+
 // import { dismissWarning } from 'src/actions/axiosActions';
 // import { useHistory } from 'react-router';
 // import { logout } from 'src/actions/sessionActions';
@@ -16,23 +16,21 @@ const SetupUtility = () => {
   );
 
   const dialogOpen = !(
-    registrationStatus === 'finished' || !registrationStatus
+    (registrationStatus === 'finished' || !registrationStatus) // If 'finished' or registartionStatus does not exist, it is NOT open
   );
   // const dispatch = useDispatch();
 
   return (
     <Dialog
-      open={false} // Change this to dialogOpen when working on it
+      open={dialogOpen} // Change this to dialogOpen when working on it
       onClose={() => {}}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       fullScreen
     >
-      <DialogTitle id="alert-dialog-title"> Test</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Initial Setup</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Test
-        </DialogContentText>
+        <SetupStepper />
       </DialogContent>
     </Dialog>
   );

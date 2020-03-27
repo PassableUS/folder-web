@@ -14,7 +14,7 @@ import ModuleCourses from './ModuleCourses';
 import AboutModule from './AboutModule';
 import Header from './Header';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3)
@@ -45,24 +45,26 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ModuleCreate = () => {
+const ModuleCreate = ({ userFlowMode, userFlowPathwayId, goToFinalStep }) => {
   const classes = useStyles();
   const { register, errors, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
 
-  const moduleCreateIsLoading = useSelector((state) => state.module.isLoadingData);
+  const moduleCreateIsLoading = useSelector(
+    state => state.module.isLoadingData
+  );
 
   // Snackbar State
   const [snackbarState, setSnackbarState] = useState('');
-  const showSnackbarWithNewState = (state) => {
+  const showSnackbarWithNewState = state => {
     setSnackbarState(''); // Triggers rerender
     setSnackbarState(state);
   };
 
   // Module creation logic
-  const onSuccess = (data) => {
+  const onSuccess = data => {
     showSnackbarWithNewState('success');
 
     // Adds module to pathway if ID present in URL
@@ -70,25 +72,40 @@ const ModuleCreate = () => {
       history.push(`/pathways/${id}`);
       dispatch(addModuleToPathway(data.id, id));
     }
+
+    // Adds module to pathway provided by props if in user flow
+    if (userFlowPathwayId) {
+      dispatch(addModuleToPathway(data.id, id));
+      goToFinalStep();
+    }
   };
   const onFailure = () => showSnackbarWithNewState('error');
-  const onSubmit = (data) => dispatch(createModule(data, onFailure, onSuccess));
+  const onSubmit = data => dispatch(createModule(data, onFailure, onSuccess));
 
   return (
-    <Page
-      className={classes.root}
-      title="Create a New Module"
-    >
+    <Page className={classes.root} title="Create a New Module">
       <Container maxWidth="lg">
         <Header />
-        <AboutModule errors={errors} register={register} className={classes.aboutModule} />
-        <ModuleDescription errors={errors} register={register} className={classes.moduleDescription} />
-        <ModuleCourses errors={errors} register={register} className={classes.moduleCourses} />
+        <AboutModule
+          errors={errors}
+          register={register}
+          className={classes.aboutModule}
+        />
+        <ModuleDescription
+          errors={errors}
+          register={register}
+          className={classes.moduleDescription}
+        />
+        <ModuleCourses
+          errors={errors}
+          register={register}
+          className={classes.moduleCourses}
+        />
         {/* <AboutAuthor errors={errors} register={register} className={classes.aboutAuthor} /> */}
         {/* <ProjectCover errors={errors} register={register} className={classes.projectCover} /> */}
         {/* <Preferences errors={errors} register={register} className={classes.preferences} /> */}
         {/* Error messages if form elements are not filled */}
-        {Object.keys(errors).map((error) => (
+        {Object.keys(errors).map(error => (
           <Alert
             key={error}
             variant="error"
@@ -102,9 +119,11 @@ const ModuleCreate = () => {
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
-            {moduleCreateIsLoading
-              ? <CircularProgress size={25} color="secondary" />
-              : 'Create module'}
+            {moduleCreateIsLoading ? (
+              <CircularProgress size={25} color="secondary" />
+            ) : (
+              'Create module'
+            )}
           </Button>
         </div>
       </Container>
