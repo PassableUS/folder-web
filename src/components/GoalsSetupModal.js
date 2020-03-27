@@ -65,9 +65,8 @@ function GoalsSetupModal({
 
   return (
     <>
-      {((!dontShowModalAgain && user.registrationStatus == 'finished') ||
-        show) &&
-        (mode != 'week' || !shownThisWeek) && (
+      {((!dontShowModalAgain && user.registrationStatus == 'finished') &&
+        (mode != 'week' || !shownThisWeek) || show)&& (
           <Modal
             className={classes.modal}
             onClose={handleModalClose}

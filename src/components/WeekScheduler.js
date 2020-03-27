@@ -6,10 +6,8 @@ import { createCalendarEvents } from 'src/actions/calendarActions';
 import { updateUserModals } from 'src/actions/userActions';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
   Typography,
   CardActions,
-  CardContent,
   Select,
   MenuItem,
   Button
@@ -202,6 +200,15 @@ function WeekScheduler({
     </>
   );
 }
+
+
+/*
+    **show**
+    force setup to be visible overwriting other checks
+    **handleModalClose**
+    if visibility controlled with show - notify parent about closing so it updates their state.
+    Useful in case you open and close multiple times - only updated props cause rerender
+*/
 
 WeekScheduler.propTypes = {
   handleModalClose: PropTypes.func

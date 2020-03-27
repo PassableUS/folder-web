@@ -115,6 +115,7 @@ function Calendar({
   const [date, setDate] = useState(moment('2019-07-30 08:00:00').toDate());
   const [events, setEvents] = useState([]);
   const [studyAlert, setStudyAlert] = useState(false);
+  const [showWeekScheduler, setShowWeekScheduler] = useState(false);
   const [eventModal, setEventModal] = useState({
     open: false,
     event: null
@@ -123,7 +124,7 @@ function Calendar({
   const handleEventClick = (info) => {
     let selected = events.find((event) => event.id === info.event.id);
     
-    if (info.event.title == 'Suggested study time') {
+    if (info.event.title === 'Suggested study time') {
       selected = events.find((event) => 
         moment(event.start).isSame(moment(info.event.start)) 
         && moment(event.end).isSame(moment(info.event.end)));
@@ -245,6 +246,14 @@ function Calendar({
     setStudyAlert(false);
   }
 
+  const handleNewBusyEvent = () => {
+    setShowWeekScheduler(true);
+  }
+
+  const onModalClose = () => {
+    setShowWeekScheduler(true);
+  }
+
   useEffect(() => {
     let mounted = true;
 
@@ -288,7 +297,7 @@ function Calendar({
     >
       {
         !weekScheduler &&
-        <WeekSchedulerModal></WeekSchedulerModal>
+        <WeekSchedulerModal show={showWeekScheduler} onModalClose={onModalClose}></WeekSchedulerModal>
       }
       {
          studyAlert && 
@@ -310,6 +319,7 @@ function Calendar({
             onDatePrev={handleDatePrev}
             onDateToday={handleDateToday}
             onEventAdd={handleEventNew}
+            onBusyEventAdd={handleNewBusyEvent}
             onViewChange={handleViewChange}
             view={view}
           />

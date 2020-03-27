@@ -184,7 +184,7 @@ function GoalsSetup({
   useEffect(() => {
     handleAddInput(numberOfInitialFields);
   }, []);
-
+  
   const spawnTextFields = () => {
     return goals.map((textField, i) => (
       <FormControlLabel
@@ -272,6 +272,19 @@ function GoalsSetup({
   );
 }
 
+/*
+    **show**
+    force setup to be visible overwriting other checks
+    **mode**
+    course, pathway or week - depending on that different headers displayed and  different data goes to backend
+    **pathwayData**
+    place for pathway id so when goal created it may be fetched for this user and this pathway specifically
+    **courseData**
+    same as pathwayDaya - module id and course url for identification
+    **onModalClose**
+    if visibility controlled with show - notify parent about closing so it updates their state.
+    Useful in case you open and close multiple times - only updated props cause rerender
+*/
 GoalsSetup.propTypes = {
   show: PropTypes.bool,
   mode: PropTypes.oneOf(['course', 'pathway', 'week']),

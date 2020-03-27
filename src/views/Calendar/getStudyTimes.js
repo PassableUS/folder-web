@@ -6,7 +6,7 @@ const inverseToFree = (events) => {
     
     const freeTimes = [];
     events.forEach((event, i) => {
-        if (i == 0) {
+        if (i === 0) {
             freeTimes.push({ start: startOfPeriod, end: moment(event.start).toDate() });
         }
         else {
@@ -75,7 +75,7 @@ const pickTimeEachDay = (freeTimes, amountOfDays, minutesPerTime) => {
         if (end.isAfter(endOfTheWeek)) return;
         
         //date not there
-        if (index == -1) {
+        if (index === -1) {
             const minutesInRange = end.diff(start, 'minutes');
             
             if (minutesInRange >= minutesPerTime) {
