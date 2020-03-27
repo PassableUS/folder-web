@@ -24,6 +24,7 @@ const ExistingPathwaySetup = () => {
     dispatch(
       joinPathway(
         pathwayId,
+        // eslint-disable-next-line no-alert
         () => alert('There was an error joining the pathway!'),
         () => setCurrentStep('finished')
       )

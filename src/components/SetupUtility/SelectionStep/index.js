@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ButtonBase, Paper, Typography, makeStyles } from '@material-ui/core';
 import SubjectIcon from '@material-ui/icons/Subject';
 import MultiPathwaySetup from './MultiPathwaySetup';
+import SinglePathwaySetup from './SinglePathwaySetup';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -32,6 +33,7 @@ const SelectionStep = () => {
   const classes = useStyles();
   const [selection, setSelection] = useState('selecting');
 
+  // eslint-disable-next-line no-shadow
   const generateStepContent = selection => {
     if (selection === 'selecting') {
       return (
@@ -64,11 +66,15 @@ const SelectionStep = () => {
           </ButtonBase>
         </>
       );
-    } else if (selection === 'singlePathway') {
-      return <p> Test </p>;
-    } else if (selection === 'multiPathway') {
+    }
+    if (selection === 'singlePathway') {
+      return <SinglePathwaySetup />;
+    }
+    if (selection === 'multiPathway') {
       return <MultiPathwaySetup />;
     }
+
+    return <Typography>There was an error generating this step.</Typography>;
   };
 
   return generateStepContent(selection);
