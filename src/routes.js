@@ -15,7 +15,7 @@ export default [
     component: DashboardLayout,
     routes: [
       {
-        path: '/',
+        path: '*',
         exact: true,
         component: () => (
           <AuthGuard roles={['USER']}>

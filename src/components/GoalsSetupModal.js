@@ -20,7 +20,12 @@ function GoalsSetupModal({
   courseData,
   onModalClose
 }) {
-  const user = JSON.parse(localStorage.getItem('userProfile'));
+  let user = JSON.parse(localStorage.getItem('userProfile'));
+
+  if (!user) {
+    user = {};
+  }
+
   const lastWeekGoalSaved = user.weeklyGoalsLastAsked || '0';
   const dontShowModalAgain =
     mode == 'week'
@@ -65,29 +70,31 @@ function GoalsSetupModal({
 
   return (
     <>
-      {((!dontShowModalAgain && user.registrationStatus == 'finished') &&
-        (mode != 'week' || !shownThisWeek) || show)&& (
-          <Modal
-            className={classes.modal}
-            onClose={handleModalClose}
-            open={modal.open}
-          >
-            <div>
-              <Card className={classes.card}>
-                <CardHeader title={getModalTitle()} />
-                <CardContent>
-                  <GoalsSetup
-                    show={show}
-                    mode={mode}
-                    pathwayData={pathwayData}
-                    courseData={courseData}
-                    onModalClose={onModalClose}
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </Modal>
-        )}
+      {((!dontShowModalAgain &&
+        user.registrationStatus == 'finished' &&
+        (mode != 'week' || !shownThisWeek)) ||
+        show) && (
+        <Modal
+          className={classes.modal}
+          onClose={handleModalClose}
+          open={modal.open}
+        >
+          <div>
+            <Card className={classes.card}>
+              <CardHeader title={getModalTitle()} />
+              <CardContent>
+                <GoalsSetup
+                  show={show}
+                  mode={mode}
+                  pathwayData={pathwayData}
+                  courseData={courseData}
+                  onModalClose={onModalClose}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </Modal>
+      )}
     </>
   );
 }

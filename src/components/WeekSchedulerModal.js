@@ -31,10 +31,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function WeekSchedulerModal({ show, onModalClose, onSave }) {
-    const user = JSON.parse(localStorage.getItem('userProfile'));
+    let user = JSON.parse(localStorage.getItem('userProfile'));
+
+    if (!user) {
+        user = {};
+    }
+
     const lastWeekSchedulerSaved = user.busyTimesLastAsked || 0;
     const dontShowModalAgain = user.neverAskBusyTimes;
-    const nowTime = (new Date).getTime();
+    const nowTime = new Date().getTime();
     const classes = useStyles();
     const shownThisWeek = moment(nowTime)
         .startOf('week')
@@ -63,13 +68,14 @@ function WeekSchedulerModal({ show, onModalClose, onSave }) {
         <>
             {((!dontShowModalAgain &&
                 !shownThisWeek &&
-                user.registrationStatus == 'finished') || show) && (
+                user.registrationStatus == 'finished') ||
+                show) && (
                     <Modal onClose={handleModalClose} open={modal.open}>
                         <Card className={classes.card}>
                             <CardContent className={classes.cardContent}>
                                 <WeekScheduler
-                                    onSave={onSave}
                                     handleModalClose={handleModalClose}
+                                    onSave={onSave}
                                 ></WeekScheduler>
                             </CardContent>
                         </Card>
@@ -83,6 +89,6 @@ WeekSchedulerModal.propTypes = {
     show: PropTypes.bool,
     onModalClose: PropTypes.func,
     onSave: PropTypes.func
-}
+};
 
 export default WeekSchedulerModal;
