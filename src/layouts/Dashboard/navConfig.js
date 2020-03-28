@@ -27,46 +27,6 @@ export default [
         icon: HomeIcon
       },
       {
-        title: 'Pathways',
-        href: '/projects',
-        icon: DirectionsIcon,
-        items: [
-          {
-            title: 'Browse',
-            href: '/pathways'
-          },
-          {
-            title: 'Create',
-            href: '/pathways/create'
-          }
-        ]
-      },
-      {
-        title: 'Modules',
-        href: '/modules',
-        icon: DashboardIcon,
-        items: [
-          {
-            title: 'Browse',
-            href: '/modules'
-          },
-          {
-            title: 'Create',
-            href: '/modules/create'
-          }
-        ]
-      },
-      {
-        title: 'Whiteboard',
-        href: '/whiteboard',
-        icon: Create
-      },
-      {
-        title: 'Bulletin Board',
-        href: '/bulletin-board',
-        icon: ListAltIcon
-      },
-      {
         title: 'Calendar',
         href: '/calendar',
         icon: CalendarTodayIcon,
@@ -75,13 +35,61 @@ export default [
     ]
   },
   {
-    subheader: 'Support',
+    subheader: 'Misc.',
     items: [
       {
         title: 'Changelog',
         href: '/changelog',
         icon: ListIcon,
         label: () => <Label color={colors.blue['500']}>v0.0.5 BETA</Label>
+      },
+      {
+        title: 'Beta Features',
+        href: '/beta',
+        icon: ListIcon,
+        label: () => <Label color={colors.blue['500']}>v0.0.5 BETA</Label>,
+        items: [
+          {
+            title: 'Pathways',
+            href: '/projects',
+            icon: DirectionsIcon,
+            items: [
+              {
+                title: 'Browse',
+                href: '/pathways'
+              },
+              {
+                title: 'Create',
+                href: '/pathways/create'
+              }
+            ]
+          },
+          {
+            title: 'Modules',
+            href: '/modules',
+            icon: DashboardIcon,
+            items: [
+              {
+                title: 'Browse',
+                href: '/modules'
+              },
+              {
+                title: 'Create',
+                href: '/modules/create'
+              }
+            ]
+          },
+          {
+            title: 'Whiteboard',
+            href: '/whiteboard',
+            icon: Create
+          },
+          {
+            title: 'Bulletin Board',
+            href: '/bulletin-board',
+            icon: ListAltIcon
+          }
+        ]
       },
       {
         title: 'Settings',
