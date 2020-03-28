@@ -42,10 +42,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function WeekScheduler({
-  handleBack = () => {},
-  handleNext = () => {},
+  handleBack = () => { },
+  handleNext = () => { },
   userFlowMode = false,
-  handleModalClose
+  handleModalClose,
+  onSave
 }) {
   const user = JSON.parse(localStorage.getItem('userProfile'));
   const lastWeekSchedulerSaved = user.busyTimesLastAsked || 0;
@@ -118,6 +119,13 @@ function WeekScheduler({
     const eventsForBackend = addUserIds(events);
     dispatch(createCalendarEvents(eventsForBackend, onFailure, onSuccess));
     handleModalClose({ open: false });
+    if (onSave) {
+      onSave({
+        events: eventsForBackend,
+        studyDaysPerWeek: daysToWork,
+        studyMinutesPerDay: minutesToWork
+      });
+    }
   };
 
   return (
@@ -179,24 +187,24 @@ function WeekScheduler({
           </Button>
         </div>
       ) : (
-        <CardActions>
-          <Button
-            onClick={handleDontShow}
-            size="small"
-            className={classes.actionButton}
-          >
-            Don't show again
+          <CardActions>
+            <Button
+              onClick={handleDontShow}
+              size="small"
+              className={classes.actionButton}
+            >
+              Don't show again
           </Button>
-          <Button
-            onClick={handleSave}
-            size="small"
-            color="primary"
-            className={classes.actionButton}
-          >
-            Save
+            <Button
+              onClick={handleSave}
+              size="small"
+              color="primary"
+              className={classes.actionButton}
+            >
+              Save
           </Button>
-        </CardActions>
-      )}
+          </CardActions>
+        )}
     </>
   );
 }
@@ -208,10 +216,13 @@ function WeekScheduler({
     **handleModalClose**
     if visibility controlled with show - notify parent about closing so it updates their state.
     Useful in case you open and close multiple times - only updated props cause rerender
+    **onSave**
+    sends saved data back to the calendar if called from
 */
 
 WeekScheduler.propTypes = {
-  handleModalClose: PropTypes.func
+  handleModalClose: PropTypes.func,
+  onSave: PropTypes.func
 };
 
 export default WeekScheduler;

@@ -123,10 +123,10 @@ function Calendar({
 
   const handleEventClick = (info) => {
     let selected = events.find((event) => event.id === info.event.id);
-    
+
     if (info.event.title === 'Suggested study time') {
-      selected = events.find((event) => 
-        moment(event.start).isSame(moment(info.event.start)) 
+      selected = events.find((event) =>
+        moment(event.start).isSame(moment(info.event.start))
         && moment(event.end).isSame(moment(info.event.end)));
     }
     setEventModal({
@@ -222,9 +222,9 @@ function Calendar({
     setDate(calendarApi.getDate());
   };
 
-  const getStudyEvents = (events) => {
-    const daysToWork = user.studyDaysPerWeek;
-    const minutesToWork = user.studyMinutesPerDay;
+  const getStudyEvents = (events, days, minutes) => {
+    const daysToWork = days || user.studyDaysPerWeek;
+    const minutesToWork = minutes || user.studyMinutesPerDay;
 
     const studyTimes = getStudyTimes(events, daysToWork, minutesToWork);
 
@@ -240,6 +240,26 @@ function Calendar({
       event.color = theme.palette.primary.main;
       return event;
     })
+  }
+
+  const handleBusyTimesSave = (busyTimeData) => {
+    const busyTimes = [];
+    const others = [];
+
+    events.forEach(event => {
+      if (event.title === "Busy time") {
+        busyTimes.push(event);
+      } else if (event.title !== "Suggested study time") {
+        others.push(event);
+      }
+    });
+
+    const studyEvents = getStudyEvents(
+      [...busyTimeData.events, ...busyTimes],
+      busyTimeData.studyDaysPerWeek,
+      busyTimeData.studyMinutesPerDay);
+    console.log(busyTimes)
+    setEvents([...others, ...busyTimes, ...studyEvents]);
   }
 
   const handleCloseStudyAlert = () => {
@@ -266,7 +286,7 @@ function Calendar({
           setStudyAlert(studyEvents.length < user.studyDaysPerWeek);
         }
 
-        const onFailure = () => {};
+        const onFailure = () => { };
         dispatch(fetchCalendarEvents(onFailure, onSuccess));
       }
     };
@@ -292,24 +312,24 @@ function Calendar({
 
   return (
     <Page
-      className={[classes.root, !weekScheduler ? classes.rootNonModal : '' ].join(' ')}
+      className={[classes.root, !weekScheduler ? classes.rootNonModal : ''].join(' ')}
       title="Calendar"
     >
       {
         !weekScheduler &&
-        <WeekSchedulerModal show={showWeekScheduler} onModalClose={onModalClose}></WeekSchedulerModal>
+        <WeekSchedulerModal show={showWeekScheduler} onModalClose={onModalClose} onSave={handleBusyTimesSave}></WeekSchedulerModal>
       }
       {
-         studyAlert && 
-         <>
+        studyAlert &&
+        <>
           <Alert
             className={classes.alert}
             message="You don't have enough time to study your planned amount of days per week."
             onClose={handleCloseStudyAlert}
           />
           <Divider className={classes.divider} />
-          </>
-        }
+        </>
+      }
       <Container maxWidth={false}>
         {
           !weekScheduler &&
