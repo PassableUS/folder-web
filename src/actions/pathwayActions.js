@@ -53,6 +53,24 @@ export const fetchPathways = (onFailure, onSuccess) => async (
   );
 };
 
+export const fetchVerifiedPathways = (onFailure, onSuccess) => async (
+  dispatch,
+  getState
+) => {
+  dispatch(
+    apiAction({
+      url: '/pathways',
+      method: 'GET',
+      data: {
+        requestVerifiedOnly: true
+      },
+      onSuccess, // Passed in
+      onFailure, // Passed in
+      label: FETCH_PATHWAYS
+    })
+  );
+};
+
 export const fetchEnrolledPathways = (onFailure, onSuccess) => async (
   dispatch,
   getState

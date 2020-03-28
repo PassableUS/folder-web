@@ -3,6 +3,7 @@ import { ButtonBase, Paper, Typography, makeStyles } from '@material-ui/core';
 import SubjectIcon from '@material-ui/icons/Subject';
 import MultiPathwaySetup from './MultiPathwaySetup';
 import SinglePathwaySetup from './SinglePathwaySetup';
+import ExistingPathwaySetup from './ExistingPathwaySetup';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -72,6 +73,9 @@ const SelectionStep = () => {
     }
     if (selection === 'multiPathway') {
       return <MultiPathwaySetup />;
+    }
+    if (selection === 'existingPathway') {
+      return <ExistingPathwaySetup />;
     }
 
     return <Typography>There was an error generating this step.</Typography>;
