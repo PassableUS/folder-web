@@ -251,7 +251,7 @@ function Calendar({
   }
 
   const onModalClose = () => {
-    setShowWeekScheduler(true);
+    setShowWeekScheduler(false);
   }
 
   useEffect(() => {
