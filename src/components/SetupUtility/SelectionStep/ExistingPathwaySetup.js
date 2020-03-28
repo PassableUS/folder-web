@@ -55,27 +55,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Projects({ className, ...rest }) {
+function ExistingPathwaySetup({ className, ...rest }) {
   const classes = useStyles();
   const sortRef = useRef(null);
-  const [openSort, setOpenSort] = useState(false);
-  const [selectedSort, setSelectedSort] = useState('Most popular');
+  // const [openSort, setOpenSort] = useState(false);
+  // const [selectedSort, setSelectedSort] = useState('Most popular');
   const [mode, setMode] = useState('grid');
   const [pathways, setPathways] = useState([]);
   const dispatch = useDispatch();
 
-  const handleSortOpen = () => {
-    setOpenSort(true);
-  };
+  // const handleSortOpen = () => {
+  //   setOpenSort(true);
+  // };
 
-  const handleSortClose = () => {
-    setOpenSort(false);
-  };
+  // const handleSortClose = () => {
+  //   setOpenSort(false);
+  // };
 
-  const handleSortSelect = value => {
-    setSelectedSort(value);
-    setOpenSort(false);
-  };
+  // const handleSortSelect = value => {
+  //   setSelectedSort(value);
+  //   setOpenSort(false);
+  // };
 
   const handleModeChange = (event, value) => {
     setMode(value);
@@ -95,14 +95,14 @@ function Projects({ className, ...rest }) {
           Showing {pathways.length} pathways
         </Typography>
         <div className={classes.actions}>
-          <Button
+          {/* <Button
             className={classes.sortButton}
             onClick={handleSortOpen}
             ref={sortRef}
           >
             {selectedSort}
             <ArrowDropDownIcon />
-          </Button>
+          </Button> */}
           <ToggleButtonGroup
             exclusive
             onChange={handleModeChange}
@@ -131,14 +131,14 @@ function Projects({ className, ...rest }) {
       <div className={classes.paginate}>
         <Paginate pageCount={3} />
       </div>
-      <Menu
+      {/* <Menu
         anchorEl={sortRef.current}
         className={classes.menu}
         onClose={handleSortClose}
         open={openSort}
         elevation={1}
       >
-        {/* {['Most recent', 'Popular', 'Price high', 'Price low', 'On sale'].map(
+        {['Most recent', 'Popular', 'Price high', 'Price low', 'On sale'].map(
           option => (
             <MenuItem
               className={classes.menuItem}
@@ -148,14 +148,14 @@ function Projects({ className, ...rest }) {
               <ListItemText primary={option} />
             </MenuItem>
           )
-        )} */}
-      </Menu>
+        )}
+      </Menu> */}
     </div>
   );
 }
 
-Projects.propTypes = {
+ExistingPathwaySetup.propTypes = {
   className: PropTypes.string
 };
 
-export default Projects;
+export default ExistingPathwaySetup;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -12,13 +12,17 @@ import {
   Divider,
   Link,
   Typography,
+  CardActions,
+  Button
 } from '@material-ui/core';
 
 import getInitials from 'src/utils/getInitials';
 import Label from 'src/components/Label';
 import removeMarkdown from 'remove-markdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { joinPathway } from 'src/actions/pathwayActions';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   header: {
     paddingBottom: 0
@@ -51,6 +55,13 @@ const useStyles = makeStyles((theme) => ({
 
 function PathwayCard({ pathway, className, ...rest }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const enrolledPathways = useSelector(
+    state => state.session.user.enrolledPathways
+  );
+  const [enrolledInPathway, setEnrolledInPathway] = useState(
+    enrolledPathways.includes(pathway.id)
+  );
 
   if (!pathway) {
     console.error('PathwayCard cannot render without `pathway` passed to it.');
@@ -58,30 +69,37 @@ function PathwayCard({ pathway, className, ...rest }) {
   }
 
   if (!pathway.author) {
-    console.error('PathwayCard missing author information, check to see if pathway is being passed to it. The author may have deleted its user.');
+    console.error(
+      'PathwayCard missing author information, check to see if pathway is being passed to it. The author may have deleted its user.'
+    );
     return null;
   }
 
+  const handleJoinPathway = () => {
+    dispatch(
+      joinPathway(
+        pathway.id,
+        () => alert('There was an error joining the pathway.'),
+        () => setEnrolledInPathway(true)
+      )
+    );
+  };
+
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader
-        avatar={(
-          <Avatar
-            alt="Author"
-            src={pathway.author.avatar}
-          >
-            {getInitials(`${pathway.author.firstName} ${pathway.author.lastName}`)}
+        avatar={
+          <Avatar alt="Author" src={pathway.author.avatar}>
+            {getInitials(
+              `${pathway.author.firstName} ${pathway.author.lastName}`
+            )}
           </Avatar>
-        )}
+        }
         className={classes.header}
         disableTypography
-        subheader={(
+        subheader={
           <Typography variant="body2">
-            by
-            {' '}
+            by{' '}
             <Link
               color="textPrimary"
               component={RouterLink}
@@ -89,14 +107,11 @@ function PathwayCard({ pathway, className, ...rest }) {
               variant="h6"
             >
               {`${pathway.author.firstName} ${pathway.author.lastName}`}
-            </Link>
-            {' '}
-            | Updated:
-            {' '}
-            {moment().fromNow()}
+            </Link>{' '}
+            | Updated: {moment(pathway.updatedAt).fromNow()}
           </Typography>
-        )}
-        title={(
+        }
+        title={
           <Link
             color="textPrimary"
             component={RouterLink}
@@ -105,23 +120,17 @@ function PathwayCard({ pathway, className, ...rest }) {
           >
             {pathway.name}
           </Link>
-        )}
+        }
       />
       <CardContent className={classes.content}>
         <div className={classes.description}>
-          <Typography
-            color="textSecondary"
-            variant="subtitle2"
-          >
+          <Typography color="textSecondary" variant="subtitle2">
             {removeMarkdown(pathway.description)}
           </Typography>
         </div>
         <div className={classes.tags}>
-          {pathway.tags.map((tag) => (
-            <Label
-              key={tag}
-              color="green"
-            >
+          {pathway.tags.map(tag => (
+            <Label key={tag} color="green">
               {tag}
             </Label>
           ))}
@@ -190,6 +199,18 @@ function PathwayCard({ pathway, className, ...rest }) {
           </Grid>
         </div> */}
       </CardContent>
+      {enrolledInPathway ? null : (
+        <CardActions>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={handleJoinPathway}
+            color="primary"
+          >
+            Enroll in pathway
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 }
