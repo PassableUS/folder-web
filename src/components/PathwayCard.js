@@ -59,8 +59,8 @@ function PathwayCard({ pathway, className, ...rest }) {
   const enrolledPathways = useSelector(
     state => state.session.user.enrolledPathways
   );
-  const [enrolledInPathway, setEnrolledInPathway] = useState(
-    enrolledPathways.includes(pathway.id)
+  const [enrolledInPathway, setEnrolledInPathway] = useState(() =>
+    enrolledPathways ? enrolledPathways.includes(pathway.id) : null
   );
 
   if (!pathway) {
