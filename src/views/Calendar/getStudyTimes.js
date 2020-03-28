@@ -3,7 +3,7 @@ import moment from 'moment';
 const inverseToFree = (events) => {
     const startOfPeriod = moment(events[0].start).startOf('week').startOf('day').toDate();
     const endOfPeriod = moment(events[events.length - 1].end).endOf('week').endOf('day').toDate();
-    
+
     const freeTimes = [];
     events.forEach((event, i) => {
         if (i === 0) {
@@ -15,7 +15,7 @@ const inverseToFree = (events) => {
         }
 
     })
-    
+
     freeTimes.push({ start: moment(events[events.length - 1].end).toDate(), end: endOfPeriod });
 
     return freeTimes
@@ -24,10 +24,10 @@ const inverseToFree = (events) => {
 const cutByDay = (start, end) => {
     let intervalStart = moment(start);
     const intervalEnd = moment(end);
-    
+
     //check if in different dates
     if (intervalStart.isSame(intervalEnd, 'date')) {
-        return [{start, end}];
+        return [{ start, end }];
     } else {
         const daylyIntervals = [];
 
@@ -39,13 +39,13 @@ const cutByDay = (start, end) => {
             } else {
                 end = endOfTheStartDay;
             }
-            
+
             daylyIntervals.push({
                 start: intervalStart.toDate(),
                 end: end.toDate()
             });
             intervalStart = intervalStart.add(1, 'd').startOf('day');
-            
+
             if (endOfTheStartDay.isAfter(intervalEnd) || endOfTheStartDay.isSame(intervalEnd)) {
                 break;
             }
@@ -54,9 +54,27 @@ const cutByDay = (start, end) => {
     }
 }
 
+const findAmountOfWeeks = (times) => {
+    const dates = [];
+    times.forEach((time) => {
+        const start = moment(time.start);
+        const end = moment(time.end);
+        dates.push(start);
+        dates.push(end);
+    });
+
+    const moments = dates.map(d => moment(d));
+    const maxDate = moment.max(moments);
+    const minDate = moment.min(moments);
+
+    return maxDate.diff(minDate, 'week') + 1;
+}
+
 const pickTimeEachDay = (freeTimes, amountOfDays, minutesPerTime) => {
     const timesForStudy = [];
     const datesFilled = [];
+
+    const amountOfWeeks = findAmountOfWeeks(freeTimes);
 
     freeTimes.forEach(time => {
         if (timesForStudy.length >= amountOfDays) return;
@@ -73,11 +91,11 @@ const pickTimeEachDay = (freeTimes, amountOfDays, minutesPerTime) => {
 
         const endOfTheWeek = end.clone().endOf('week');
         if (end.isAfter(endOfTheWeek)) return;
-        
+
         //date not there
         if (index === -1) {
             const minutesInRange = end.diff(start, 'minutes');
-            
+
             if (minutesInRange >= minutesPerTime) {
                 timesForStudy.push({
                     start: start.toDate(),
@@ -94,7 +112,7 @@ const pickTimeEachDay = (freeTimes, amountOfDays, minutesPerTime) => {
 export const getStudyTimes = (events, daysToWork, minutesToWork) => {
     // inversetofree
     const freeTime = inverseToFree(events);
-    
+
     //cut by day
     const freeTimeByDay = freeTime.reduce((acc, cur) => {
         const byDate = cutByDay(cur.start, cur.end);
