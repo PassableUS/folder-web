@@ -35,7 +35,7 @@ import PricingModal from 'src/components/PricingModal';
 import { logout } from 'src/actions/sessionActions';
 import ChatBar from './ChatBar';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     // boxShadow: 'none',
   },
@@ -100,16 +100,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const popularSearches = [
-  'New courses',
-  'Web development'
-];
+const popularSearches = ['New courses', 'Web development'];
 
-function TopBar({
-  onOpenNavBarMobile,
-  className,
-  ...rest
-}) {
+function TopBar({ onOpenNavBarMobile, className, ...rest }) {
   const classes = useStyles();
   const history = useHistory();
   const searchRef = useRef(null);
@@ -151,7 +144,7 @@ function TopBar({
     setOpenNotifications(false);
   };
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = event => {
     setSearchValue(event.target.value);
 
     if (event.target.value) {
@@ -171,7 +164,7 @@ function TopBar({
     let mounted = true;
 
     const fetchNotifications = () => {
-      axios.get('/api/account/notifications').then((response) => {
+      axios.get('/api/account/notifications').then(response => {
         if (mounted) {
           setNotifications(response.data.notifications);
         }
@@ -186,11 +179,7 @@ function TopBar({
   }, []);
 
   return (
-    <AppBar
-      {...rest}
-      className={clsx(classes.root, className)}
-      color="inherit"
-    >
+    <AppBar {...rest} className={clsx(classes.root, className)} color="inherit">
       <Toolbar>
         <Hidden lgUp>
           <IconButton
@@ -202,13 +191,10 @@ function TopBar({
           </IconButton>
         </Hidden>
         <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--dark.svg"
-          />
+          <img alt="Logo" src="/images/logos/logo--dark.svg" />
         </RouterLink>
         <div className={classes.flexGrow} />
-        <Hidden smDown>
+        {/* <Hidden smDown>
           <div
             className={classes.search}
             ref={searchRef}
@@ -250,14 +236,14 @@ function TopBar({
               </Paper>
             </ClickAwayListener>
           </Popper>
-          {/* <Button
+          <Button
             className={classes.trialButton}
             onClick={handlePricingModalOpen}
             variant="contained"
           >
             <LockIcon className={classes.trialIcon} />
             Trial expired
-          </Button> */}
+          </Button>
         </Hidden>
         <IconButton
           className={classes.chatButton}
@@ -270,7 +256,7 @@ function TopBar({
           >
             <PeopleIcon />
           </Badge>
-        </IconButton>
+        </IconButton> */}
         <Hidden mdDown>
           <IconButton
             className={classes.notificationsButton}
@@ -302,14 +288,8 @@ function TopBar({
         onClose={handleNotificationsClose}
         open={openNotifications}
       />
-      <PricingModal
-        onClose={handlePricingModalClose}
-        open={pricingModalOpen}
-      />
-      <ChatBar
-        onClose={handleChatBarClose}
-        open={openChatBar}
-      />
+      <PricingModal onClose={handlePricingModalClose} open={pricingModalOpen} />
+      <ChatBar onClose={handleChatBarClose} open={openChatBar} />
     </AppBar>
   );
 }
