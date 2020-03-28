@@ -33,10 +33,10 @@ import { getStudyTimes } from './getStudyTimes';
 import WeekSchedulerModal from 'src/components/WeekSchedulerModal';
 import Alert from 'src/components/Alert';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   rootNonModal: {
     paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
+    paddingBottom: theme.spacing(3)
   },
   root: {
     '& .fc-unthemed td': {
@@ -101,18 +101,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Calendar({
-  weekScheduler,
-  getSelectedDateTime
-}) {
+function Calendar({ weekScheduler, getSelectedDateTime }) {
   const user = JSON.parse(localStorage.getItem('userProfile'));
   const classes = useStyles();
   const calendarRef = useRef(null);
   const theme = useTheme();
   const dispatch = useDispatch();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-  const [view, setView] = useState(mobileDevice ? 'listWeek' : 'dayGridMonth');
-  const [date, setDate] = useState(moment('2019-07-30 08:00:00').toDate());
+  const [view, setView] = useState('listWeek');
+  const [date, setDate] = useState(moment().toDate());
   const [events, setEvents] = useState([]);
   const [studyAlert, setStudyAlert] = useState(false);
   const [showWeekScheduler, setShowWeekScheduler] = useState(false);
@@ -121,13 +118,15 @@ function Calendar({
     event: null
   });
 
-  const handleEventClick = (info) => {
-    let selected = events.find((event) => event.id === info.event.id);
+  const handleEventClick = info => {
+    let selected = events.find(event => event.id === info.event.id);
 
     if (info.event.title === 'Suggested study time') {
-      selected = events.find((event) =>
-        moment(event.start).isSame(moment(info.event.start))
-        && moment(event.end).isSame(moment(info.event.end)));
+      selected = events.find(
+        event =>
+          moment(event.start).isSame(moment(info.event.start)) &&
+          moment(event.end).isSame(moment(info.event.end))
+      );
     }
     setEventModal({
       open: true,
@@ -135,27 +134,27 @@ function Calendar({
     });
   };
 
-  const handleDateSelect = (event) => {
+  const handleDateSelect = event => {
     // if (!weekScheduler) return;
     const calendarApi = calendarRef.current.getApi();
     calendarApi.unselect();
 
     const selectedEvent = {
       id: uuid(),
-      title: "Busy time",
+      title: 'Busy time',
       allDay: event.allDay,
       start: event.start,
       end: event.end
     };
-    console.log('event select', event)
+    console.log('event select', event);
 
-    setEvents((currentEvents) => [...currentEvents, selectedEvent]);
+    setEvents(currentEvents => [...currentEvents, selectedEvent]);
     getSelectedDateTime(selectedEvent);
     setEventModal({
       open: false,
       event: event
     });
-  }
+  };
 
   const handleEventNew = () => {
     setEventModal({
@@ -164,8 +163,8 @@ function Calendar({
     });
   };
 
-  const handleEventDelete = (event) => {
-    setEvents((currentEvents) => currentEvents.filter((e) => e.id !== event.id));
+  const handleEventDelete = event => {
+    setEvents(currentEvents => currentEvents.filter(e => e.id !== event.id));
     setEventModal({
       open: false,
       event: null
@@ -179,16 +178,18 @@ function Calendar({
     });
   };
 
-  const handleEventAdd = (event) => {
-    setEvents((currentEvents) => [...currentEvents, event]);
+  const handleEventAdd = event => {
+    setEvents(currentEvents => [...currentEvents, event]);
     setEventModal({
       open: false,
       event: null
     });
   };
 
-  const handleEventEdit = (event) => {
-    setEvents((currentEvents) => currentEvents.map((e) => (e.id === event.id ? event : e)));
+  const handleEventEdit = event => {
+    setEvents(currentEvents =>
+      currentEvents.map(e => (e.id === event.id ? event : e))
+    );
     setEventModal({
       open: false,
       event: null
@@ -202,7 +203,7 @@ function Calendar({
     setDate(calendarApi.getDate());
   };
 
-  const handleViewChange = (newView) => {
+  const handleViewChange = newView => {
     const calendarApi = calendarRef.current.getApi();
     calendarApi.changeView(newView);
     setView(newView);
@@ -229,27 +230,27 @@ function Calendar({
     const studyTimes = getStudyTimes(events, daysToWork, minutesToWork);
 
     return studyTimes.map(time => {
-      time.title = "Suggested study time";
+      time.title = 'Suggested study time';
       time.color = theme.palette.secondary.main;
       return time;
-    })
-  }
+    });
+  };
 
-  const prepareOtherEvents = (events) => {
+  const prepareOtherEvents = events => {
     return events.map(event => {
       event.color = theme.palette.primary.main;
       return event;
-    })
-  }
+    });
+  };
 
-  const handleBusyTimesSave = (busyTimeData) => {
+  const handleBusyTimesSave = busyTimeData => {
     const busyTimes = [];
     const others = [];
 
     events.forEach(event => {
-      if (event.title === "Busy time") {
+      if (event.title === 'Busy time') {
         busyTimes.push(event);
-      } else if (event.title !== "Suggested study time") {
+      } else if (event.title !== 'Suggested study time') {
         others.push(event);
       }
     });
@@ -257,36 +258,37 @@ function Calendar({
     const studyEvents = getStudyEvents(
       [...busyTimeData.events, ...busyTimes],
       busyTimeData.studyDaysPerWeek,
-      busyTimeData.studyMinutesPerDay);
-    console.log(busyTimes)
+      busyTimeData.studyMinutesPerDay
+    );
+    console.log(busyTimes);
     setEvents([...others, ...busyTimes, ...studyEvents]);
-  }
+  };
 
   const handleCloseStudyAlert = () => {
     setStudyAlert(false);
-  }
+  };
 
   const handleNewBusyEvent = () => {
     setShowWeekScheduler(true);
-  }
+  };
 
   const onModalClose = () => {
     setShowWeekScheduler(false);
-  }
+  };
 
   useEffect(() => {
     let mounted = true;
 
     const fetchEvents = () => {
       if (mounted) {
-        const onSuccess = (data) => {
+        const onSuccess = data => {
           const studyEvents = getStudyEvents(data);
           const otherEvents = prepareOtherEvents(data);
           setEvents([...otherEvents, ...studyEvents]);
           setStudyAlert(studyEvents.length < user.studyDaysPerWeek);
-        }
+        };
 
-        const onFailure = () => { };
+        const onFailure = () => {};
         dispatch(fetchCalendarEvents(onFailure, onSuccess));
       }
     };
@@ -300,7 +302,11 @@ function Calendar({
 
   useEffect(() => {
     const calendarApi = calendarRef.current.getApi();
-    const newView = weekScheduler ? 'timeGridWeek' : (mobileDevice ? 'listWeek' : 'dayGridMonth');
+    const newView = weekScheduler
+      ? 'timeGridWeek' // Scheduler view
+      : mobileDevice
+      ? 'listWeek'
+      : 'listWeek';
 
     if (weekScheduler) {
       handleDateToday();
@@ -309,18 +315,22 @@ function Calendar({
     setView(newView);
   }, [mobileDevice]);
 
-
   return (
     <Page
-      className={[classes.root, !weekScheduler ? classes.rootNonModal : ''].join(' ')}
+      className={[
+        classes.root,
+        !weekScheduler ? classes.rootNonModal : ''
+      ].join(' ')}
       title="Calendar"
     >
-      {
-        !weekScheduler &&
-        <WeekSchedulerModal show={showWeekScheduler} onModalClose={onModalClose} onSave={handleBusyTimesSave}></WeekSchedulerModal>
-      }
-      {
-        studyAlert &&
+      {!weekScheduler && (
+        <WeekSchedulerModal
+          show={showWeekScheduler}
+          onModalClose={onModalClose}
+          onSave={handleBusyTimesSave}
+        ></WeekSchedulerModal>
+      )}
+      {studyAlert && (
         <>
           <Alert
             className={classes.alert}
@@ -329,10 +339,9 @@ function Calendar({
           />
           <Divider className={classes.divider} />
         </>
-      }
+      )}
       <Container maxWidth={false}>
-        {
-          !weekScheduler &&
+        {!weekScheduler && (
           <Toolbar
             date={date}
             onDateNext={handleDateNext}
@@ -343,7 +352,7 @@ function Calendar({
             onViewChange={handleViewChange}
             view={view}
           />
-        }
+        )}
         <Card className={classes.card}>
           <CardContent>
             <FullCalendar
@@ -373,10 +382,7 @@ function Calendar({
             />
           </CardContent>
         </Card>
-        <Modal
-          onClose={handleModalClose}
-          open={eventModal.open}
-        >
+        <Modal onClose={handleModalClose} open={eventModal.open}>
           <AddEditEvent
             event={eventModal.event}
             onAdd={handleEventAdd}
