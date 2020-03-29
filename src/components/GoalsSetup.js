@@ -57,8 +57,8 @@ function GoalsSetup({
   pathwayData,
   courseData,
   onModalClose,
-  handleBack = () => { },
-  handleNext = () => { },
+  handleBack = () => {},
+  handleNext = () => {},
   onSave
 }) {
   const user = JSON.parse(localStorage.getItem('userProfile'));
@@ -67,8 +67,8 @@ function GoalsSetup({
     mode == 'week'
       ? user.neverAskWeeklyGoals
       : mode == 'course'
-        ? user.neverAskCourseGoals
-        : user.neverAskPathwayGoals;
+      ? user.neverAskCourseGoals
+      : user.neverAskPathwayGoals;
   const classes = useStyles();
   const dispatch = useDispatch();
   const nowTime = new Date().getTime();
@@ -180,7 +180,9 @@ function GoalsSetup({
     const data = convertGoalsForBackend(goals);
     dispatch(createGoals(data, onFailure, onSuccess));
     handleNext();
-    onSave(data)
+    if (onSave) {
+      onSave(data);
+    }
   };
 
   useEffect(() => {
@@ -211,8 +213,8 @@ function GoalsSetup({
                   </IconButton>
                 </InputAdornment>
               ) : (
-                  ''
-                )
+                ''
+              )
             }
           />
         }
@@ -252,24 +254,24 @@ function GoalsSetup({
           </Button>
         </div>
       ) : (
-          <CardActions>
-            <Button
-              onClick={handleDontShow}
-              size="small"
-              className={classes.actionButton}
-            >
-              Don't show again
+        <CardActions>
+          <Button
+            onClick={handleDontShow}
+            size="small"
+            className={classes.actionButton}
+          >
+            Don't show again
           </Button>
-            <Button
-              onClick={handleSave}
-              size="small"
-              color="primary"
-              className={classes.actionButton}
-            >
-              Save
+          <Button
+            onClick={handleSave}
+            size="small"
+            color="primary"
+            className={classes.actionButton}
+          >
+            Save
           </Button>
-          </CardActions>
-        )}
+        </CardActions>
+      )}
     </>
   );
 }
@@ -296,7 +298,7 @@ GoalsSetup.propTypes = {
     courseURL: PropTypes.string
   }),
   onModalClose: PropTypes.func,
-  onSave: PropTypes.func,
+  onSave: PropTypes.func
 };
 
 export default GoalsSetup;
