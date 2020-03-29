@@ -64,6 +64,9 @@ const useStyles = makeStyles(theme => ({
   done: {
     textDecoration: 'line-through',
     color: theme.palette.text.secondary
+  },
+  datePickerInput: {
+    marginTop: theme.spacing(1)
   }
 }));
 
@@ -179,7 +182,10 @@ function Todos({ className, ...rest }) {
       >
         <DialogTitle id="form-dialog-title">Create a todo</DialogTitle>
         <DialogContent>
-          <DialogContentText>Please enter your task here.</DialogContentText>
+          <DialogContentText>
+            Please enter your task here. We will let you know how long you have
+            until your task is due on your dashboard
+          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -190,10 +196,11 @@ function Todos({ className, ...rest }) {
             onChange={handleDialogChange}
           />
           <DateTimePicker
-            label="DateTimePicker"
-            inputVariant="outlined"
+            label="Due Date"
+            fullWidth
             value={selectedDate}
             onChange={handleDateChange}
+            className={classes.datePickerInput}
           />
         </DialogContent>
         <DialogActions>
