@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(3)
   },
   subHeader: {
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3)
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
   },
   selectUnit: {
     marginBottom: theme.spacing(3)
@@ -38,12 +38,15 @@ const useStyles = makeStyles(theme => ({
   },
   actionButton: {
     marginLeft: 'auto'
+  },
+  explanation: {
+    marginBottom: theme.spacing(2)
   }
 }));
 
 function WeekScheduler({
-  handleBack = () => { },
-  handleNext = () => { },
+  handleBack = () => {},
+  handleNext = () => {},
   userFlowMode = false,
   handleModalClose,
   onSave
@@ -131,6 +134,15 @@ function WeekScheduler({
   return (
     <>
       <div className={classes.header}>
+        <Typography component="h1" variant="h1">
+          Time Scheduler
+        </Typography>
+        <Typography variant="subtitle2" className={classes.explanation}>
+          Folder will try to give you recommended blocks to work on your courses
+          based on your availability and preferences. Scheduling specific times
+          with consistent durations to work improves productivity dramatically.
+        </Typography>
+
         <Typography className={classes.subHeader} component="h5" variant="h5">
           How many days do you want to study this week?
         </Typography>
@@ -187,28 +199,27 @@ function WeekScheduler({
           </Button>
         </div>
       ) : (
-          <CardActions>
-            <Button
-              onClick={handleDontShow}
-              size="small"
-              className={classes.actionButton}
-            >
-              Don't show again
+        <CardActions>
+          <Button
+            onClick={handleDontShow}
+            size="small"
+            className={classes.actionButton}
+          >
+            Don't show again
           </Button>
-            <Button
-              onClick={handleSave}
-              size="small"
-              color="primary"
-              className={classes.actionButton}
-            >
-              Save
+          <Button
+            onClick={handleSave}
+            size="small"
+            color="primary"
+            className={classes.actionButton}
+          >
+            Save
           </Button>
-          </CardActions>
-        )}
+        </CardActions>
+      )}
     </>
   );
 }
-
 
 /*
     **show**
