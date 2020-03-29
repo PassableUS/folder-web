@@ -31,8 +31,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Label from 'src/components/Label';
 import { createTodo, fetchTodos } from 'src/actions/dashboardActions';
 import { useDispatch } from 'react-redux';
+import { DateTimePicker } from '@material-ui/pickers';
 
-const getLabel = (todo) => {
+const getLabel = todo => {
   if (todo.done) {
     return null;
   }
@@ -40,9 +41,7 @@ const getLabel = (todo) => {
   if (moment(todo.deadline).isBefore(moment(), 'day')) {
     return (
       <Label color={colors.red[600]}>
-        {
-          `Due ${moment(todo.deadline).fromNow()}`
-        }
+        {`Due ${moment(todo.deadline).fromNow()}`}
       </Label>
     );
   }
@@ -54,7 +53,7 @@ const getLabel = (todo) => {
   return <Label>{`Due ${moment(todo.deadline).fromNow()}`}</Label>;
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   content: {
     padding: 0
@@ -78,6 +77,8 @@ function Todos({ className, ...rest }) {
   const handleOpen = () => setDialogOpen(true);
   const handleClose = () => setDialogOpen(false);
 
+  const [selectedDate, handleDateChange] = useState(new Date());
+
   const handleSubmit = () => {
     setDialogOpen(false);
     dispatch(
@@ -85,66 +86,66 @@ function Todos({ className, ...rest }) {
         {
           text: dialogValue,
           created_at: moment(),
-          deadline: moment(),
+          deadline: selectedDate,
           done: false
         },
         () => alert('There was an error creating your todo.'),
-        (data) => setTodos(data)
+        data => setTodos(data)
       )
     );
   };
 
-  const handleDialogChange = (event) => setDialogValue(event.target.value);
+  const handleDialogChange = event => setDialogValue(event.target.value);
 
   const handleRadioChange = (event, todo) => {
     event.persist();
 
-    setTodos((prevTodos) => prevTodos.map((prevTodo) => {
-      if (prevTodo.id === todo.id) {
-        return {
-          ...todo,
-          done: !todo.done
-        };
-      }
+    setTodos(prevTodos =>
+      prevTodos.map(prevTodo => {
+        if (prevTodo.id === todo.id) {
+          return {
+            ...todo,
+            done: !todo.done
+          };
+        }
 
-      return prevTodo;
-    }));
+        return prevTodo;
+      })
+    );
   };
 
   useEffect(() => {
-    dispatch(fetchTodos(() => console.log('Something went wrong while trying to retrieve your todos.'), (data) => setTodos(data)));
+    dispatch(
+      fetchTodos(
+        () =>
+          console.log(
+            'Something went wrong while trying to retrieve your todos.'
+          ),
+        data => setTodos(data)
+      )
+    );
   }, [dispatch]);
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader
-        action={(
-          <Button
-            color="primary"
-            size="small"
-            onClick={handleOpen}
-          >
+        action={
+          <Button color="primary" size="small" onClick={handleOpen}>
             <AddIcon className={classes.addIcon} />
             Add
           </Button>
-        )}
+        }
         title="My todos"
       />
       <Divider />
       <CardContent className={classes.content}>
         <List>
           {todos.map((todo, i) => (
-            <ListItem
-              divider={i < todos.length - 1}
-              key={todo.text}
-            >
+            <ListItem divider={i < todos.length - 1} key={todo.text}>
               <ListItemIcon>
                 <Radio
                   checked={todo.done}
-                  onClick={(event) => handleRadioChange(event, todo)}
+                  onClick={event => handleRadioChange(event, todo)}
                 />
               </ListItemIcon>
               <ListItemText>
@@ -159,7 +160,9 @@ function Todos({ className, ...rest }) {
               </ListItemText>
               {getLabel(todo)}
               <Tooltip title="Delete Todo">
-                <IconButton onClick={() => alert('Deleting todos to come very soon.')}>
+                <IconButton
+                  onClick={() => alert('Deleting todos to come very soon.')}
+                >
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
@@ -169,12 +172,14 @@ function Todos({ className, ...rest }) {
       </CardContent>
 
       {/* Add todo dialog */}
-      <Dialog open={dialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create</DialogTitle>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Create a todo</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please enter a task here. We will update you when the task is approaching its due date.
-          </DialogContentText>
+          <DialogContentText>Please enter your task here.</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -183,6 +188,12 @@ function Todos({ className, ...rest }) {
             fullWidth
             value={dialogValue}
             onChange={handleDialogChange}
+          />
+          <DateTimePicker
+            label="DateTimePicker"
+            inputVariant="outlined"
+            value={selectedDate}
+            onChange={handleDateChange}
           />
         </DialogContent>
         <DialogActions>
