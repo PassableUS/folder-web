@@ -59,54 +59,26 @@ function Toolbar({
   const classes = useStyles();
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <Grid
-        alignItems="flex-end"
-        container
-        justify="space-between"
-        spacing={3}
-      >
+    <div {...rest} className={clsx(classes.root, className)}>
+      <Grid alignItems="flex-end" container justify="space-between" spacing={3}>
         <Grid item>
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
+          <Typography component="h2" gutterBottom variant="overline">
             Calendar
           </Typography>
-          <Typography
-            component="h1"
-            variant="h3"
-          >
+          <Typography component="h1" variant="h3">
             Your Plan
           </Typography>
         </Grid>
         <Grid item>
-          <Button
-            color="primary"
-            onClick={onBusyEventAdd}
-            variant="contained"
-          >
-            Add busy event
+          <Button color="primary" onClick={onBusyEventAdd} variant="contained">
+            Schedule my week
           </Button>
-          <Button
-            color="primary"
-            onClick={onEventAdd}
-            variant="contained"
-          >
+          {/* <Button color="primary" onClick={onEventAdd} variant="contained">
             Add event
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
-      <Grid
-        alignItems="center"
-        container
-        justify="space-between"
-        spacing={3}
-      >
+      <Grid alignItems="center" container justify="space-between" spacing={3}>
         <Grid item>
           <ButtonGroup>
             <Button onClick={onDatePrev}>Prev</Button>
@@ -121,14 +93,11 @@ function Toolbar({
             </Typography>
           </Grid>
           <Grid item>
-            {viewOptions.map((viewOption) => {
+            {viewOptions.map(viewOption => {
               const Icon = viewOption.icon;
 
               return (
-                <Tooltip
-                  key={viewOption.value}
-                  title={viewOption.label}
-                >
+                <Tooltip key={viewOption.value} title={viewOption.label}>
                   <IconButton
                     color={viewOption.value === view ? 'primary' : 'default'}
                     onClick={() => onViewChange(viewOption.value)}

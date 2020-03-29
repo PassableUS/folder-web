@@ -10,7 +10,7 @@ import TopBar from './TopBar';
 import WeekSchedulerModal from '../../components/WeekSchedulerModal';
 import GoalsSetupModal from '../../components/GoalsSetupModal';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     minHeight: '100vh',
     display: 'flex',
@@ -42,9 +42,11 @@ function Dashboard({ route }) {
 
     const fetchUserData = () => {
       if (mounted) {
-        const onSuccess = (data) => {localStorage.setItem('userProfile', JSON.stringify(data))};
-        const onFailure = () => {alert('There was an error while getting user data')};
-        
+        const onSuccess = data => {
+          localStorage.setItem('userProfile', JSON.stringify(data));
+        };
+        const onFailure = () => {};
+
         dispatch(getUserData(onSuccess, onFailure));
       }
     };
@@ -54,7 +56,7 @@ function Dashboard({ route }) {
     return () => {
       mounted = false;
     };
-  }, [])
+  }, []);
 
   return (
     <>
@@ -63,8 +65,8 @@ function Dashboard({ route }) {
         onMobileClose={() => setOpenNavBarMobile(false)}
         openMobile={openNavBarMobile}
       />
-      <WeekSchedulerModal/>
-      <GoalsSetupModal mode="week"/>
+      <WeekSchedulerModal />
+      <GoalsSetupModal mode="week" />
       <div className={classes.container}>
         <div className={classes.content}>
           <Suspense fallback={<LinearProgress />}>

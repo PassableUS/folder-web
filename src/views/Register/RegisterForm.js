@@ -48,7 +48,7 @@ const schema = {
   }
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   fields: {
     margin: theme.spacing(-1),
@@ -83,10 +83,10 @@ function RegisterForm({ className, ...rest }) {
   });
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     event.persist();
 
-    setFormState((prevFormState) => ({
+    setFormState(prevFormState => ({
       ...prevFormState,
       values: {
         ...prevFormState.values,
@@ -102,23 +102,36 @@ function RegisterForm({ className, ...rest }) {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     // history.push('/');
     if (formState.isValid) {
       // Send to server formState.values
-      dispatch(register(formState.values));
+      dispatch(
+        register(
+          formState.values,
+          () =>
+            alert(
+              'Something went wrong with trying to create your account. Please try again.'
+            ),
+          () => {
+            alert('Successfully created your account. Please log in.');
+            history.push('/auth/login');
+          }
+        )
+      );
     } else {
       alert('Something went wrong. Please check your inputs and try again');
     }
   };
 
-  const hasError = (field) => !!(formState.touched[field] && formState.errors[field]);
+  const hasError = field =>
+    !!(formState.touched[field] && formState.errors[field]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
 
-    setFormState((prevFormState) => ({
+    setFormState(prevFormState => ({
       ...prevFormState,
       isValid: !errors,
       errors: errors || {}
@@ -186,12 +199,8 @@ function RegisterForm({ className, ...rest }) {
               name="policy"
               onChange={handleChange}
             />
-            <Typography
-              color="textSecondary"
-              variant="body1"
-            >
-              I have read the
-              {' '}
+            <Typography color="textSecondary" variant="body1">
+              I have read the{' '}
               <Link
                 color="secondary"
                 component={RouterLink}
