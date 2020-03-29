@@ -11,6 +11,7 @@ import ListIcon from '@material-ui/icons/List';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import Create from '@material-ui/icons/Create';
 import Label from 'src/components/Label';
+import HourglassIcon from '@material-ui/icons/HourglassEmpty';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faChalkboard } from '@fortawesome/free-solid-svg-icons';
@@ -41,13 +42,12 @@ export default [
         title: 'Changelog',
         href: '/changelog',
         icon: ListIcon,
-        label: () => <Label color={colors.blue['500']}>v0.0.5 BETA</Label>
+        label: () => <Label color={colors.blue['500']}>v1 BETA</Label>
       },
       {
         title: 'Beta Features',
         href: '/beta',
-        icon: ListIcon,
-        label: () => <Label color={colors.blue['500']}>v0.0.5 BETA</Label>,
+        icon: HourglassIcon,
         items: [
           {
             title: 'Pathways',
