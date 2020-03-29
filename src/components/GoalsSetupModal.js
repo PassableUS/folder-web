@@ -18,7 +18,8 @@ function GoalsSetupModal({
   mode,
   pathwayData,
   courseData,
-  onModalClose
+  onModalClose,
+  onSave
 }) {
   let user = JSON.parse(localStorage.getItem('userProfile'));
 
@@ -31,8 +32,8 @@ function GoalsSetupModal({
     mode == 'week'
       ? user.neverAskWeeklyGoals
       : mode == 'course'
-      ? user.neverAskCourseGoals
-      : user.neverAskPathwayGoals;
+        ? user.neverAskCourseGoals
+        : user.neverAskPathwayGoals;
   const classes = useStyles();
   const nowTime = new Date().getTime();
   const shownThisWeek = moment(nowTime)
@@ -74,27 +75,28 @@ function GoalsSetupModal({
         user.registrationStatus == 'finished' &&
         (mode != 'week' || !shownThisWeek)) ||
         show) && (
-        <Modal
-          className={classes.modal}
-          onClose={handleModalClose}
-          open={modal.open}
-        >
-          <div>
-            <Card className={classes.card}>
-              <CardHeader title={getModalTitle()} />
-              <CardContent>
-                <GoalsSetup
-                  show={show}
-                  mode={mode}
-                  pathwayData={pathwayData}
-                  courseData={courseData}
-                  onModalClose={onModalClose}
-                />
-              </CardContent>
-            </Card>
-          </div>
-        </Modal>
-      )}
+          <Modal
+            className={classes.modal}
+            onClose={handleModalClose}
+            open={modal.open}
+          >
+            <div>
+              <Card className={classes.card}>
+                <CardHeader title={getModalTitle()} />
+                <CardContent>
+                  <GoalsSetup
+                    show={show}
+                    mode={mode}
+                    pathwayData={pathwayData}
+                    courseData={courseData}
+                    onModalClose={onModalClose}
+                    onSave={onSave}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          </Modal>
+        )}
     </>
   );
 }
@@ -107,7 +109,8 @@ GoalsSetupModal.propTypes = {
     moduleId: PropTypes.string,
     courseURL: PropTypes.string
   }),
-  onModalClose: PropTypes.func
+  onModalClose: PropTypes.func,
+  onSave: PropTypes.func
 };
 
 export default GoalsSetupModal;

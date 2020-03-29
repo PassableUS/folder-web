@@ -70,6 +70,10 @@ function GoalsList({ mode, pathwayData, courseData }) {
     setShowGoalsSetup(false);
   }
 
+  const handleGoalsSave = (newGoals) => {
+    setGoals([...goals, ...newGoals]);
+  }
+
   const spawnGoalsListItems = () => {
     return goals.map((goal, i) => (
       <ListItem key={i.toString()}>
@@ -113,7 +117,7 @@ function GoalsList({ mode, pathwayData, courseData }) {
       </List>
       {
         showGoalsSetup &&
-        <GoalsSetupModal mode={mode} show={showGoalsSetup} pathwayData={pathwayData} courseData={courseData} onModalClose={handleCloseModal}></GoalsSetupModal>
+        <GoalsSetupModal onSave={handleGoalsSave} mode={mode} show={showGoalsSetup} pathwayData={pathwayData} courseData={courseData} onModalClose={handleCloseModal}></GoalsSetupModal>
       }
     </>
   );
